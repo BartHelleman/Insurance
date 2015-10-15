@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Client implements Serializable {
 
-    private int BSN, tel;
+    private String BSN, tel;
     private String name, firstName, city, postcode, address, IBAN, email;
     private boolean incasso;
     
@@ -13,7 +13,7 @@ public class Client implements Serializable {
     private ArrayList<Invoice> invoice;
     private InsuranceContract contract;
     
-    public Client(int BSN, String name, String firstName, String city, String postcode, String address, String IBAN, Boolean incasso, String email, int tel){
+    public Client(String BSN, String name, String firstName, String city, String postcode, String address, String IBAN, Boolean incasso, String email, String tel){
         this.BSN = BSN;
         this.name = name;
         this.firstName = firstName;
@@ -26,11 +26,11 @@ public class Client implements Serializable {
         this.tel = tel;
     }
 
-    public int getBSN() {
+    public String getBSN() {
         return BSN;
     }
 
-    public int getTel() {
+    public String getTel() {
         return tel;
     }
 
