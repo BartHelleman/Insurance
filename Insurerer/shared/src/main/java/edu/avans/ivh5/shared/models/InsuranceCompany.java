@@ -1,6 +1,8 @@
 package edu.avans.ivh5.shared.models;
 
-public class InsuranceCompany {
+import java.io.Serializable;
+
+public class InsuranceCompany implements Serializable {
 
     private String name;
     private String city;

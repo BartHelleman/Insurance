@@ -1,9 +1,10 @@
 package edu.avans.ivh5.shared.models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Invoice {
+public class Invoice implements Serializable {
 
     private int invoiceNumber;
     private Date date, expirationDate;
@@ -36,7 +37,11 @@ public class Invoice {
         return VAT;
     }
     
-    public long getTotalAmount() {
-        return 0;
+    public BigDecimal getTotalAmount() {
+        BigDecimal treatmentPrice = treatment.getPrice();
+        BigDecimal treatmentAmount = new BigDecimal(treatment.getAmountSessions());
+        
+        // Price * amount * vat
+        return treatmentPrice.multiply(treatmentAmount).multiply(VAT);
     }
 }

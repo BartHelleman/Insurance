@@ -1,9 +1,10 @@
 package edu.avans.ivh5.shared.models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-public class Insurance {
+public class Insurance implements Serializable{
 
     private int ID, sessionsReimbursed;
     private String name;

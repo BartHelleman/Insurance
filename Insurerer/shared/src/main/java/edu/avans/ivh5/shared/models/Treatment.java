@@ -1,8 +1,9 @@
 package edu.avans.ivh5.shared.models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Treatment {
+public class Treatment implements Serializable {
 
     private String name;
     private String code;

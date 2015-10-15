@@ -1,9 +1,10 @@
 package edu.avans.ivh5.shared.models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class InsuranceContract {
+public class InsuranceContract implements Serializable {
 
     private BigDecimal ownRisk;
     private String clientName;

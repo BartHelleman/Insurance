@@ -1,8 +1,9 @@
 package edu.avans.ivh5.shared.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Client {
+public class Client implements Serializable {
 
     private int BSN, tel;
     private String name, firstName, city, postcode, address, IBAN, email;
