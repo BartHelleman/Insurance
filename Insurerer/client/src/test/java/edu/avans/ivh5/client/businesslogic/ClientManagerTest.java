@@ -47,31 +47,30 @@ public class ClientManagerTest {
     @Test
     public void testSearchClients()
     {
-        // Resultaat moet een client bevatten waarvan de naam "Burak" is, en achternaam "Karatas" is
         manager.addClient(burakClient);
-        
-        ArrayList<Client> searchResult = manager.searchClient("Burak");
-       
-        assert(searchResult.size() > 0);
-        
-        boolean hasFound = false;
-        
-        for(Client client : searchResult) {
-            if(client.getName().equals("Karatas")) {
-                hasFound = true;
+        try{
+            ArrayList<Client> searchResult = manager.searchClient("Burak");
+            assert(searchResult.size() > 0);
+
+            boolean hasFound = false;
+            for(Client client : searchResult) {
+                if(client.getName().equals("Karatas") && client.getBSN().equals("123456")) {
+                    hasFound = true;
+                }
             }
+            assert(hasFound);    
         }
-        assert(hasFound);   
-        
-        manager.deleteClient(burakClient);
+        finally {
+            manager.deleteClient(burakClient);
+        }
     }
     
     @Test
     public void testDeleteClient() {
         
         ArrayList<Client> beforeAdding = manager.searchClient("123456"); // 5 personen
-        
         manager.addClient(burakClient);
+        
         ArrayList<Client> afterAdding = manager.searchClient("123456"); // 5 + 1 personen
         assert(afterAdding.size() == beforeAdding.size() + 1);
         
@@ -86,22 +85,30 @@ public class ClientManagerTest {
     public void testAddClient() {
         ArrayList<Client> beforeAdding = manager.searchClient("123456"); // 5 personen
         manager.addClient(burakClient);
-        ArrayList<Client> afterAdding = manager.searchClient("123456"); // 5 + 1 personen
-        assert(afterAdding.size() == beforeAdding.size() + 1);
-        manager.deleteClient(burakClient);
+        try {
+            ArrayList<Client> afterAdding = manager.searchClient("123456"); // 5 + 1 personen
+            assert(afterAdding.size() == beforeAdding.size() + 1);
+        } finally {
+            manager.deleteClient(burakClient);
+        }
     }
     
     @Test
     public void testChangeClient() {
+        Client newBurak = new Client("0987654", "Karatas", "Burak", "Utrecht", "1234AB", "blabla", "blabla", false, "", "12345");
+        
         ArrayList<Client> beforeAdding = manager.searchClient("123456"); // 5 personen
         manager.addClient(burakClient);
-        ArrayList<Client> afterAdding = manager.searchClient("123456"); // 5 + 1 personen
         
-        Client newBurak = new Client("0987654", "Karatas", "Burak", "Utrecht", "1234AB", "blabla", "blabla", false, "", "12345");
+        try {
+        ArrayList<Client> afterAdding = manager.searchClient("123456"); // 5 + 1 personen
         manager.changeClient(burakClient, newBurak);
         
         ArrayList<Client> result = manager.searchClient("0987654");
         assert(result.size() > 0);
+        } finally {
+            manager.deleteClient(newBurak);
+        }
         
     }
     // TODO add test methods here.
