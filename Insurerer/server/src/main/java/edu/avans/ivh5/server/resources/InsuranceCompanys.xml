@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<companys
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xsi:noNamespaceSchemaLocation='Clients.xsd'>
+    <company>
+        <name>ZLM</name>
+        <city>Breda</city>
+        <postcode>1345FJ</postcode>
+        <address>ergensstraat</address>
+        <KVK>02423</KVK>
+    </company>  
+      
+    <company>
+        <name>ZEKUR</name>
+        <city>Tilburg</city>
+        <postcode>9283DJ</postcode>
+        <address>Daarzostraat</address>
+        <KVK>2346</KVK>
+    </company>  
+    
+    <company>
+        <name>Avero</name>
+        <city>IJzendijke</city>
+        <postcode>1094WI</postcode>
+        <address>Hierstraat</address>
+        <KVK>3495</KVK>
+    </company>  
+        
+</companys>

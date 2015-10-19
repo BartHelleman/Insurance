@@ -21,4 +21,17 @@ and open the template in the editor.
         <email>b.karatas0@gmail.com</email>
         <tel>12346589</tel>
     </client>
+	    
+	<client>
+        <BSN>485674958</BSN>
+        <name>Bakels</name>
+        <firstName>Rico</firstName>
+        <city>Biervliet</city>
+        <postcode>3143JB</postcode>
+        <address>Ergens</address>
+        <IBAN>NL30RABO0234009114</IBAN>
+        <incasso>true</incasso>
+        <email>RicoBakels@hotmail.com</email>
+        <tel>0667594857</tel>
+    </client>
 </clients>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="invoice">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="invoice">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element type="xs:integer" name="invoiceNumber"/>
+                            <xs:element type="xs:date" name="date"/>
+                            <xs:element type="xs:date" name="expirationDate"/>
+                            <xs:element type="xs:decimal" name="VAT"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

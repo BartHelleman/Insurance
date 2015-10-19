@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<invoices
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xsi:noNamespaceSchemaLocation='Invoices.xsd'>
+    <invoice>
+        <invoiceNumber>100</invoiceNumber>
+        <date>19-10-2015</date>
+        <expirationDate>19-10-2016</expirationDate>
+        <VAT>21</VAT>
+    </invoice>
+    
+    <invoice>
+        <invoiceNumber>200</invoiceNumber>
+        <date>11-9-2015</date>
+        <expirationDate>5-12-2016</expirationDate>
+        <VAT>21</VAT>
+    </invoice>
+    
+    <invoice>
+        <invoiceNumber>300</invoiceNumber>
+        <date>11-2-2015</date>
+        <expirationDate>28-8-2016</expirationDate>
+        <VAT>21</VAT>
+    </invoice>
+
+</invoices>
