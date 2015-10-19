@@ -37,7 +37,7 @@ public class ClientManagerTest {
     @Before
     public void setUp() {
         manager = new ClientManager();
-        burakClient = new Client("123456", "Karatas", "Burak", "Utrecht", "1234AB", "blabla", "blabla", false, "", "12345");
+        //burakClient = new Client("123456", "Karatas", "Burak", "Utrecht", "1234AB", "blabla", "blabla", false, "", "12345");
     }
     
     @After
@@ -54,9 +54,9 @@ public class ClientManagerTest {
 
             boolean hasFound = false;
             for(Client client : searchResult) {
-                if(client.getName().equals("Karatas") && client.getBSN().equals("123456")) {
-                    hasFound = true;
-                }
+                //if(client.getName().equals("Karatas") && client.getBSN().equals("123456")) {
+                //    hasFound = true;
+                //}
             }
             assert(hasFound);    
         }
@@ -95,7 +95,7 @@ public class ClientManagerTest {
     
     @Test
     public void testChangeClient() {
-        Client newBurak = new Client("0987654", "Karatas", "Burak", "Utrecht", "1234AB", "blabla", "blabla", false, "", "12345");
+        Client newBurak = null;//= new Client("0987654", "Karatas", "Burak", "Utrecht", "1234AB", "blabla", "blabla", false, "", "12345");
         
         ArrayList<Client> beforeAdding = manager.searchClient("123456"); // 5 personen
         manager.addClient(burakClient);
