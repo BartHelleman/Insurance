@@ -2,22 +2,17 @@ package edu.avans.ivh5.client.businesslogic;
 
 public class LoginManager {
 
-    public void login(String username, String password){
-        if(isLoginValid(username, password)) {
+    public boolean login(String username, String password) {
+        if (username.equals("Rico") && password.equals("Bakels")) {
             // Login succesful
-            
-        } 
-        else {
+            return true;
+        } else {
             // Login unsuccesful
-            
+            return false;
         }
     }
-    
-    public boolean isLoginValid(String username, String password) {
-        return false;
-    }
-    
-    public void logout(){
-        
+
+    public void logout() {
+
     }
 }

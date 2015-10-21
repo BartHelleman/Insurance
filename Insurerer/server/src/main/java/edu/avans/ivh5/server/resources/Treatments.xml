@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<treatments
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xsi:noNamespaceSchemaLocation='Clients.xsd'>
+    <treatment>
+        <name>rugbehandeling</name>
+        <code>001behandelcode001</code>
+        <priceSession>15</priceSession>
+        <amountSessions>10</amountSessions>
+    </treatment>
+
+    <treatment>
+        <name>nekbehandeling</name>
+        <code>002behandelcode002</code>
+        <priceSession>25</priceSession>
+        <amountSessions>12</amountSessions>
+    </treatment>
+    
+    <treatment>
+        <name>beenbehandeling</name>
+        <code>003behandelcode003</code>
+        <priceSession>10</priceSession>
+        <amountSessions>8</amountSessions>
+    </treatment>	    
+    
+</treatments>

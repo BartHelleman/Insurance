@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<contracts
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xsi:noNamespaceSchemaLocation='Clients.xsd'>
+    <contract>
+        <ownRisk>200</ownRisk>
+        <clientName>Burak</clientName>
+        <insuranceID>001</insuranceID>
+        <startDate>10-10-2015</startDate>
+        <endDate>10-12-2016</endDate>
+    </contract>    
+
+    <contract>
+        <ownRisk>150</ownRisk>
+        <clientName>Rico</clientName>
+        <insuranceID>002</insuranceID>
+        <startDate>15-9-2015</startDate>
+        <endDate>18-11-2016</endDate>
+    </contract> 
+    
+    <contract>
+        <ownRisk>50</ownRisk>
+        <clientName>Bart</clientName>
+        <insuranceID>003</insuranceID>
+        <startDate>5-8-2015</startDate>
+        <endDate>28-12-2016</endDate>
+    </contract>           
+</contracts>
