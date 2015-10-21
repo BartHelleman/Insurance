@@ -1,9 +1,18 @@
 package edu.avans.ivh5.client.businesslogic;
 
-public class LoginManager {
+import edu.avans.ivh5.server.dao.LoginDAO;
+import edu.avans.ivh5.shared.models.User;
 
+public class LoginManager {
+    
+    private LoginDAO loginDAO = new LoginDAO();
+    private User user;
+    
     public boolean login(String username, String password) {
-        if (username.equals("Rico") && password.equals("Bakels")) {
+        
+        user = loginDAO.get(username);
+        
+        if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
             // Login succesful
             return true;
         } else {
@@ -11,8 +20,8 @@ public class LoginManager {
             return false;
         }
     }
-
+    
     public void logout() {
-
+        
     }
 }

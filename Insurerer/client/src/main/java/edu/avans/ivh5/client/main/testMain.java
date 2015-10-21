@@ -5,21 +5,17 @@ import edu.avans.ivh5.client.presentation.LoginGUI;
 import edu.avans.ivh5.client.presentation.MainGUI;
 
 public class testMain {
-    
+
     /*private LoginGUI loginGUI;
-    private LoginManager loginManager;
-    private MainGUI mainManager;*/
-    
+     private LoginManager loginManager;
+     private MainGUI mainManager;*/
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        LoginManager loginManager = new LoginManager();
-        MainGUI mainGUI = new MainGUI();
-        
-        LoginGUI loginGUI = new LoginGUI(loginManager, mainGUI);
-        
-        
+
+        LoginGUI loginGUI = new LoginGUI();
+
     }
-    
+
 }
