@@ -8,6 +8,7 @@ package edu.avans.ivh5.client.presentation;
 import edu.avans.ivh5.shared.models.Client;
 import java.awt.Frame;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,6 +22,7 @@ public class ClientGUI extends javax.swing.JFrame {
     public ClientGUI() {
         initComponents();
         this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        
     }
 
     /**
@@ -39,7 +41,7 @@ public class ClientGUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         addClientButton = new javax.swing.JButton();
         deleteClientButton = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        clientPanel = new javax.swing.JPanel();
         clientFirstNameLabel = new javax.swing.JLabel();
         clientLastNameLabel = new javax.swing.JLabel();
         clientBSNLabel = new javax.swing.JLabel();
@@ -69,10 +71,8 @@ public class ClientGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Clientbeheer");
-        setMaximumSize(null);
         setMinimumSize(null);
         setName("Clientbeheer"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(800, 600));
 
         clientsTable.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         clientsTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -88,7 +88,6 @@ public class ClientGUI extends javax.swing.JFrame {
         ));
         clientsTable.setMaximumSize(null);
         clientsTable.setMinimumSize(null);
-        clientsTable.setPreferredSize(new java.awt.Dimension(225, 64));
         jScrollPane1.setViewportView(clientsTable);
 
         searchClientButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -111,8 +110,14 @@ public class ClientGUI extends javax.swing.JFrame {
 
         deleteClientButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         deleteClientButton.setText("Client verwijderen");
+        deleteClientButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteClientButtonActionPerformed(evt);
+            }
+        });
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        clientPanel.setVisible(false);
+        clientPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         clientFirstNameLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         clientFirstNameLabel.setText("Voornaam:");
@@ -142,8 +147,8 @@ public class ClientGUI extends javax.swing.JFrame {
         clientPolisLabel.setText("Polis:");
 
         clientFirstNameTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        clientFirstNameTextField.setForeground(new java.awt.Color(204, 204, 204));
-        clientFirstNameTextField.setText("Voornaam");
+        clientFirstNameTextField.setToolTipText("Voornaam");
+        clientFirstNameTextField.setName(""); // NOI18N
         clientFirstNameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clientFirstNameTextFieldActionPerformed(evt);
@@ -151,8 +156,6 @@ public class ClientGUI extends javax.swing.JFrame {
         });
 
         clientLastNameTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        clientLastNameTextField.setForeground(new java.awt.Color(204, 204, 204));
-        clientLastNameTextField.setText("Achternaam");
         clientLastNameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clientLastNameTextFieldActionPerformed(evt);
@@ -160,8 +163,6 @@ public class ClientGUI extends javax.swing.JFrame {
         });
 
         clientBSNTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        clientBSNTextField.setForeground(new java.awt.Color(204, 204, 204));
-        clientBSNTextField.setText("BSN");
         clientBSNTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clientBSNTextFieldActionPerformed(evt);
@@ -169,8 +170,6 @@ public class ClientGUI extends javax.swing.JFrame {
         });
 
         clientAddressTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        clientAddressTextField.setForeground(new java.awt.Color(204, 204, 204));
-        clientAddressTextField.setText("Straat + huisnr.");
         clientAddressTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clientAddressTextFieldActionPerformed(evt);
@@ -178,8 +177,6 @@ public class ClientGUI extends javax.swing.JFrame {
         });
 
         clientPostCodeTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        clientPostCodeTextField.setForeground(new java.awt.Color(204, 204, 204));
-        clientPostCodeTextField.setText("Postcode");
         clientPostCodeTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clientPostCodeTextFieldActionPerformed(evt);
@@ -187,8 +184,6 @@ public class ClientGUI extends javax.swing.JFrame {
         });
 
         clientCityTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        clientCityTextField.setForeground(new java.awt.Color(204, 204, 204));
-        clientCityTextField.setText("Plaats");
         clientCityTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clientCityTextFieldActionPerformed(evt);
@@ -196,8 +191,6 @@ public class ClientGUI extends javax.swing.JFrame {
         });
 
         clientTelTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        clientTelTextField.setForeground(new java.awt.Color(204, 204, 204));
-        clientTelTextField.setText("Telefoonnummer");
         clientTelTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clientTelTextFieldActionPerformed(evt);
@@ -205,8 +198,6 @@ public class ClientGUI extends javax.swing.JFrame {
         });
 
         clientEmailTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        clientEmailTextField.setForeground(new java.awt.Color(204, 204, 204));
-        clientEmailTextField.setText("Email");
         clientEmailTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clientEmailTextFieldActionPerformed(evt);
@@ -221,6 +212,11 @@ public class ClientGUI extends javax.swing.JFrame {
 
         saveClientButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         saveClientButton.setText("Opslaan");
+        saveClientButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveClientButtonActionPerformed(evt);
+            }
+        });
 
         clientIncassoLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         clientIncassoLabel1.setText("Incasso:");
@@ -247,8 +243,6 @@ public class ClientGUI extends javax.swing.JFrame {
         });
 
         clientIBANTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        clientIBANTextField.setForeground(new java.awt.Color(204, 204, 204));
-        clientIBANTextField.setText("BSN");
         clientIBANTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clientIBANTextFieldActionPerformed(evt);
@@ -258,117 +252,119 @@ public class ClientGUI extends javax.swing.JFrame {
         clientEmailLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         clientEmailLabel1.setText("Email:");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout clientPanelLayout = new javax.swing.GroupLayout(clientPanel);
+        clientPanel.setLayout(clientPanelLayout);
+        clientPanelLayout.setHorizontalGroup(
+            clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(clientPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(getInvoiceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(clientFirstNameLabel)
-                                    .addComponent(clientLastNameLabel)
-                                    .addComponent(clientBSNLabel)
-                                    .addComponent(clientAddressLabel)
-                                    .addComponent(clientPostCodeLabel)
-                                    .addComponent(clientCityLabel)
-                                    .addComponent(clientTelLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(clientIncassoLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(clientPolisLabel)
-                                            .addComponent(clientEmailLabel)
-                                            .addComponent(clientEmailLabel1))
-                                        .addGap(0, 0, Short.MAX_VALUE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(clientPanelLayout.createSequentialGroup()
+                        .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(clientPanelLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(getInvoiceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(clientPanelLayout.createSequentialGroup()
+                                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(clientPanelLayout.createSequentialGroup()
+                                        .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(clientFirstNameLabel)
+                                            .addComponent(clientLastNameLabel)
+                                            .addComponent(clientBSNLabel)
+                                            .addComponent(clientAddressLabel)
+                                            .addComponent(clientPostCodeLabel)
+                                            .addComponent(clientCityLabel)
+                                            .addComponent(clientTelLabel))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(clientPanelLayout.createSequentialGroup()
+                                        .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(clientIncassoLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addGroup(clientPanelLayout.createSequentialGroup()
+                                                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(clientPolisLabel)
+                                                    .addComponent(clientEmailLabel1))
+                                                .addGap(0, 86, Short.MAX_VALUE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGap(29, 29, 29)
+                                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(clientEmailTextField)
                                         .addComponent(clientCityTextField)
                                         .addComponent(clientPostCodeTextField)
                                         .addComponent(clientAddressTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
                                         .addComponent(clientBSNTextField)
                                         .addComponent(clientLastNameTextField)
-                                        .addComponent(clientFirstNameTextField)
-                                        .addComponent(clientIBANTextField))
-                                    .addComponent(clientTelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 18, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(addInsuranceContractButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(clientFirstNameTextField))
+                                    .addComponent(clientTelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(clientIBANTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(clientIncassoCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(addInsuranceContractButton, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(saveClientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(clientIncassoCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(13, 13, 13))
+                                .addGap(0, 14, Short.MAX_VALUE)))
+                        .addGap(13, 13, 13))
+                    .addGroup(clientPanelLayout.createSequentialGroup()
+                        .addComponent(clientEmailLabel)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        clientPanelLayout.setVerticalGroup(
+            clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(clientPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(clientFirstNameLabel)
                     .addComponent(clientFirstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(clientLastNameLabel)
                     .addComponent(clientLastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(clientBSNLabel)
                     .addComponent(clientBSNTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(clientAddressLabel)
                     .addComponent(clientAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(clientPostCodeLabel)
                     .addComponent(clientPostCodeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(clientCityLabel)
                     .addComponent(clientCityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(clientTelLabel)
                     .addComponent(clientTelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(clientEmailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clientEmailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(clientEmailLabel1))
+                .addGap(7, 7, 7)
+                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clientEmailLabel)
+                    .addComponent(clientIBANTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clientIncassoCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clientIncassoLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addInsuranceContractButton)
+                    .addComponent(clientPolisLabel))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(clientIncassoCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(clientIncassoLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(addInsuranceContractButton)
-                            .addComponent(clientPolisLabel))
-                        .addGap(27, 27, 27)
-                        .addComponent(saveClientButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(getInvoiceButton))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(clientEmailLabel)
-                        .addComponent(clientIBANTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(saveClientButton)
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(getInvoiceButton)
+                .addContainerGap(29, Short.MAX_VALUE))
         );
+
+        clientFirstNameTextField.getAccessibleContext().setAccessibleName("");
+        clientFirstNameTextField.getAccessibleContext().setAccessibleDescription("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -386,8 +382,8 @@ public class ClientGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(searchClientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 286, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 261, Short.MAX_VALUE)
+                .addComponent(clientPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(73, 73, 73))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -412,7 +408,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addGap(40, 40, 40))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(clientPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -420,6 +416,50 @@ public class ClientGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addClientButtonActionPerformed
+        clientPanel.setVisible(true);
+    }//GEN-LAST:event_addClientButtonActionPerformed
+
+    private void clientIBANTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientIBANTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientIBANTextFieldActionPerformed
+
+    private void getInvoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getInvoiceButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_getInvoiceButtonActionPerformed
+
+    private void clientEmailTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientEmailTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientEmailTextFieldActionPerformed
+
+    private void clientTelTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientTelTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientTelTextFieldActionPerformed
+
+    private void clientCityTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientCityTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientCityTextFieldActionPerformed
+
+    private void clientPostCodeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientPostCodeTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientPostCodeTextFieldActionPerformed
+
+    private void clientAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientAddressTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientAddressTextFieldActionPerformed
+
+    private void clientBSNTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientBSNTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientBSNTextFieldActionPerformed
+
+    private void clientLastNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientLastNameTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientLastNameTextFieldActionPerformed
+
+    private void clientFirstNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientFirstNameTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientFirstNameTextFieldActionPerformed
+
+    private void saveClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveClientButtonActionPerformed
         String BSN = clientBSNTextField.getText();
         String name = clientLastNameTextField.getText();
         String firstName = clientFirstNameTextField.getText();
@@ -428,56 +468,20 @@ public class ClientGUI extends javax.swing.JFrame {
         String address = clientAddressTextField.getText();
         String IBAN = clientIBANTextField.getText();
         boolean incasso;
-        if (clientIncassoCombobox.getSelectedItem().toString().equals("Nee")) 
+        if (clientIncassoCombobox.getSelectedItem().toString().equals("Nee")) {
             incasso = false;
-        
-        else {
+        } else {
             incasso = true;
         }
         String email = clientEmailTextField.getText();
         String tel = clientTelTextField.getText();
-        Client client = new Client(BSN, name, firstName,city, postcode, address, IBAN, incasso, email, tel);
-    }//GEN-LAST:event_addClientButtonActionPerformed
+        Client client = new Client(BSN, name, firstName, city, postcode, address, IBAN, incasso, email, tel);
+    }//GEN-LAST:event_saveClientButtonActionPerformed
 
-    private void clientFirstNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientFirstNameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientFirstNameTextFieldActionPerformed
-
-    private void clientLastNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientLastNameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientLastNameTextFieldActionPerformed
-
-    private void clientBSNTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientBSNTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientBSNTextFieldActionPerformed
-
-    private void clientAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientAddressTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientAddressTextFieldActionPerformed
-
-    private void clientPostCodeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientPostCodeTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientPostCodeTextFieldActionPerformed
-
-    private void clientCityTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientCityTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientCityTextFieldActionPerformed
-
-    private void clientTelTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientTelTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientTelTextFieldActionPerformed
-
-    private void clientEmailTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientEmailTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientEmailTextFieldActionPerformed
-
-    private void getInvoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getInvoiceButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_getInvoiceButtonActionPerformed
-
-    private void clientIBANTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientIBANTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientIBANTextFieldActionPerformed
+    private void deleteClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteClientButtonActionPerformed
+     Object[] options = {"Ja", "Nee"};
+        JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze client wilt verwijderen?", "Verwijderen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+    }//GEN-LAST:event_deleteClientButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -533,6 +537,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JLabel clientIncassoLabel1;
     private javax.swing.JLabel clientLastNameLabel;
     private javax.swing.JTextField clientLastNameTextField;
+    private javax.swing.JPanel clientPanel;
     private javax.swing.JLabel clientPolisLabel;
     private javax.swing.JLabel clientPostCodeLabel;
     private javax.swing.JTextField clientPostCodeTextField;
@@ -541,7 +546,6 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JButton deleteClientButton;
     private javax.swing.JButton getInvoiceButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton saveClientButton;
