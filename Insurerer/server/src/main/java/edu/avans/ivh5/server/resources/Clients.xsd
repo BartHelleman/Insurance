@@ -5,7 +5,7 @@
     <xs:element name="clients">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="client">
+                <xs:element name="client" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element name="BSN" type="xs:string"/>

@@ -8,6 +8,15 @@
     </parent>
     <artifactId>server</artifactId>
     <packaging>jar</packaging>
+    <build>
+        <resources>
+            <resource>
+                <directory>
+                    src/main/java/edu/avans/ivh5/server/resources
+                </directory>
+            </resource>
+        </resources>
+    </build>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

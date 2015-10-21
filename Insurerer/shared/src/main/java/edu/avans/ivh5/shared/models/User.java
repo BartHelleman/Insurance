@@ -1,4 +1,4 @@
-package edu.avans.ivh5.shared.models;
+    package edu.avans.ivh5.shared.models;
 
 import java.io.Serializable;
 

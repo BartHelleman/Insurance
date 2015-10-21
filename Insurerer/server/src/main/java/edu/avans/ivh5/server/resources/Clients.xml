@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-
 
 <clients
     xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
@@ -21,17 +15,28 @@ and open the template in the editor.
         <email>b.karatas0@gmail.com</email>
         <tel>12346589</tel>
     </client>
-	    
-	<client>
-        <BSN>485674958</BSN>
-        <name>Bakels</name>
-        <firstName>Rico</firstName>
-        <city>Biervliet</city>
-        <postcode>3143JB</postcode>
-        <address>Ergens</address>
-        <IBAN>NL30RABO0234009114</IBAN>
-        <incasso>true</incasso>
-        <email>RicoBakels@hotmail.com</email>
-        <tel>0667594857</tel>
+    <client>
+        <BSN>98765423</BSN>
+        <name>Karatas</name>
+        <firstName>Burak</firstName>
+        <city>Utrecht</city>
+        <postcode>1234AB</postcode>
+        <address>Blabla</address>
+        <IBAN>NL00XXXX0000009000</IBAN>
+        <incasso>false</incasso>
+        <email>b.karatas0@gmail.com</email>
+        <tel>12346589</tel>
+    </client>
+    <client>
+        <BSN>12312312312398765423</BSN>
+        <name>Karatas</name>
+        <firstName>Burasdasak</firstName>
+        <city>Utrecht</city>
+        <postcode>1234AB</postcode>
+        <address>Blabla</address>
+        <IBAN>NL00XXXX0000009000</IBAN>
+        <incasso>false</incasso>
+        <email>b.karatas0@gmail.com</email>
+        <tel>12346589</tel>
     </client>
 </clients>

@@ -1,10 +1,10 @@
 package edu.avans.ivh5.server.dao;
 
-import edu.avans.ivh5.shared.models.User;
+import java.util.List;
 
-public interface DAOInterface{
+public interface DAOInterface {
     boolean add(Object item);
-    User get(String username);
+    List<Object> get(Object item);
     boolean change(Object oldObject, Object newObject);
     boolean delete(Object object);
 }
