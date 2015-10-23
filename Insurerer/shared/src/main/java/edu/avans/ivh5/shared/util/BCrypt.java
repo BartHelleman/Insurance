@@ -1,4 +1,4 @@
-package edu.avans.ivh5.server.util;
+package edu.avans.ivh5.shared.util;
 
 // Copyright (c) 2006 Damien Miller <djm@mindrot.org>
 //
