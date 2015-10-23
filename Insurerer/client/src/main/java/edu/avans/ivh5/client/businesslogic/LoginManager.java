@@ -10,7 +10,7 @@ public class LoginManager {
     
     public boolean login(String username, String password) {
         
-        user = loginDAO.get(username);
+        user = (User)loginDAO.get(username).get(0);
         
         if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
             // Login succesful
