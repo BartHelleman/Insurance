@@ -27,7 +27,7 @@ public class ClientDAO implements DAOInterface {
     public List<Object> get(Object item) {
         if(item instanceof String)
         {
-            return generateClients((String)item);
+            return getClients((String)item);
         }
         else if(item instanceof Client)
         {
@@ -46,10 +46,9 @@ public class ClientDAO implements DAOInterface {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    private List<Object> generateClients(String searchPattern)
+    private List<Object> getClients(String searchPattern)
     {
-        ArrayList<Object> clients = new ArrayList<>();
-        
+        List<Object> clients = new ArrayList<>();
         List<Node> clientsNodes = this.XMLParser.findElementsByName("client", searchPattern);
         
         for(int i = 0; i < clientsNodes.size(); i++)

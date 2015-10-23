@@ -13,6 +13,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class XMLParser {
 
@@ -93,7 +94,7 @@ public class XMLParser {
             }
         }
         
-        return nodeList;
+        return nodeList.stream().distinct().collect(Collectors.toList());
     }
     
     public String getValueByNodeName(Node beginNode, String name)
