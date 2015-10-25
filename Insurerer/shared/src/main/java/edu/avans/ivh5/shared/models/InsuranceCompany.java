@@ -8,9 +8,9 @@ public class InsuranceCompany implements Serializable {
     private String city;
     private String postCode;
     private String address;
-    private int KVK;
+    private String KVK;
 
-    public InsuranceCompany(String name, String city, String postCode, String address, int KVK) {
+    public InsuranceCompany(String name, String city, String postCode, String address, String KVK) {
         this.name = name;
         this.city = city;
         this.postCode = postCode;
@@ -34,7 +34,7 @@ public class InsuranceCompany implements Serializable {
         return address;
     }
 
-    public int getKVK() {
+    public String getKVK() {
         return KVK;
     }
     

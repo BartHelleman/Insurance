@@ -58,21 +58,4 @@ public class LoginDAO implements DAOInterface {
         
         return users;
     }
-    
-    public static void main(String[] args)
-    {
-        try{
-            edu.avans.ivh5.server.dao.DAOInterface dao = new LoginDAO();
-            List<Object> users = dao.get("");
-            for(Object o : users)
-            {
-                User user = (User)o;
-                System.out.println("Username: " + user.getUsername() + " and password: " + user.getPassword());
-            }
-        }
-        catch(Exception e)
-        {
-            System.out.println("Exception: " + e.getMessage());
-        }
-    }
 }

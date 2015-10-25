@@ -29,12 +29,12 @@ public class XMLParser {
     
     private static final String RESOURCES = "/edu/avans/ivh5/server/resources/";
     /**
-     * 
-     * @param xmlFile
-     * @param xsdFile
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException 
+     * Initialize the XMLparser
+     * @param xmlFile The name of the XML file
+     * @param xsdFile The name of the XSD file
+     * @throws ParserConfigurationException 
+     * @throws SAXException Occurs if the XML, XSD or the actual validation is invalid
+     * @throws IOException Occurs if the XML or XSD cannot be found
      */
     public XMLParser(String xmlFile, String xsdFile) throws ParserConfigurationException, SAXException, IOException{
         
@@ -55,6 +55,11 @@ public class XMLParser {
     }
 
    
+    /**
+     * Get all nodes with a certain name
+     * @param name Name of the node
+     * @return List of all the nodes that match the name
+     */
     public NodeList getNodes(String name)
     {
         return document.getDocumentElement().getElementsByTagName(name);
@@ -70,33 +75,51 @@ public class XMLParser {
         return element.getLastChild().getTextContent().trim();
     }
     
+    /**
+     * Get a list of nodes that match the type and search pattern
+     * @param type The name of the tag that it's in, for example "client"
+     * @param searchPattern A string whose value will need to be matched
+     * @return 
+     */
     public List<Node> findElementsByName(String type, String searchPattern)
     {
         ArrayList<Node> nodeList = new ArrayList<>();
         
+        // First get all the nodes with a specific name
         NodeList nodes = getNodes(type);
+        
         for(int i = 0; i < nodes.getLength(); i++)
         {
             Node currentNode = nodes.item(i);
             if(!(currentNode instanceof Element))
                 continue;
             
+            // Get the sub/child nodes of the current node
             NodeList childNodes = currentNode.getChildNodes();
+            
             for(int j = 0; j < childNodes.getLength(); j++)
             {
                 Node childNode = childNodes.item(j);
                 if(!(childNode instanceof Element))
                     continue;
                 
-                String nodeValue = childNode.getLastChild().getTextContent().trim();
+                // If any of the values match the string, this is the node that we need
+                String nodeValue = getNodeValue(childNode);
                 if(nodeValue.contains(searchPattern))
                     nodeList.add(currentNode);
             }
         }
         
+        // Turn the list into a stream, select all the distinct (aka unique) items, then turn it back into a list
         return nodeList.stream().distinct().collect(Collectors.toList());
     }
     
+    /**
+     * Looks inside a node for an element with a specific name and returns its value
+     * @param beginNode The node where to look for the element
+     * @param name The name of the element 
+     * @return The value of the element
+     */
     public String getValueByNodeName(Node beginNode, String name)
     {
         NodeList childNodes = beginNode.getChildNodes();
@@ -111,6 +134,23 @@ public class XMLParser {
         return null;
     }
     
+    /**
+     * Every document has the same structure. This node will be appended at the end of the first child node.
+     * @param nodeToAdd The contents of the node that will be appended
+     */
+    public void addNode(Node nodeToAdd)
+    {
+        NodeList allNodes = getAllNodes();
+        allNodes.item(0).insertBefore(nodeToAdd, allNodes.item(0));
+    }
+    
+    /**
+     * Gets the full file path based on just the name of the XML
+     * This assumes the location is in a specific folder
+     * @param name Name of the file to find
+     * @return Absolute path of the file
+     * @throws FileNotFoundException is thrown when the file cannot be found
+     */
     private static File getFileByName(String name) throws FileNotFoundException
     {
         URL fileURL = XMLParser.class.getResource("/" + name);
@@ -118,11 +158,15 @@ public class XMLParser {
             throw new FileNotFoundException("Could not find the specified file");
         
         String filePath = fileURL.getPath();
-        //filePath = filePath.replace("file:/", "");
-        //String filePath = fileURL.toString();
         return new File(filePath);
     }
     
+    
+    /**
+     * Gets the value of a very specific node
+     * @param node The node whose value will be retrieved
+     * @return The value of the node
+     */
     public static String getNodeValue(Node node)
     {
         return node.getLastChild().getTextContent().trim();
