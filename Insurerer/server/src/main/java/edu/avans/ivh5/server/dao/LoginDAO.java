@@ -23,7 +23,7 @@ public class LoginDAO implements DAOInterface {
     public boolean add(Object item) {
         if(item instanceof User)
         {
-            Element userNode = this.XMLParser.createElement("user");
+            Element userNode = this.XMLParser.createElement("account");
             User user = (User)item;
             
             Element username = this.XMLParser.createElement("username");
@@ -79,5 +79,17 @@ public class LoginDAO implements DAOInterface {
         }
         
         return users;
+    }
+    
+    public static void main(String[] args)
+    {
+        try {
+            LoginDAO dao = new LoginDAO();
+            dao.add(new User("Burak", "Karatas"));
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 }
