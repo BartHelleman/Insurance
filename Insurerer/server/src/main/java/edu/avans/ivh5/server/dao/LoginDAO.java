@@ -38,6 +38,7 @@ public class LoginDAO implements DAOInterface {
             
             this.XMLParser.addNode(userNode);
             DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
+            return true;
         }
         
         return false;
