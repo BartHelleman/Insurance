@@ -8,6 +8,7 @@ import org.xml.sax.SAXException;
 
 public class LoginManager {
 
+    //private LoginDAO loginDAO = new LoginDAO();
     private User user;
     private LoginDAO loginDAO;
 
@@ -21,6 +22,7 @@ public class LoginManager {
 
         user = (User) loginDAO.get(username).get(0);
 
+        //user = (User)loginDAO.get(username).get(0);
         if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
             // Login succesful
             return true;
