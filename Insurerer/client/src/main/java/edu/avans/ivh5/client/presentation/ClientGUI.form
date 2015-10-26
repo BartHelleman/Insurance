@@ -29,7 +29,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="addClientButton" min="-2" max="-2" attributes="0"/>
@@ -41,9 +41,9 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="searchClientButton" min="-2" pref="109" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane1" alignment="1" min="-2" pref="409" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" min="-2" pref="409" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="261" max="32767" attributes="0"/>
+              <EmptySpace pref="249" max="32767" attributes="0"/>
               <Component id="clientPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
           </Group>
@@ -64,7 +64,7 @@
                   <Component id="searchClientTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="searchClientButton" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="393" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -127,7 +127,7 @@
               <Dimension value="null"/>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+              <TableHeader reorderingAllowed="false" resizingAllowed="false"/>
             </Property>
           </Properties>
           <AuxValues>
@@ -211,30 +211,22 @@
                               </Group>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="clientFirstNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="clientLastNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="clientBSNLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="clientAddressLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="clientPostCodeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="clientCityLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="clientTelLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="29" max="32767" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="clientIncassoLabel1" max="32767" attributes="0"/>
-                                              <Group type="102" attributes="0">
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="clientPolisLabel" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="clientEmailLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace min="0" pref="86" max="32767" attributes="0"/>
+                                      <Component id="clientFirstNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="clientLastNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="clientBSNLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="clientAddressLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="clientPostCodeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="clientCityLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="clientTelLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="clientIncassoLabel1" max="32767" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="clientPolisLabel" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="clientEmailLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                                               </Group>
+                                              <EmptySpace min="0" pref="86" max="32767" attributes="0"/>
                                           </Group>
-                                          <EmptySpace max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
@@ -565,7 +557,7 @@
                   </TableColumnModel>
                 </Property>
                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-                  <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                  <TableHeader reorderingAllowed="false" resizingAllowed="false"/>
                 </Property>
               </Properties>
             </Component>

@@ -184,7 +184,7 @@ public class XMLParser {
         if(fileURL == null)
             throw new FileNotFoundException("Could not find the specified file");
         
-        String filePath = fileURL.getPath();
+        String filePath = fileURL.getPath().replace("%20", " ");
         return new File(filePath);
     }
     

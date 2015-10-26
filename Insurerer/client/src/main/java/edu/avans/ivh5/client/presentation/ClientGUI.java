@@ -5,6 +5,7 @@
  */
 package edu.avans.ivh5.client.presentation;
 
+import edu.avans.ivh5.client.businesslogic.ClientManager;
 import edu.avans.ivh5.shared.models.Client;
 import java.awt.Frame;
 import javax.swing.JFrame;
@@ -15,6 +16,9 @@ import javax.swing.JOptionPane;
  * @author Bart Donders
  */
 public class ClientGUI extends javax.swing.JFrame {
+    
+     //relaties
+    private ClientManager clientManager;
 
     /**
      * Creates new form ClientGUI
@@ -22,6 +26,8 @@ public class ClientGUI extends javax.swing.JFrame {
     public ClientGUI() {
         initComponents();
         this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        
+        this.clientManager = new ClientManager();
         
     }
 
@@ -88,6 +94,8 @@ public class ClientGUI extends javax.swing.JFrame {
         ));
         clientsTable.setMaximumSize(null);
         clientsTable.setMinimumSize(null);
+        clientsTable.getTableHeader().setResizingAllowed(false);
+        clientsTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(clientsTable);
 
         searchClientButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -231,6 +239,8 @@ public class ClientGUI extends javax.swing.JFrame {
                 "Behandelcode", "Einddatum behandeling"
             }
         ));
+        treatmentsTable.getTableHeader().setResizingAllowed(false);
+        treatmentsTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(treatmentsTable);
 
         getInvoiceButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -267,25 +277,20 @@ public class ClientGUI extends javax.swing.JFrame {
                                 .addComponent(getInvoiceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(clientPanelLayout.createSequentialGroup()
                                 .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(clientPanelLayout.createSequentialGroup()
-                                        .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(clientFirstNameLabel)
-                                            .addComponent(clientLastNameLabel)
-                                            .addComponent(clientBSNLabel)
-                                            .addComponent(clientAddressLabel)
-                                            .addComponent(clientPostCodeLabel)
-                                            .addComponent(clientCityLabel)
-                                            .addComponent(clientTelLabel))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(clientPanelLayout.createSequentialGroup()
-                                        .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(clientIncassoLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGroup(clientPanelLayout.createSequentialGroup()
-                                                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(clientPolisLabel)
-                                                    .addComponent(clientEmailLabel1))
-                                                .addGap(0, 86, Short.MAX_VALUE)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                    .addComponent(clientFirstNameLabel)
+                                    .addComponent(clientLastNameLabel)
+                                    .addComponent(clientBSNLabel)
+                                    .addComponent(clientAddressLabel)
+                                    .addComponent(clientPostCodeLabel)
+                                    .addComponent(clientCityLabel)
+                                    .addComponent(clientTelLabel)
+                                    .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(clientIncassoLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(clientPanelLayout.createSequentialGroup()
+                                            .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(clientPolisLabel)
+                                                .addComponent(clientEmailLabel1))
+                                            .addGap(0, 86, Short.MAX_VALUE))))
                                 .addGap(29, 29, 29)
                                 .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -371,7 +376,7 @@ public class ClientGUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(90, 90, 90)
+                .addGap(63, 63, 63)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(addClientButton)
@@ -381,8 +386,8 @@ public class ClientGUI extends javax.swing.JFrame {
                         .addComponent(searchClientTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(searchClientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 261, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 249, Short.MAX_VALUE)
                 .addComponent(clientPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(73, 73, 73))
             .addGroup(layout.createSequentialGroup()
@@ -399,7 +404,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(searchClientTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchClientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -476,6 +481,16 @@ public class ClientGUI extends javax.swing.JFrame {
         String email = clientEmailTextField.getText();
         String tel = clientTelTextField.getText();
         Client client = new Client(BSN, name, firstName, city, postcode, address, IBAN, incasso, email, tel);
+        
+        clientManager.addClient(client);
+        
+        boolean result = clientManager.addClient(client);
+        if(result == true) {
+            JOptionPane.showMessageDialog(this, "Client succesvol toegevoegd.");
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "Client bestaat al.");
+        }
     }//GEN-LAST:event_saveClientButtonActionPerformed
 
     private void deleteClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteClientButtonActionPerformed
