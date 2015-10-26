@@ -10,18 +10,18 @@ import javax.swing.UIManager;
 public class Main {
 
     public static void main(String[] args) {
-        InsuranceManager insuranceManager = new InsuranceManager();
+       /* InsuranceManager insuranceManager = new InsuranceManager();
         InsuranceGUI insuranceGUI = new InsuranceGUI(insuranceManager);
         insuranceGUI.setVisible(true);
-        
+        */
         InvoiceManager invoiceManager = new InvoiceManager();
         InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
         invoiceGUI.setVisible(true);
        
-        build();
+       // build();
 
     }
-
+/*
     private static void build() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -30,5 +30,5 @@ public class Main {
         }
         ClientGUI GUI = new ClientGUI();
         GUI.setVisible(true);
-    }
+    } */
 }
