@@ -134,6 +134,16 @@ public class XMLParser {
         return null;
     }
     
+    public Element createElement(String elementName)
+    {
+        return document.createElement(elementName);
+    }
+    
+    public Text createTextNode(String value)
+    {
+        return document.createTextNode(value);
+    }
+    
     /**
      * Every document has the same structure. This node will be appended at the end of the first child node.
      * @param nodeToAdd The contents of the node that will be appended
@@ -141,7 +151,13 @@ public class XMLParser {
     public void addNode(Node nodeToAdd)
     {
         NodeList allNodes = getAllNodes();
-        allNodes.item(0).insertBefore(nodeToAdd, allNodes.item(0));
+        for(int i = 0; i < allNodes.getLength(); i++) {
+            Node currentNode = allNodes.item(i);
+            if(currentNode instanceof Element) {
+                currentNode.insertBefore(nodeToAdd, currentNode);
+                break;
+            }
+        }
     }
     
     /**

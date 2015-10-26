@@ -8,6 +8,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 public class ClientDAO implements DAOInterface {
@@ -22,7 +23,60 @@ public class ClientDAO implements DAOInterface {
     public boolean add(Object item) {
         if(item instanceof Client)
         {
+            Client client = (Client)item;
+            Element newClientNode = this.XMLParser.createElement("client");
             
+            Element BSN = this.XMLParser.createElement("BSN");
+            Text BSNText =  this.XMLParser.createTextNode(client.getBSN());
+            BSN.appendChild(BSNText);
+            newClientNode.appendChild(BSN);
+            
+            Element name = this.XMLParser.createElement("name");
+            Text nameText = this.XMLParser.createTextNode(client.getName());
+            name.appendChild(nameText);
+            newClientNode.appendChild(name);
+            
+            Element firstName = this.XMLParser.createElement("firstName");
+            Text firstNameText = this.XMLParser.createTextNode(client.getFirstName());
+            firstName.appendChild(firstNameText);
+            newClientNode.appendChild(firstName);
+            
+            Element city = this.XMLParser.createElement("city");
+            Text cityText = this.XMLParser.createTextNode(client.getCity());
+            city.appendChild(cityText);
+            newClientNode.appendChild(city);
+            
+            Element postcode = this.XMLParser.createElement("postcode");
+            Text postcodeText = this.XMLParser.createTextNode(client.getPostcode());
+            postcode.appendChild(postcodeText);
+            newClientNode.appendChild(postcode);
+            
+            Element address = this.XMLParser.createElement("address");
+            Text addressText = this.XMLParser.createTextNode(client.getAddress());
+            address.appendChild(addressText);
+            newClientNode.appendChild(address);
+            
+            Element IBAN = this.XMLParser.createElement("IBAN");
+            Text IBANText = this.XMLParser.createTextNode(client.getIBAN());
+            IBAN.appendChild(IBANText);
+            newClientNode.appendChild(IBAN);
+            
+            Element incasso = this.XMLParser.createElement("incasso");
+            Text incassoText = this.XMLParser.createTextNode(Boolean.toString(client.isIncasso()));
+            incasso.appendChild(incassoText);
+            newClientNode.appendChild(incasso);
+            
+            Element email = this.XMLParser.createElement("email");
+            Text emailText = this.XMLParser.createTextNode(client.getEmail());
+            email.appendChild(emailText);
+            newClientNode.appendChild(email);
+            
+            Element tel = this.XMLParser.createElement("tel");
+            Text telText = this.XMLParser.createTextNode(client.getTel());
+            tel.appendChild(telText);
+            newClientNode.appendChild(tel);
+            
+            this.XMLParser.addNode(newClientNode);;
         }
         
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -76,5 +130,19 @@ public class ClientDAO implements DAOInterface {
         }
         
         return clients;
+    }
+    
+    public static void main(String[] args)
+    {
+        Client c = new Client("38823", "achternaam", "voornaam", "stad", "postcode", "address", "iban", false, "email@email.com", "12345");
+        try
+        {
+            ClientDAO dao = new ClientDAO();
+            dao.add(c);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 }
