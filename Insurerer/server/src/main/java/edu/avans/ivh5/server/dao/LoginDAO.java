@@ -81,15 +81,4 @@ public class LoginDAO implements DAOInterface {
         return users;
     }
     
-    public static void main(String[] args)
-    {
-        try {
-            LoginDAO dao = new LoginDAO();
-            dao.add(new User("Burak", "Karatas"));
-        }
-        catch(Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-    }
 }
