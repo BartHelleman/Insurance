@@ -75,8 +75,18 @@ public class InvoiceGUI extends javax.swing.JFrame {
         });
 
         saveButton.setText("Opslaan");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
 
         deleteButton.setText("Verwijderen");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelPolisLayout = new javax.swing.GroupLayout(panelPolis);
         panelPolis.setLayout(panelPolisLayout);
@@ -152,6 +162,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
 
     public final void displayInvoice() {
         InsuranceContract contract = manager.getInsuranceContract(null);
+    //    manager.addInsuranceContract(null);  
         if (contract == null) {
             deleteButton.setVisible(false);
         } else {
@@ -170,7 +181,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
             startDateField.setEditable(false);
             endDateField.setEditable(false);
             ownRiskField.setEditable(false);
-        }
+        } 
     }
     
     private void insuranceNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insuranceNameFieldActionPerformed
@@ -180,6 +191,18 @@ public class InvoiceGUI extends javax.swing.JFrame {
     private void endDateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endDateFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_endDateFieldActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        // TODO add your handling code here:
+        InsuranceContract contract = manager.getInsuranceContract(null);
+        manager.deleteInsuranceContract(contract);
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        // TODO add your handling code here:
+       // String 
+        InsuranceContract contract = manager.addInsuranceContract(null);
+    }//GEN-LAST:event_saveButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
