@@ -16,7 +16,7 @@ public class LoginManager {
         try {
             loginDAO = new LoginDAO();
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            System.out.println("Er is een exception");
+            System.out.println("Er is een exception: " + e.getMessage());
         }
 
         user = (User) loginDAO.get(username).get(0);
