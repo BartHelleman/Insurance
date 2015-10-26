@@ -78,7 +78,7 @@ public class ClientDAO implements DAOInterface {
             
             this.XMLParser.addNode(newClientNode);
             
-            save();
+            DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
             return true;
         }
         return false;
@@ -133,28 +133,5 @@ public class ClientDAO implements DAOInterface {
         }
         
         return clients;
-    }
-    
-    private void save() {
-        Transformer transformer = null;
-        try
-        {
-            transformer = TransformerFactory.newInstance().newTransformer();
-        } catch(TransformerException e)
-        {
-            throw new RuntimeException(e.getMessage());
-        }
-        
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-        
-        try {
-            transformer.transform(new DOMSource(this.XMLParser.getDocument()), new StreamResult(new FileOutputStream(this.XMLParser.getXmlFile())));
-        } catch(IOException | TransformerException e)
-        {
-            throw new RuntimeException(e.getMessage());
-        }
-        
     }
 }
