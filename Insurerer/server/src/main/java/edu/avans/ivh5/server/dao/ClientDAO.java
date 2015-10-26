@@ -1,15 +1,15 @@
 package edu.avans.ivh5.server.dao;
 
 import edu.avans.ivh5.shared.models.Client;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
+import javax.xml.transform.*;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
+import javax.xml.transform.dom.*;
+import javax.xml.transform.stream.*;
 
 public class ClientDAO implements DAOInterface {
 
@@ -76,10 +76,13 @@ public class ClientDAO implements DAOInterface {
             tel.appendChild(telText);
             newClientNode.appendChild(tel);
             
-            this.XMLParser.addNode(newClientNode);;
+            this.XMLParser.addNode(newClientNode);
+            
+            save();
+            return true;
         }
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return false;
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -132,17 +135,26 @@ public class ClientDAO implements DAOInterface {
         return clients;
     }
     
-    public static void main(String[] args)
-    {
-        Client c = new Client("38823", "achternaam", "voornaam", "stad", "postcode", "address", "iban", false, "email@email.com", "12345");
+    private void save() {
+        Transformer transformer = null;
         try
         {
-            ClientDAO dao = new ClientDAO();
-            dao.add(c);
-        }
-        catch(Exception e)
+            transformer = TransformerFactory.newInstance().newTransformer();
+        } catch(TransformerException e)
         {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
+        
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        
+        try {
+            transformer.transform(new DOMSource(this.XMLParser.getDocument()), new StreamResult(new FileOutputStream(this.XMLParser.getXmlFile())));
+        } catch(IOException | TransformerException e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+        
     }
 }

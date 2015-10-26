@@ -151,14 +151,25 @@ public class XMLParser {
     public void addNode(Node nodeToAdd)
     {
         NodeList allNodes = getAllNodes();
+        
         for(int i = 0; i < allNodes.getLength(); i++) {
             Node currentNode = allNodes.item(i);
             if(currentNode instanceof Element) {
-                currentNode.insertBefore(nodeToAdd, currentNode);
+                currentNode.getParentNode().appendChild(nodeToAdd);
                 break;
             }
         }
     }
+
+    public File getXmlFile() {
+        return xmlFile;
+    }
+
+    public File getXsdFile() {
+        return xsdFile;
+    }
+    
+    
     
     /**
      * Gets the full file path based on just the name of the XML
