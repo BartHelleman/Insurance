@@ -7,20 +7,31 @@
         <ID>001</ID>
         <name>zorgverzekering Standaard</name>
         <price>60.00</price>
-        <sessionsReimbursed>5</sessionsReimbursed>
+        <treatments>
+            <treatment>123456</treatment>
+        </treatments>
     </insurance>
 	    
     <insurance>
         <ID>002</ID>
         <name>zorgverzekering Extra</name>
         <price>110.00</price>
-        <sessionsReimbursed>12</sessionsReimbursed>
+        <treatments>
+            <treatment>123456</treatment>
+            <treatment>111111</treatment>
+        </treatments>
     </insurance>
 
     <insurance>
         <ID>003</ID>
         <name>zorgverzekering Royaal</name>
         <price>170.00</price>
-        <sessionsReimbursed>20</sessionsReimbursed>
+        <treatments>
+            <treatment>123456</treatment>
+            <treatment>111111</treatment>
+            <treatment>222222</treatment>
+            <treatment>444444</treatment>
+            <treatment>914315</treatment>
+        </treatments>
     </insurance>
 </insurances>
