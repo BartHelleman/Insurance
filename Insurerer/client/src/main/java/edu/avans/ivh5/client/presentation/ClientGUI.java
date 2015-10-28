@@ -8,8 +8,11 @@ package edu.avans.ivh5.client.presentation;
 import edu.avans.ivh5.client.businesslogic.ClientManager;
 import edu.avans.ivh5.shared.models.Client;
 import java.awt.Frame;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,16 +22,18 @@ public class ClientGUI extends javax.swing.JFrame {
 
     //relaties
     private ClientManager clientManager;
+    private List<Client> clienten;
 
     /**
      * Creates new form ClientGUI
      */
     public ClientGUI() {
+        this.clienten = new ArrayList<>();
         initComponents();
         this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
         this.clientManager = new ClientManager();
-
+        
     }
 
     /**
@@ -41,7 +46,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        javax.swing.JTable clientsTable = new javax.swing.JTable();
+        clientsTable = new javax.swing.JTable();
         searchClientButton = new javax.swing.JButton();
         searchClientTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -84,17 +89,17 @@ public class ClientGUI extends javax.swing.JFrame {
         clientsTable.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         clientsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
-                "Voornaam ", "Achternaam", "BSN"
+                "Voornaam", "Achternaam", "BSN"
             }
-        ));
-        clientsTable.setMaximumSize(null);
-        clientsTable.setMinimumSize(null);
+        ){    @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }}
+        );
+        clientsTable.setColumnSelectionAllowed(false);
         clientsTable.getTableHeader().setResizingAllowed(false);
         clientsTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(clientsTable);
@@ -416,12 +421,13 @@ public class ClientGUI extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(searchClientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(searchClientTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(searchClientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(searchClientTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(addClientButton)
@@ -544,6 +550,28 @@ public class ClientGUI extends javax.swing.JFrame {
 
     private void searchClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchClientButtonActionPerformed
 
+        DefaultTableModel tableModel = (DefaultTableModel) clientsTable.getModel();
+        
+        if (tableModel.getRowCount()
+                > 0) {
+            for (int i = tableModel.getRowCount() - 1; i > -1; i--) {
+                tableModel.removeRow(i);
+            }
+        }
+
+        clienten = clientManager.searchClient(searchClientTextField.getText());
+
+        //clientsTable
+        for (Client c : clienten) {
+
+            String firstName = c.getFirstName();
+            String lastName = c.getName();
+            String bsn = c.getBSN();
+
+            tableModel.addRow(new Object[]{firstName, lastName, bsn});
+
+        }
+
     }//GEN-LAST:event_searchClientButtonActionPerformed
 
     /**
@@ -606,10 +634,11 @@ public class ClientGUI extends javax.swing.JFrame {
         return sum != 0 && sum % 11 == 0;
 
     }
+
     /**
-     * 
+     *
      * @param postCode check valid with regex.
-     * @return 
+     * @return
      */
     private boolean isValidPostCode(String postCode) {
         //  if (postCode.length()>= 6 || postCode.length() <= 7)
@@ -618,10 +647,11 @@ public class ClientGUI extends javax.swing.JFrame {
         }
         return false;
     }
+
     /**
-     * 
+     *
      * @param address check valid with regex.
-     * @return 
+     * @return
      */
     private boolean isValidAddress(String address) {
         if (address.matches("^([1-9][e][\\s])*([a-zA-Z]+(([\\.][\\s])|([\\s]))?)+[1-9][0-9]*(([-][1-9][0-9]*)|([\\s]?[a-zA-Z]+))?$")) {
@@ -629,17 +659,17 @@ public class ClientGUI extends javax.swing.JFrame {
         }
         return false;
     }
-    
+
     /**
-     * 
+     *
      * @param firstName check valid firstName.
-     * @return 
+     * @return
      */
     private boolean isValidFirstName(String firstName) {
         if (firstName.matches("^([ \\u00c0-\\u01ffa-zA-Z'\\-])+$")) {
             return true;
-    }
-            return false;
+        }
+        return false;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addClientButton;
@@ -666,6 +696,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JTextField clientPostCodeTextField;
     private javax.swing.JLabel clientTelLabel;
     private javax.swing.JTextField clientTelTextField;
+    private javax.swing.JTable clientsTable;
     private javax.swing.JButton deleteClientButton;
     private javax.swing.JButton getInvoiceButton;
     private javax.swing.JLabel jLabel1;

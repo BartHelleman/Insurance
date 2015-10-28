@@ -14,8 +14,12 @@ public class ClientManager {
     //relaties
     private InvoiceManager invoiceManager;
     private ClientDAO clientDAO;
+    private List<Client> clienten;
 
     public ClientManager() {
+        
+        clienten = new ArrayList<>();
+        
         try {
              clientDAO = new ClientDAO();
         }
@@ -27,8 +31,16 @@ public class ClientManager {
     
     
 
-    public ArrayList<Client> searchClient(String searchPattern) {
-        return null;
+    public List<Client> searchClient(String searchPattern) {
+        clienten.clear();
+        
+        List<Object> result = clientDAO.get(searchPattern);
+        
+        for(Object o : result){
+            clienten.add((Client) o);
+        }
+        
+        return clienten;
     }
 
     public boolean addClient(Client client) {
