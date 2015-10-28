@@ -2,14 +2,27 @@ package edu.avans.ivh5.client.presentation;
 
 import edu.avans.ivh5.client.businesslogic.InsuranceCompanyManager;
 import edu.avans.ivh5.shared.models.InsuranceCompany;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.transform.TransformerException;
 
 public class InsuranceCompanyGUI extends javax.swing.JFrame {
+
+    InsuranceCompanyManager insuranceCompanyManager = new InsuranceCompanyManager();
 
     /**
      * Creates new form InsuranceCompanyGUI
      */
     public InsuranceCompanyGUI() {
         initComponents();
+        InsuranceCompany insuranceCompany = insuranceCompanyManager.getInsuranceCompany();
+
+        companyNameTextField.setText(insuranceCompany.getName());
+        cityTextField.setText(insuranceCompany.getCity());
+        postcodeTextField.setText(insuranceCompany.getPostCode());
+        addressTextField.setText(insuranceCompany.getAddress());
+        KVKTextField.setText(insuranceCompany.getKVK());
+
     }
 
     @SuppressWarnings("unchecked")
@@ -104,15 +117,18 @@ public class InsuranceCompanyGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveCompanyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveCompanyButtonActionPerformed
-        String name = companyNameTextField.toString();
-        String city = cityTextField.toString();
-        String postcode = postcodeTextField.toString();
-        String address = addressTextField.toString();
-        String KVK = KVKTextField.toString();
+        String name = companyNameTextField.getText();
+        String city = cityTextField.getText();
+        String postcode = postcodeTextField.getText();
+        String address = addressTextField.getText();
+        String KVK = KVKTextField.getText();
 
-        InsuranceCompanyManager insuranceCompanyManager = new InsuranceCompanyManager();
         InsuranceCompany insuranceCompany = new InsuranceCompany(name, city, postcode, address, KVK);
-        insuranceCompanyManager.changeInsuranceCompany(insuranceCompany);
+        try {
+            insuranceCompanyManager.changeInsuranceCompany(insuranceCompany);
+        } catch (TransformerException ex) {
+            Logger.getLogger(InsuranceCompanyGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_saveCompanyButtonActionPerformed
 
     public static void main(String args[]) {

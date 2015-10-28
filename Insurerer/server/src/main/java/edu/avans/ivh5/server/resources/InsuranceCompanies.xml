@@ -1,29 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<companies
-    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-    xsi:noNamespaceSchemaLocation='InsuranceCompanies.xsd'>
-    <company>
-        <name>ZLM</name>
-        <city>Breda</city>
-        <postcode>1345FJ</postcode>
-        <address>ergensstraat</address>
-        <KVK>02423</KVK>
-    </company>  
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><companies xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="InsuranceCompanies.xsd">
       
-    <company>
-        <name>ZEKUR</name>
-        <city>Tilburg</city>
-        <postcode>9283DJ</postcode>
-        <address>Daarzostraat</address>
-        <KVK>2346</KVK>
-    </company>  
-    
-    <company>
-        <name>Avero</name>
-        <city>IJzendijke</city>
-        <postcode>1094WI</postcode>
-        <address>Hierstraat</address>
-        <KVK>3495</KVK>
-    </company>  
-        
-</companies>
+<company><name>Zorg4U</name><city>Breda</city><postcode>1234AB</postcode><address>Hogeschoollaan 1</address><KVK>1234567890</KVK></company></companies>

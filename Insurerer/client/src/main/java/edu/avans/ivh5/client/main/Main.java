@@ -16,17 +16,17 @@ public class Main {
         InsuranceGUI insuranceGUI = new InsuranceGUI(insuranceManager);
         insuranceGUI.setVisible(true);
 
-        */
+        
         InvoiceManager invoiceManager = new InvoiceManager();
         InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
         invoiceGUI.setVisible(true);
-       
+       */
        // build();
 
         //UserGUI userGUI = new UserGUI();
         //userGUI.setVisible(true);
-        //InsuranceCompanyGUI insuranceCompanyGUI = new InsuranceCompanyGUI();
-        //insuranceCompanyGUI.setVisible(true);
+        InsuranceCompanyGUI insuranceCompanyGUI = new InsuranceCompanyGUI();
+        insuranceCompanyGUI.setVisible(true);
         //InvoiceManager invoiceManager = new InvoiceManager();
         //InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
         //invoiceGUI.setVisible(true);
