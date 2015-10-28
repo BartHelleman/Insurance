@@ -201,7 +201,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         // TODO add your handling code here:
        // String 
-        InsuranceContract contract = manager.addInsuranceContract(null);
+        InsuranceContract contract = manager.test();
     }//GEN-LAST:event_saveButtonActionPerformed
 
 

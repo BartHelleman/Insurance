@@ -1,5 +1,6 @@
 package edu.avans.ivh5.client.businesslogic;
 
+import edu.avans.ivh5.server.dao.InsuranceContractDAO;
 import edu.avans.ivh5.shared.models.Client;
 import edu.avans.ivh5.shared.models.InsuranceContract;
 import edu.avans.ivh5.shared.models.Invoice;
@@ -8,9 +9,11 @@ import edu.avans.ivh5.shared.models.Treatment;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -19,7 +22,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
@@ -35,63 +37,28 @@ public class InvoiceManager {
 
     //relaties
     private ClientManager clientManager;
+    private InsuranceContractDAO InsuranceContractDAO;
 
     public InsuranceContract getInsuranceContract(Client client) {
-        Document doc = null;
-        File f = new File("InsuranceContract.xml");
-        InsuranceContract ic = null;
+        InsuranceContract insuranceContract = null;
         
-        if(f.exists()) {
+        // client omzetten naar String clientName
+        // Waarschijnlijk iets als String clientName = client.getName();
+        String clientName = "Burak2";
+   
         try {
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            doc = documentBuilder.parse("InsuranceContract.xml");
-        } catch (SAXException | IOException | ParserConfigurationException e) {
-            System.out.println(e);
+            InsuranceContractDAO = new InsuranceContractDAO();
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            System.out.println("Error message:" + ex.getMessage());
         }
-        Node n = doc.getDocumentElement();
-        NodeList nl = n.getChildNodes();
-        Node n2;
-
-            for (int i = 0; i < nl.getLength(); i++) {
-                if (nl.item(i).getNodeType() == Node.ELEMENT_NODE) {
-                    n2 = nl.item(i);
-                    if ("2".equals(n2.getFirstChild().getTextContent())) {
-                        Element el = (Element) nl.item(i);
-
-                        if (el.getNodeName().contains("member")) {
-                            String eigenRisico = el.getElementsByTagName("eigenRisico").item(0).getTextContent();
-                            String clientName = el.getElementsByTagName("clientNaam").item(0).getTextContent();
-                            String verzekeringID = el.getElementsByTagName("verzekeringID").item(0).getTextContent();
-                            String startDatum = el.getElementsByTagName("startDatum").item(0).getTextContent();
-                            String eindDatum = el.getElementsByTagName("eindDatum").item(0).getTextContent();
-
-                            BigDecimal ownRisk = new BigDecimal(eigenRisico);
-                            Integer insuranceID = Integer.parseInt(verzekeringID);
-
-                            DateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-                            Date startDate = null;
-                            Date endDate = null;
-
-                            try {
-                                startDate = format.parse(startDatum);
-                                endDate = format.parse(eindDatum);
-                            } catch (ParseException e) {
-                                System.out.println(e);
-                            }
-
-                            //    System.out.println(insuranceID + " " + ownRisk + " " + startDate + " " + endDate);
-                            ic = new InsuranceContract(ownRisk, clientName, insuranceID, startDate, endDate);
-                         
-                                    
-                        }
-                    }
-                }
-            }
+        
+        if(InsuranceContractDAO.get(clientName) == null) {
+            System.out.println("Persoon heeft geen polis");
         } else {
-            ic = null;
+            insuranceContract = (InsuranceContract) InsuranceContractDAO.get(clientName).get(0);
         }
-        return ic;
+     
+        return insuranceContract;
     }
 
     public InsuranceContract addInsuranceContract(Client client) {
@@ -99,21 +66,18 @@ public class InvoiceManager {
         Document doc = null;
         File f = new File("InsuranceContract.xml");
         Element root = null;
- 
-        
+
         if (f.exists()) {
-        try {
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            doc = documentBuilder.parse("InsuranceContract.xml");
-            root = doc.getDocumentElement();
-        } catch (ParserConfigurationException e) {
-            System.out.println(e);
-        } catch (SAXException ex) {
-            Logger.getLogger(InvoiceManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(InvoiceManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            try {
+                DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+                doc = documentBuilder.parse("InsuranceContract.xml");
+                root = doc.getDocumentElement();
+            } catch (ParserConfigurationException e) {
+                System.out.println(e);
+            } catch (SAXException | IOException ex) {
+                Logger.getLogger(InvoiceManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             System.out.println("File gevonden");
 
@@ -169,9 +133,9 @@ public class InvoiceManager {
 
             try {
                 DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		doc = docBuilder.newDocument();
-                
+                DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+                doc = docBuilder.newDocument();
+
                 // root elements
                 Element rootElement = doc.createElement("company");
                 doc.appendChild(rootElement);
@@ -180,7 +144,7 @@ public class InvoiceManager {
                 Element member = doc.createElement("member");
                 rootElement.appendChild(member);
 
-                    // shorten way
+                // shorten way
                 // staff.setAttribute("id", "1");
                 // memberID elements
                 Element memberID = doc.createElement("memberID");
@@ -218,7 +182,7 @@ public class InvoiceManager {
                 DOMSource source = new DOMSource(doc);
                 StreamResult result = new StreamResult(new File("InsuranceContract.xml"));
 
-                    // Output to console for testing
+                // Output to console for testing
                 // StreamResult result = new StreamResult(System.out);
                 transformer.transform(source, result);
 
@@ -232,56 +196,53 @@ public class InvoiceManager {
         }
         return null;
     }
+    
+    public InsuranceContract test() {
+        Boolean insuranceContract = null;
+        List<Object> insuranceContracts = new ArrayList<>();
+        BigDecimal ownRisk = new BigDecimal(0.35);
+        Date date = null;
+        Date date2 = null;
+        
+        Integer value = 20150303;
+        Integer value2 = 20160304;
+        SimpleDateFormat originalFormat = new SimpleDateFormat("yyyyMMdd");
+        try {
+            date = originalFormat.parse(value.toString());
+            date2 = originalFormat.parse(value.toString());
+        } catch (ParseException ex) {
+            Logger.getLogger(InvoiceManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        insuranceContracts.add(new InsuranceContract(ownRisk, "Niels", 004, date, date2));
+        
+        try {
+           InsuranceContractDAO = new InsuranceContractDAO();
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            System.out.println("Error message:" + ex.getMessage());
+        }
+        
+      //  if(InsuranceContractDAO.add("Burak") == false) {
+     //       System.out.println("Test");
+     //   } else {
+            insuranceContract = InsuranceContractDAO.add(insuranceContracts);
+     //   }  
+            return null;
+    }
 
     public void deleteInsuranceContract(InsuranceContract contract) {
+        Boolean insuranceContract = null;
         
-        Document doc = null;
-        File f = new File("InsuranceContract.xml");
-        Element root = null;
-        
-        
-        
-        if (f.exists()) {
         try {
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            doc = documentBuilder.parse("InsuranceContract.xml");
-            
-            Node n = doc.getDocumentElement();
-            NodeList nl = n.getChildNodes();
-            Node n2;
-
-            for (int i = 0; i < nl.getLength(); i++) {      
-                if (nl.item(i).getNodeType() == Node.ELEMENT_NODE) {
-                    n2 = nl.item(i);
-                    if ("2".equals(n2.getFirstChild().getTextContent())) {
-                        System.out.println("found child node");
-  
-                        Element el = (Element) nl.item(i);  
-                        NodeList test = el.getChildNodes();
-                        
-                            el.getParentNode().removeChild(el);
-                        
-                        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                        Transformer transformer = transformerFactory.newTransformer();
-                        DOMSource source = new DOMSource(doc);
-                        StreamResult result = new StreamResult(new File("InsuranceContract.xml"));
-
-                    // Output to console for testing
-                // StreamResult result = new StreamResult(System.out);
-                transformer.transform(source, result);
-                    }
-                }
-            }
-        } catch (SAXException | IOException | ParserConfigurationException ex) {
-                Logger.getLogger(InvoiceManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (TransformerConfigurationException ex) {
-                Logger.getLogger(InvoiceManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (TransformerException ex) {
-                Logger.getLogger(InvoiceManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            InsuranceContractDAO = new InsuranceContractDAO();
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            System.out.println("Error message:" + ex.getMessage());
+        }
+        
+        if(InsuranceContractDAO.delete("Burak") == false) {
+            System.out.println("Persoon kon niet worden verwijderd");
         } else {
-            System.out.println("file bestaat niet");
+            insuranceContract = InsuranceContractDAO.delete("Burak");
         }
     }
 
