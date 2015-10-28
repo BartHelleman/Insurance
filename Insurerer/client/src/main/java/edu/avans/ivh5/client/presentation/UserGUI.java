@@ -4,11 +4,16 @@ import edu.avans.ivh5.client.businesslogic.UserManager;
 
 public class UserGUI extends javax.swing.JFrame {
 
+    private final UserManager userManager;
+
     /**
      * Creates new form UserGUI
      */
     public UserGUI() {
         initComponents();
+        this.setVisible(true);
+        errorLabel.setVisible(false);
+        userManager = new UserManager();
     }
 
     @SuppressWarnings("unchecked")
@@ -17,12 +22,13 @@ public class UserGUI extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         addUserButton = new javax.swing.JButton();
-        passwordRepeatTextField = new javax.swing.JPasswordField();
-        passwordTextField = new javax.swing.JPasswordField();
         usernameTextField = new javax.swing.JTextField();
         usernameLabel = new javax.swing.JLabel();
         passwordLabel = new javax.swing.JLabel();
         passwordRepeatLabel = new javax.swing.JLabel();
+        passwordTextField = new javax.swing.JTextField();
+        passwordRepeatTextField = new javax.swing.JTextField();
+        errorLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -46,27 +52,32 @@ public class UserGUI extends javax.swing.JFrame {
 
         passwordRepeatLabel.setText("Wachtwoord herhalen");
 
+        errorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        errorLabel.setText("errorLabel");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(addUserButton)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(passwordRepeatLabel)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(usernameLabel)
-                            .addGap(51, 51, 51)
-                            .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(passwordLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(passwordRepeatTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(passwordTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(addUserButton)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(usernameLabel)
+                                    .addComponent(passwordLabel)
+                                    .addComponent(passwordRepeatLabel))
+                                .addGap(22, 22, 22)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(usernameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+                                    .addComponent(passwordTextField)
+                                    .addComponent(passwordRepeatTextField))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -85,6 +96,8 @@ public class UserGUI extends javax.swing.JFrame {
                     .addComponent(passwordRepeatTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(addUserButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(errorLabel)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -107,20 +120,26 @@ public class UserGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameTextFieldActionPerformed
 
     private void addUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserButtonActionPerformed
-        if (passwordTextField.toString().equals(passwordRepeatTextField.toString())) {
-            String username = usernameTextField.toString();
-            String password = passwordTextField.toString();
-            UserManager manager = new UserManager();
-            if (manager.checkUser(username) == false) {
-                
-                manager.createAccount(username, password);
+
+        if (usernameTextField.getText().isEmpty() || passwordTextField.getText().isEmpty()) {
+            errorLabel.setText("Naam en/of wachtwoord is leeg");
+            errorLabel.setVisible(true);
+        } else {
+            if (passwordTextField.getText().equals(passwordRepeatTextField.getText())) {
+                System.out.println("wachtwoorden goed herhaald");
+
+                if (userManager.createAccount(usernameTextField.getText(), passwordTextField.getText())) {
+                    errorLabel.setText("Account is aangemaakt");
+                    errorLabel.setVisible(true);
+                } else {
+                    errorLabel.setText("Account bestaat al");
+                    errorLabel.setVisible(true);
+                }
             } else {
-                // User already exists
+                errorLabel.setText("Herhaal het wachtwoord correct");
+                errorLabel.setVisible(true);
             }
-        }
-        
-        else {
-            // Passwords are not the same
+
         }
 
     }//GEN-LAST:event_addUserButtonActionPerformed
@@ -160,11 +179,12 @@ public class UserGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addUserButton;
+    private javax.swing.JLabel errorLabel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JLabel passwordRepeatLabel;
-    private javax.swing.JPasswordField passwordRepeatTextField;
-    private javax.swing.JPasswordField passwordTextField;
+    private javax.swing.JTextField passwordRepeatTextField;
+    private javax.swing.JTextField passwordTextField;
     private javax.swing.JLabel usernameLabel;
     private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables

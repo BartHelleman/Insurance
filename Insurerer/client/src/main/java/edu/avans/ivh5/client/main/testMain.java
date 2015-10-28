@@ -3,6 +3,7 @@ package edu.avans.ivh5.client.main;
 import edu.avans.ivh5.client.businesslogic.LoginManager;
 import edu.avans.ivh5.client.presentation.LoginGUI;
 import edu.avans.ivh5.client.presentation.MainGUI;
+import edu.avans.ivh5.client.presentation.UserGUI;
 
 public class testMain {
 
@@ -14,7 +15,8 @@ public class testMain {
      */
     public static void main(String[] args) {
 
-        LoginGUI loginGUI = new LoginGUI();
+        //LoginGUI loginGUI = new LoginGUI();
+        UserGUI userGUI = new UserGUI();
 
     }
 

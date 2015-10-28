@@ -5,6 +5,7 @@
  */
 package edu.avans.ivh5.client.presentation;
 
+import edu.avans.ivh5.client.businesslogic.ClientManager;
 import edu.avans.ivh5.shared.models.Client;
 import java.awt.Frame;
 import javax.swing.JFrame;
@@ -16,13 +17,18 @@ import javax.swing.JOptionPane;
  */
 public class ClientGUI extends javax.swing.JFrame {
 
+    //relaties
+    private ClientManager clientManager;
+
     /**
      * Creates new form ClientGUI
      */
     public ClientGUI() {
         initComponents();
         this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-        
+
+        this.clientManager = new ClientManager();
+
     }
 
     /**
@@ -68,6 +74,7 @@ public class ClientGUI extends javax.swing.JFrame {
         getInvoiceButton = new javax.swing.JButton();
         clientIBANTextField = new javax.swing.JTextField();
         clientEmailLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Clientbeheer");
@@ -88,13 +95,21 @@ public class ClientGUI extends javax.swing.JFrame {
         ));
         clientsTable.setMaximumSize(null);
         clientsTable.setMinimumSize(null);
+        clientsTable.getTableHeader().setResizingAllowed(false);
+        clientsTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(clientsTable);
 
         searchClientButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         searchClientButton.setText("Zoeken");
+        searchClientButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchClientButtonActionPerformed(evt);
+            }
+        });
 
         searchClientTextField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        searchClientTextField.setText("Zoekterm...");
+        searchClientTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        searchClientTextField.setName(""); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 153, 255));
@@ -231,6 +246,8 @@ public class ClientGUI extends javax.swing.JFrame {
                 "Behandelcode", "Einddatum behandeling"
             }
         ));
+        treatmentsTable.getTableHeader().setResizingAllowed(false);
+        treatmentsTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(treatmentsTable);
 
         getInvoiceButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -267,25 +284,20 @@ public class ClientGUI extends javax.swing.JFrame {
                                 .addComponent(getInvoiceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(clientPanelLayout.createSequentialGroup()
                                 .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(clientPanelLayout.createSequentialGroup()
-                                        .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(clientFirstNameLabel)
-                                            .addComponent(clientLastNameLabel)
-                                            .addComponent(clientBSNLabel)
-                                            .addComponent(clientAddressLabel)
-                                            .addComponent(clientPostCodeLabel)
-                                            .addComponent(clientCityLabel)
-                                            .addComponent(clientTelLabel))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(clientPanelLayout.createSequentialGroup()
-                                        .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(clientIncassoLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGroup(clientPanelLayout.createSequentialGroup()
-                                                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(clientPolisLabel)
-                                                    .addComponent(clientEmailLabel1))
-                                                .addGap(0, 86, Short.MAX_VALUE)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                    .addComponent(clientFirstNameLabel)
+                                    .addComponent(clientLastNameLabel)
+                                    .addComponent(clientBSNLabel)
+                                    .addComponent(clientAddressLabel)
+                                    .addComponent(clientPostCodeLabel)
+                                    .addComponent(clientCityLabel)
+                                    .addComponent(clientTelLabel)
+                                    .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(clientIncassoLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(clientPanelLayout.createSequentialGroup()
+                                            .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(clientPolisLabel)
+                                                .addComponent(clientEmailLabel1))
+                                            .addGap(0, 86, Short.MAX_VALUE))))
                                 .addGap(29, 29, 29)
                                 .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -360,57 +372,68 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(getInvoiceButton)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         clientFirstNameTextField.getAccessibleContext().setAccessibleName("");
         clientFirstNameTextField.getAccessibleContext().setAccessibleDescription("");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setText("Zoeken:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(90, 90, 90)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(addClientButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(deleteClientButton))
+                        .addGap(63, 63, 63)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(addClientButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(deleteClientButton))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(searchClientTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(searchClientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(searchClientTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(searchClientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 261, Short.MAX_VALUE)
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 249, Short.MAX_VALUE)
                 .addComponent(clientPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(73, 73, 73))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searchClientTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchClientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addClientButton)
-                    .addComponent(deleteClientButton))
-                .addGap(40, 40, 40))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(clientPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(searchClientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(searchClientTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(addClientButton)
+                            .addComponent(deleteClientButton))
+                        .addGap(52, 52, 52))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(clientPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
+
+        searchClientTextField.getAccessibleContext().setAccessibleName("");
+        searchClientTextField.getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -476,12 +499,30 @@ public class ClientGUI extends javax.swing.JFrame {
         String email = clientEmailTextField.getText();
         String tel = clientTelTextField.getText();
         Client client = new Client(BSN, name, firstName, city, postcode, address, IBAN, incasso, email, tel);
+
+        boolean validBSN = isValidBSN(BSN);
+        
+       if (validBSN == false) {
+           JOptionPane.showMessageDialog(this, "Het ingevoerde BSN is niet valide.");
+           return;
+       }
+
+        boolean result = clientManager.addClient(client);
+        if (result == true) {
+            JOptionPane.showMessageDialog(this, "Client succesvol toegevoegd.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Client bestaat al.");
+        }
     }//GEN-LAST:event_saveClientButtonActionPerformed
 
     private void deleteClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteClientButtonActionPerformed
-     Object[] options = {"Ja", "Nee"};
+        Object[] options = {"Ja", "Nee"};
         JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze client wilt verwijderen?", "Verwijderen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
     }//GEN-LAST:event_deleteClientButtonActionPerformed
+
+    private void searchClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchClientButtonActionPerformed
+        
+    }//GEN-LAST:event_searchClientButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -518,6 +559,33 @@ public class ClientGUI extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Validate BSN according to
+     * http://nl.wikipedia.org/wiki/Burgerservicenummer
+     */
+    private boolean isValidBSN(String BSN) {
+        int candidate;
+        try {
+            candidate = Integer.parseInt(BSN);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        if (candidate <= 9999999 || candidate > 999999999) {
+            return false;
+        }
+        int sum = -1 * candidate % 10;
+
+        for (int multiplier = 2; candidate > 0; multiplier++) {
+            int val = (candidate /= 10) % 10;
+            sum += multiplier * val;
+        }
+
+        return sum != 0 && sum % 11 == 0;
+
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addClientButton;
     private javax.swing.JButton addInsuranceContractButton;
@@ -546,6 +614,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JButton deleteClientButton;
     private javax.swing.JButton getInvoiceButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton saveClientButton;
