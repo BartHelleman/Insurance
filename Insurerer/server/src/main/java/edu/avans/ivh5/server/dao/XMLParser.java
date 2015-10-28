@@ -114,6 +114,8 @@ public class XMLParser {
         return nodeList.stream().distinct().collect(Collectors.toList());
     }
     
+    
+    
     /**
      * Looks inside a node for an element with a specific name and returns its value
      * @param beginNode The node where to look for the element
@@ -132,6 +134,37 @@ public class XMLParser {
         }
         
         return null;
+    }
+    
+    public List<String> getSubnodeValuesByName(Node beginNode, String name)
+    {
+        List<String> subnodeValues = new ArrayList<>();
+        NodeList childNodes = beginNode.getChildNodes();
+        boolean done = false;
+        
+        // First loop through the elements in the node (so loop through stuff like client name, client address etc)
+        for(int i = 0; i < childNodes.getLength(); i++) {
+            Node currentNode = childNodes.item(i);
+            if(currentNode instanceof Element)
+            {
+                // Next, loop through the child nodes of the current child node
+                NodeList childchildNodes = currentNode.getChildNodes();
+                for(int j = 0; j < childchildNodes.getLength(); j++)
+                {
+                    Node currentChildNode = childchildNodes.item(j);
+
+                    if(currentChildNode.getNodeName().equals(name))
+                    {
+                        subnodeValues.add(currentChildNode.getTextContent());
+                        done = true;
+                    }
+                }
+                if(done)
+                    break;
+            }
+        }
+        
+        return subnodeValues;
     }
     
     public boolean deleteNode(Node nodeToDelete) {
@@ -209,5 +242,22 @@ public class XMLParser {
     {
         return node.getLastChild().getTextContent().trim();
     }
-    
+    /*
+    public static void main(String[] args)
+    {
+        try {
+            
+            XMLParser parser = new XMLParser("Insurances.xml", "Insurances.xsd");
+            List<Node> nodes = parser.findElementsByName("insurance", "");
+            for(Node node : nodes)
+            {
+                List<String> t = parser.getSubnodeValuesByName(node, "treatment");
+                System.out.println("");
+            }
+            
+        }catch(Exception e )
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+    }*/
 }
