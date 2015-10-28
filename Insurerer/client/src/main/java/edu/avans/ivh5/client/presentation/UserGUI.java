@@ -1,6 +1,8 @@
 package edu.avans.ivh5.client.presentation;
 
 import edu.avans.ivh5.client.businesslogic.UserManager;
+import java.util.function.Predicate;
+import javax.swing.JOptionPane;
 
 public class UserGUI extends javax.swing.JFrame {
 
@@ -26,9 +28,9 @@ public class UserGUI extends javax.swing.JFrame {
         usernameLabel = new javax.swing.JLabel();
         passwordLabel = new javax.swing.JLabel();
         passwordRepeatLabel = new javax.swing.JLabel();
-        passwordTextField = new javax.swing.JTextField();
-        passwordRepeatTextField = new javax.swing.JTextField();
         errorLabel = new javax.swing.JLabel();
+        passwordTextField = new javax.swing.JPasswordField();
+        passwordRepeatTextField = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -73,7 +75,7 @@ public class UserGUI extends javax.swing.JFrame {
                                 .addGap(22, 22, 22)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(usernameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
-                                    .addComponent(passwordTextField)
+                                    .addComponent(passwordTextField, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(passwordRepeatTextField))))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -120,27 +122,40 @@ public class UserGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameTextFieldActionPerformed
 
     private void addUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserButtonActionPerformed
+        int res = 0;
+        String password = String.valueOf(passwordTextField.getPassword());
+        String repeatPassword = String.valueOf(passwordRepeatTextField.getPassword());
 
-        if (usernameTextField.getText().isEmpty() || passwordTextField.getText().isEmpty()) {
+        if (usernameTextField.getText().isEmpty() || password.isEmpty()) {
             errorLabel.setText("Naam en/of wachtwoord is leeg");
             errorLabel.setVisible(true);
-        } else {
-            if (passwordTextField.getText().equals(passwordRepeatTextField.getText())) {
-                System.out.println("wachtwoorden goed herhaald");
+            return;
+        }
+        if (!password.equals(repeatPassword)) {
+            errorLabel.setText("Wachtwoorden zijn niet gelijk");
+            errorLabel.setVisible(true);
+            return;
+        }
 
-                if (userManager.createAccount(usernameTextField.getText(), passwordTextField.getText())) {
-                    errorLabel.setText("Account is aangemaakt");
-                    errorLabel.setVisible(true);
-                } else {
-                    errorLabel.setText("Account bestaat al");
-                    errorLabel.setVisible(true);
-                }
-            } else {
-                errorLabel.setText("Herhaal het wachtwoord correct");
-                errorLabel.setVisible(true);
-            }
+        if (!userManager.passwordValid(password)) {
+            errorLabel.setText("Wachtwoord mag alleen letters en/of cijfers bevatten");
+            errorLabel.setVisible(true);
+            return;
+        }
+
+        //System.out.println("wachtwoorden goed herhaald");
+        if (userManager.createAccount(usernameTextField.getText(), password)) {
+            //JOptionPane.showMessageDialog(this, "Account gemaakt");
+            JOptionPane.showOptionDialog(null, "Account aangemaakt", "Geslaagd", JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE, null, null, null);
+            errorLabel.setVisible(false);
+
+        } else {
+            errorLabel.setText("Account bestaat al");
+            errorLabel.setVisible(true);
 
         }
+
 
     }//GEN-LAST:event_addUserButtonActionPerformed
 
@@ -183,8 +198,8 @@ public class UserGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JLabel passwordRepeatLabel;
-    private javax.swing.JTextField passwordRepeatTextField;
-    private javax.swing.JTextField passwordTextField;
+    private javax.swing.JPasswordField passwordRepeatTextField;
+    private javax.swing.JPasswordField passwordTextField;
     private javax.swing.JLabel usernameLabel;
     private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables
