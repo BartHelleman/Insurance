@@ -9,6 +9,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import edu.avans.ivh5.shared.util.DateFormatter;
 import java.math.BigDecimal;
+import org.w3c.dom.*;
 
 public class InvoiceDAO implements DAOInterface {
 
@@ -20,7 +21,36 @@ public class InvoiceDAO implements DAOInterface {
     
     @Override
     public boolean add(Object item) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(item instanceof Invoice) {
+            Invoice invoice = (Invoice)item;
+            Element invoiceNode = this.XMLParser.createElement("invoice");
+            
+            Element invoiceNumber = this.XMLParser.createElement("invoiceNumber");
+            Text invoiceNumberText = this.XMLParser.createTextNode(Integer.toString(invoice.getInvoiceNumber()));
+            invoiceNumber.appendChild(invoiceNumberText);
+            invoiceNode.appendChild(invoiceNumber);
+            
+            Element invoiceDate = this.XMLParser.createElement("date");
+            Text invoiceDateText = this.XMLParser.createTextNode(DateFormatter.dateToString(invoice.getDate()));
+            invoiceDate.appendChild(invoiceDateText);
+            invoiceNode.appendChild(invoiceDate);
+            
+            Element expirationDate = this.XMLParser.createElement("expirationDate");
+            Text expirationDateText = this.XMLParser.createTextNode(DateFormatter.dateToString(invoice.getExpirationDate()));
+            expirationDate.appendChild(expirationDateText);
+            invoiceNode.appendChild(expirationDate);
+            
+            Element VAT = this.XMLParser.createElement("VAT");
+            Text VATText = this.XMLParser.createTextNode(invoice.toString());
+            VAT.appendChild(VATText);
+            invoiceNode.appendChild(VAT);
+            
+            this.XMLParser.addNode(invoiceNode);
+            DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
+            return true;
+        }
+        
+        return false;
     }
 
     @Override

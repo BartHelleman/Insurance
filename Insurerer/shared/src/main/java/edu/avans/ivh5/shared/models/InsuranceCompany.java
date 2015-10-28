@@ -6,14 +6,14 @@ public class InsuranceCompany implements Serializable {
 
     private String name;
     private String city;
-    private String postCode;
+    private String postcode;
     private String address;
     private String KVK;
 
-    public InsuranceCompany(String name, String city, String postCode, String address, String KVK) {
+    public InsuranceCompany(String name, String city, String postcode, String address, String KVK) {
         this.name = name;
         this.city = city;
-        this.postCode = postCode;
+        this.postcode = postcode;
         this.address = address;
         this.KVK = KVK;
     }
@@ -27,7 +27,7 @@ public class InsuranceCompany implements Serializable {
     }
 
     public String getPostCode() {
-        return postCode;
+        return postcode;
     }
 
     public String getAddress() {
@@ -37,5 +37,5 @@ public class InsuranceCompany implements Serializable {
     public String getKVK() {
         return KVK;
     }
-    
+
 }

@@ -7,6 +7,8 @@ import org.w3c.dom.Node;
 import edu.avans.ivh5.server.dao.XMLParser;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 public class LoginDAO implements DAOInterface {
@@ -19,7 +21,27 @@ public class LoginDAO implements DAOInterface {
     
     @Override
     public boolean add(Object item) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(item instanceof User)
+        {
+            Element userNode = this.XMLParser.createElement("account");
+            User user = (User)item;
+            
+            Element username = this.XMLParser.createElement("username");
+            Text usernameText = this.XMLParser.createTextNode(user.getUsername());
+            username.appendChild(usernameText);
+            userNode.appendChild(username);
+            
+            Element password = this.XMLParser.createElement("password");
+            Text passwordText = this.XMLParser.createTextNode(user.getPassword());
+            password.appendChild(passwordText);
+            userNode.appendChild(password);
+            
+            this.XMLParser.addNode(userNode);
+            DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
+            return true;
+        }
+        
+        return false;
     }
 
     @Override
@@ -58,4 +80,5 @@ public class LoginDAO implements DAOInterface {
         
         return users;
     }
+    
 }

@@ -11,11 +11,10 @@ public class InsuranceCompanyDAO implements DAOInterface {
 
     private XMLParser XMLParser;
 
-    public InsuranceCompanyDAO() throws ParserConfigurationException, SAXException, IOException{
+    public InsuranceCompanyDAO() throws ParserConfigurationException, SAXException, IOException {
         this.XMLParser = new XMLParser("InsuranceCompanies.xml", "InsuranceCompanies.xsd");
     }
-    
-    
+
     @Override
     public boolean add(Object item) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -23,11 +22,10 @@ public class InsuranceCompanyDAO implements DAOInterface {
 
     @Override
     public List<Object> get(Object value) {
-        if(value instanceof String)
-        {
-            return getCompanies((String)value);
+        if (value instanceof String) {
+            return getCompanies((String) value);
         }
-        
+
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -40,26 +38,22 @@ public class InsuranceCompanyDAO implements DAOInterface {
     public boolean delete(Object object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     private List<Object> getCompanies(String searchPattern) {
         List<Object> companies = new ArrayList<>();
         List<Node> companyNodes = this.XMLParser.findElementsByName("company", searchPattern);
-        
-        for(int i = 0; i < companyNodes.size(); i++)
-        {
-            Node companyNode = companyNodes.get(i);
-            
+
+        companyNodes.stream().forEach((companyNode) -> {
             String name = this.XMLParser.getValueByNodeName(companyNode, "name");
             String city = this.XMLParser.getValueByNodeName(companyNode, "city");
             String postcode = this.XMLParser.getValueByNodeName(companyNode, "postcode");
             String address = this.XMLParser.getValueByNodeName(companyNode, "address");
             String KVK = this.XMLParser.getValueByNodeName(companyNode, "KVK");
-            
+
             companies.add(new InsuranceCompany(name, city, postcode, address, KVK));
-        }
-        
+        });
+
         return companies;
     }
-    
 
 }
