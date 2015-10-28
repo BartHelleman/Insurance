@@ -134,6 +134,17 @@ public class XMLParser {
         return null;
     }
     
+    public boolean deleteNode(Node nodeToDelete) {
+
+        try {
+            nodeToDelete.getParentNode().removeChild(nodeToDelete);
+            return true;
+        } catch(Exception e)
+        {
+            return false;
+        }
+    }
+    
     public Element createElement(String elementName)
     {
         return document.createElement(elementName);
