@@ -44,6 +44,7 @@ public class TreatmentDAO implements DAOInterface {
             
             this.XMLParser.addNode(treatmentNode);
             DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
+            return true;
         }
         return false;
     }
