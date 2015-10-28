@@ -106,7 +106,18 @@ public class ClientDAO implements DAOInterface {
 
     @Override
     public boolean delete(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        if(object instanceof Client) {
+            Client client = (Client)object;
+            List<Node> nodes = this.XMLParser.findElementsByName("client", client.getBSN());
+            for(Node node : nodes) {
+                this.XMLParser.deleteNode(node);
+            }
+            DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
+            return true;
+        }
+        
+        return false;
     }
     
     private List<Object> getClients(String searchPattern)
@@ -134,5 +145,4 @@ public class ClientDAO implements DAOInterface {
         
         return clients;
     }
-    
 }
