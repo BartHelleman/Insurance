@@ -501,18 +501,40 @@ public class ClientGUI extends javax.swing.JFrame {
         Client client = new Client(BSN, name, firstName, city, postcode, address, IBAN, incasso, email, tel);
 
         boolean validBSN = isValidBSN(BSN);
-        
-       if (validBSN == false) {
-           JOptionPane.showMessageDialog(this, "Het ingevoerde BSN is niet valide.");
-           return;
-       }
-
+        boolean validPostCode = isValidPostCode(postcode);
+        boolean validAddress = isValidAddress(address);
+        /**
+         * Valid BSN message
+         */
+        if (validBSN == false) {
+            JOptionPane.showMessageDialog(null, "Het ingevoerde BSN is niet valide.", "Onjuiste BSN", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        /**
+         * Valid address message
+         */
+        if (validAddress == false) {
+            JOptionPane.showMessageDialog(null, "Het ingevoerde adres is onjuist.", "Onjuist adres", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        /**
+         * Valid postcode message
+         */
+        if (validPostCode == false) {
+            JOptionPane.showMessageDialog(null, "De ingevoerde postcode is onjuist. Postcode bevat vier cijfers en twee letters.", "Onjuiste Postcode", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        /**
+         * client succesfully added message
+         */
         boolean result = clientManager.addClient(client);
         if (result == true) {
-            JOptionPane.showMessageDialog(this, "Client succesvol toegevoegd.");
+            JOptionPane.showMessageDialog(null, "De client is succesvol toegevoegd.", "Toevoegen", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(this, "Client bestaat al.");
+            JOptionPane.showMessageDialog(null, "Dit BSN nummer is al bekend in het systeem.", "Klant bestaat al", JOptionPane.ERROR_MESSAGE);
         }
+
+
     }//GEN-LAST:event_saveClientButtonActionPerformed
 
     private void deleteClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteClientButtonActionPerformed
@@ -521,7 +543,7 @@ public class ClientGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteClientButtonActionPerformed
 
     private void searchClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchClientButtonActionPerformed
-        
+
     }//GEN-LAST:event_searchClientButtonActionPerformed
 
     /**
@@ -584,8 +606,41 @@ public class ClientGUI extends javax.swing.JFrame {
         return sum != 0 && sum % 11 == 0;
 
     }
-
-
+    /**
+     * 
+     * @param postCode check valid with regex.
+     * @return 
+     */
+    private boolean isValidPostCode(String postCode) {
+        //  if (postCode.length()>= 6 || postCode.length() <= 7)
+        if (postCode.matches("^[1-9][0-9]{3}[\\s]?[A-Za-z]{2}$")) {
+            return true;
+        }
+        return false;
+    }
+    /**
+     * 
+     * @param address check valid with regex.
+     * @return 
+     */
+    private boolean isValidAddress(String address) {
+        if (address.matches("^([1-9][e][\\s])*([a-zA-Z]+(([\\.][\\s])|([\\s]))?)+[1-9][0-9]*(([-][1-9][0-9]*)|([\\s]?[a-zA-Z]+))?$")) {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * 
+     * @param firstName check valid firstName.
+     * @return 
+     */
+    private boolean isValidFirstName(String firstName) {
+        if (firstName.matches("^([ \\u00c0-\\u01ffa-zA-Z'\\-])+$")) {
+            return true;
+    }
+            return false;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addClientButton;
     private javax.swing.JButton addInsuranceContractButton;
