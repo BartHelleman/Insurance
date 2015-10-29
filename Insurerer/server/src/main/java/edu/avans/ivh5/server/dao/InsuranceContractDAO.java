@@ -2,7 +2,6 @@ package edu.avans.ivh5.server.dao;
 
 import edu.avans.ivh5.shared.models.InsuranceContract;
 import edu.avans.ivh5.shared.util.DateFormatter;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -22,7 +21,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 public class InsuranceContractDAO implements DAOInterface {
@@ -35,11 +34,43 @@ public class InsuranceContractDAO implements DAOInterface {
 
     @Override
     public boolean add(Object item) {
-        if (item != null) {
-            return addInsuranceContract(item);
+        if(item instanceof InsuranceContract) {
+            System.out.println("Return true");
+            InsuranceContract insuranceContract = (InsuranceContract) item;
+            Element insuranceContractNode = this.XMLParser.createElement("contract");
+            
+            Element clientName = this.XMLParser.createElement("clientName");
+            Text insuranceContractClientName = this.XMLParser.createTextNode(insuranceContract.getClientName());
+            clientName.appendChild(insuranceContractClientName);
+            insuranceContractNode.appendChild(clientName);
+            
+            Element ownRisk = this.XMLParser.createElement("ownRisk");
+            Text insuranceContractOwnRisk = this.XMLParser.createTextNode(String.valueOf(insuranceContract.getOwnRisk()));
+            ownRisk.appendChild(insuranceContractOwnRisk);
+            insuranceContractNode.appendChild(ownRisk);
+            
+            Element insuranceID = this.XMLParser.createElement("insuranceID");
+            Text insuranceContractID = this.XMLParser.createTextNode(Integer.toString(insuranceContract.getInsuranceID()));
+            insuranceID.appendChild(insuranceContractID);
+            insuranceContractNode.appendChild(insuranceID);
+            
+            Element startDate = this.XMLParser.createElement("startDate");
+            Text insuranceContractStartDate = this.XMLParser.createTextNode(DateFormatter.dateToString(insuranceContract.getStartDate()));
+            startDate.appendChild(insuranceContractStartDate);
+            insuranceContractNode.appendChild(startDate);
+            
+            Element endDate = this.XMLParser.createElement("endDate");
+            Text insuranceContractEndDate = this.XMLParser.createTextNode(DateFormatter.dateToString(insuranceContract.getEndDate()));
+            endDate.appendChild(insuranceContractEndDate);
+            insuranceContractNode.appendChild(endDate);
+            
+            this.XMLParser.addNode(insuranceContractNode);
+            DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
+            return true;
         } else {
-            throw new UnsupportedOperationException("Not supported yet.");
+            System.out.println("Return false");
         }
+        return false;
     }
 
     @Override
@@ -59,7 +90,8 @@ public class InsuranceContractDAO implements DAOInterface {
     @Override
     public boolean delete(Object value) {
         if (value instanceof String) {
-            return deleteInsuranceContract((String) value);
+          //  return deleteInsuranceContract((String) value);
+            return false;
         } else {
             throw new UnsupportedOperationException("Not supported yet.");
         }
@@ -84,61 +116,4 @@ public class InsuranceContractDAO implements DAOInterface {
         }
         return insuranceContracts;
     }
-    
-    private boolean addInsuranceContract(Object searchPattern) {
-        try {
-            List<Object> insuranceContract = new ArrayList<>();
-            insuranceContract.add(searchPattern);
-            NodeList idk = null;
-            Element node = null;
-            node.
-            
-            for (Object insuranceContract1 : insuranceContract) {
-                node = DocumentBuilderFactory
-                        .newInstance()
-                        .newDocumentBuilder().parse(new ByteArrayInputStream(insuranceContract1.getBytes())).getDocumentElement();
-            }
-            
-          //  Node iets = searchPattern;
-            this.XMLParser.addNode((Node) insuranceContract);
-            
-            return false;
-        } catch (SAXException | IOException ex) {
-            Logger.getLogger(InsuranceContractDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(InsuranceContractDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-    
-    private boolean deleteInsuranceContract(String searchPattern) {
-        List<Node> insuranceContractNodes = this.XMLParser.findElementsByName("contract", searchPattern);
-        boolean deleteContract = false;
-        Document doc = null;
-        
-        try {
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            doc = documentBuilder.parse("InsuranceContract.xml");
-        } catch (SAXException | IOException | ParserConfigurationException ex) {
-            Logger.getLogger(InsuranceContractDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        if(!insuranceContractNodes.isEmpty()) {
-            Element test = (Element) insuranceContractNodes.get(0);
-            test.getParentNode().removeChild(test);
-            deleteContract = true;
-            try {
-                TransformerFactory tf = TransformerFactory.newInstance();
-                Transformer t = tf.newTransformer();
-                t.transform(new DOMSource(doc), new StreamResult(new File("InsuranceContract.xml")));
-            } catch (TransformerException ex) {
-                Logger.getLogger(InsuranceContractDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            deleteContract = false;
-        }
-        return deleteContract;
-    }
-
 }
