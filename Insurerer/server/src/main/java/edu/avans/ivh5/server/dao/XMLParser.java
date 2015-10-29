@@ -105,7 +105,7 @@ public class XMLParser {
                 
                 // If any of the values match the string, this is the node that we need
                 String nodeValue = getNodeValue(childNode);
-                if(nodeValue.contains(searchPattern))
+                if(nodeValue.contains(searchPattern.toLowerCase()))
                     nodeList.add(currentNode);
             }
         }
@@ -240,7 +240,7 @@ public class XMLParser {
      */
     public static String getNodeValue(Node node)
     {
-        return node.getLastChild().getTextContent().trim();
+        return node.getLastChild().getTextContent().trim().toLowerCase();
     }
     /*
     public static void main(String[] args)
