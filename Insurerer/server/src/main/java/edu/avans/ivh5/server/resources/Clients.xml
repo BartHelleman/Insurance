@@ -39,4 +39,16 @@
         <email>b.karatas0@gmail.com</email>
         <tel>12346589</tel>
     </client>
+        <client>
+        <BSN>500005243</BSN>
+        <name>Bakels</name>
+        <firstName>Rico</firstName>
+        <city>Breda</city>
+        <postcode>4539FS</postcode>
+        <address>Ergens</address>
+        <IBAN>NL23Rabo2463156789</IBAN>
+        <incasso>false</incasso>
+        <email>Rico@gmail.com</email>
+        <tel>0658324192</tel>
+    </client>
 </clients>

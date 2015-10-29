@@ -5,7 +5,6 @@
  */
 package edu.avans.ivh5.client.presentation;
 
-
 import edu.avans.ivh5.client.businesslogic.ClientManager;
 import edu.avans.ivh5.shared.models.Client;
 import java.awt.Frame;
@@ -34,7 +33,7 @@ public class ClientGUI extends javax.swing.JFrame {
         this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
         this.clientManager = new ClientManager();
-        
+
     }
 
     /**
@@ -545,7 +544,7 @@ public class ClientGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "De ingevoerde achteraam is onjuist. Een naam mag enkel letters, spaties en - bevatten.", "Onjuiste achternaam", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         /**
          * Valid BSN message
          */
@@ -570,30 +569,30 @@ public class ClientGUI extends javax.swing.JFrame {
         /**
          * Valid city message
          */
-        if(validCity == false) {
+        if (validCity == false) {
             JOptionPane.showMessageDialog(null, "De ingevoerde plaats is onjuist. Een plaats mag enkel letters, spaties en de symbolen ' - bevatten.", "Onjuiste plaats", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         /**
          * Valid tel message
          */
-        if(validTel == false) {
+        if (validTel == false) {
             JOptionPane.showMessageDialog(null, "Het ingevoerde telefoonnummer is onjuist. Een telefoonnummer kan ekel cijfers en de symbolen - + bevatten.", "Onjuist telefoonnummer", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         /**
-         *  Valid email message
+         * Valid email message
          */
-        if(validEmail == false) {
+        if (validEmail == false) {
             JOptionPane.showMessageDialog(null, "Het ingevoerde mailadres is onjuist.", "Onjuist mailadres", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        if(validIBAN == false) {
-             JOptionPane.showMessageDialog(null, "Het ingevoerde IBAN nummer is onjuist. Controleer uw invoer.", "Onjuist IBAN nummer", JOptionPane.ERROR_MESSAGE);
-             return;
+
+        if (validIBAN == false) {
+            JOptionPane.showMessageDialog(null, "Het ingevoerde IBAN nummer is onjuist. Controleer uw invoer.", "Onjuist IBAN nummer", JOptionPane.ERROR_MESSAGE);
+            return;
         }
         /**
          * client succesfully added message
@@ -609,14 +608,25 @@ public class ClientGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_saveClientButtonActionPerformed
 
     private void deleteClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteClientButtonActionPerformed
+        DefaultTableModel tableModel = (DefaultTableModel) clientsTable.getModel();
         Object[] options = {"Ja", "Nee"};
-        JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze client wilt verwijderen?", "Verwijderen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+        
+            if (clientsTable.getSelectedRowCount() != 1) {
+                System.out.println("Selecteer één persoon");
+            } else {
+                int action = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze client wilt verwijderen?", "Verwijderen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+                System.out.println("" + action);
+                if (action == 0) {
+                    clientManager.deleteClient((String) clientsTable.getValueAt(clientsTable.getSelectedRow(), 2));
+                    tableModel.removeRow(clientsTable.getSelectedRow());
+                }
+            }
     }//GEN-LAST:event_deleteClientButtonActionPerformed
 
     private void searchClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchClientButtonActionPerformed
 
         DefaultTableModel tableModel = (DefaultTableModel) clientsTable.getModel();
-        
+
         if (tableModel.getRowCount()
                 > 0) {
             for (int i = tableModel.getRowCount() - 1; i > -1; i--) {
@@ -756,46 +766,50 @@ public class ClientGUI extends javax.swing.JFrame {
         }
         return false;
     }
+
     /**
      *
-     * @param email check email validate by RFC 5322 offical standard with regex.
-     * @return 
+     * @param email check email validate by RFC 5322 offical standard with
+     * regex.
+     * @return
      */
     private boolean isValidEmail(String email) {
-        if(email.matches("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")) {
+        if (email.matches("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")) {
             return true;
         }
         return false;
     }
+
     /**
-     * 
+     *
      * @param city check validate with regex.
-     * @return 
+     * @return
      */
     private boolean isValidCity(String city) {
-        if(city.matches("^([ \\u00c0-\\u01ffa-zA-Z'\\-])+$")) {
+        if (city.matches("^([ \\u00c0-\\u01ffa-zA-Z'\\-])+$")) {
             return true;
         }
         return false;
     }
+
     /**
-     * 
+     *
      * @param tel check validate telnumber with regex (made by Burak).
-     * @return 
+     * @return
      */
     private boolean isValidTel(String tel) {
-        if(tel.matches("^(\\+?)[\\d+]{0,5}(\\d|\\s|\\-)[\\d+]{0,8}$")) {
+        if (tel.matches("^(\\+?)[\\d+]{0,5}(\\d|\\s|\\-)[\\d+]{0,8}$")) {
             return true;
         }
         return false;
     }
-    
+
     /**
-     * 
+     *
      * @param IBAN check validate IBAN with regex.
-     * @return 
+     * @return
      */
-    private boolean isValidIBAN (String IBAN) {
+    private boolean isValidIBAN(String IBAN) {
         if (IBAN.matches("[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}")) {
             return true;
         }

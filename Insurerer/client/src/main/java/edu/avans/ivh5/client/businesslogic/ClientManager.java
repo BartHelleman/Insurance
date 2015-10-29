@@ -58,8 +58,8 @@ public class ClientManager {
 
     }
 
-    public void deleteClient(Client client) {
-
+    public void deleteClient(String clientBSN) {
+        clientDAO.delete(clientBSN);
     }
 
     public void changeClient(Client oldClient, Client newClient) {
