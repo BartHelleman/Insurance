@@ -4,24 +4,24 @@
     xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
     xsi:noNamespaceSchemaLocation='InsuranceContracts.xsd'>
     <contract>
-        <ownRisk>200</ownRisk>
         <clientName>Burak</clientName>
+        <ownRisk>200</ownRisk>
         <insuranceID>001</insuranceID>
         <startDate>2015-10-10</startDate>
         <endDate>2016-12-10</endDate>
     </contract>    
 
     <contract>
-        <ownRisk>150</ownRisk>
         <clientName>Rico</clientName>
+        <ownRisk>150</ownRisk>
         <insuranceID>002</insuranceID>
         <startDate>2015-09-15</startDate>
         <endDate>2016-11-18</endDate>
     </contract> 
     
     <contract>
-        <ownRisk>50</ownRisk>
         <clientName>Bart</clientName>
+        <ownRisk>50</ownRisk>
         <insuranceID>003</insuranceID>
         <startDate>2015-08-05</startDate>
         <endDate>2016-12-28</endDate>

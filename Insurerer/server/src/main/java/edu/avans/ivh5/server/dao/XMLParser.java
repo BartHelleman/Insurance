@@ -207,6 +207,7 @@ public class XMLParser {
         }
     }
 
+
     public File getXmlFile() {
         return xmlFile;
     }
@@ -244,6 +245,7 @@ public class XMLParser {
     {
         return node.getLastChild().getTextContent().trim();
     }
+    
     /*
     public static void main(String[] args)
     {

@@ -10,6 +10,7 @@ import edu.avans.ivh5.client.presentation.LoginGUI;
 import edu.avans.ivh5.client.presentation.LoginGUI2;
 import edu.avans.ivh5.client.presentation.MainGUI;
 import edu.avans.ivh5.client.presentation.UserGUI;
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 
 public class Main {
@@ -19,14 +20,14 @@ public class Main {
         InsuranceGUI insuranceGUI = new InsuranceGUI(insuranceManager);
         insuranceGUI.setVisible(true);
 
-        
+        */
         InvoiceManager invoiceManager = new InvoiceManager();
         InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
         invoiceGUI.setVisible(true);
-       */
-
+       
        // LoginGUI2 loginGUI = new LoginGUI2();
         //loginGUI.setVisible(true);
+
         //UserGUI userGUI = new UserGUI();
         //userGUI.setVisible(true);
         //InsuranceCompanyGUI insuranceCompanyGUI = new InsuranceCompanyGUI();
@@ -46,4 +47,5 @@ public class Main {
         ClientGUI GUI = new ClientGUI();
         GUI.setVisible(true);
     } 
+
 }
