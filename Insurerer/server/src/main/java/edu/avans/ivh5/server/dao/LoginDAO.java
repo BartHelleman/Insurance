@@ -56,12 +56,36 @@ public class LoginDAO implements DAOInterface {
 
     @Override
     public boolean change(Object oldObject, Object newObject) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!(oldObject instanceof User) || !(newObject instanceof User))
+            throw new RuntimeException("The object types must be type of 'User' ");
+        
+        User oldUser = (User)oldObject;
+        User newUser = (User)newObject;
+        
+        if(delete(oldUser.getUsername()))
+            return add(newUser);
+        return false;
     }
 
     @Override
     public boolean delete(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Object> result = get(object.toString());
+        if(result.size() != 1)
+            return false;
+        
+        if(object instanceof String)
+        {
+            String searchPattern = (String)object;
+            User userToDelete = (User)result.get(0);
+            
+            List<Node> nodes = this.XMLParser.findElementsByName("account", userToDelete.getUsername());
+            for(Node node : nodes) {
+                this.XMLParser.deleteNode(node);
+            }
+            DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
+            return true;
+        }
+        return false;
     }
     
     private List<Object> getUsers(String searchPattern) {
