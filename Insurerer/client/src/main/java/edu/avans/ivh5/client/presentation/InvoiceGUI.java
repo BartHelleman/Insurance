@@ -221,10 +221,13 @@ public class InvoiceGUI extends javax.swing.JFrame {
         int insuranceID = 0;
         String name = displayInvoice();
 
-        if (!ownRiskField.getText().isEmpty()) {
+        if (!ownRiskField.getText().isEmpty() && ownRiskField.getText().matches("[0-9]+")) {
+            if(Integer.parseInt(ownRiskField.getText()) > 0) {
             ownRisk = new BigDecimal(ownRiskField.getText());
+            }
         } else {
             ownRiskField.setBackground(red);
+            
         }
 
         if (!insuranceIDField.getText().isEmpty()) {

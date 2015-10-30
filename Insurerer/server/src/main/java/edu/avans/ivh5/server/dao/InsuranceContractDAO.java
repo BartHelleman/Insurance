@@ -2,23 +2,12 @@ package edu.avans.ivh5.server.dao;
 
 import edu.avans.ivh5.shared.models.InsuranceContract;
 import edu.avans.ivh5.shared.util.DateFormatter;
-import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
@@ -88,13 +77,22 @@ public class InsuranceContractDAO implements DAOInterface {
     }
 
     @Override
-    public boolean delete(Object value) {
-        if (value instanceof String) {
-          //  return deleteInsuranceContract((String) value);
-            return false;
-        } else {
-            throw new UnsupportedOperationException("Not supported yet.");
+    public boolean delete(Object searchPattern) {
+        List<Object> result = get(searchPattern);
+        //List<Client> clientToDelete = new ArrayList<>();
+        InsuranceContract contractToDelete;
+        if (searchPattern instanceof String) {
+
+            contractToDelete = (InsuranceContract) result.get(0);
+
+            List<Node> nodes = this.XMLParser.findElementsByName("contract", contractToDelete.getClientName());
+            nodes.stream().forEach((node) -> {
+                this.XMLParser.deleteNode(node);
+            });
+            DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
+            return true;
         }
+        return false;
     }
 
     private List<Object> getInsuranceContract(String searchPattern) {

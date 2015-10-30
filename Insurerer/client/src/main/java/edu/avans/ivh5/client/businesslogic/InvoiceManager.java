@@ -67,12 +67,8 @@ public class InvoiceManager {
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             System.out.println("Error message:" + ex.getMessage());
         }
-        
-        if(InsuranceContractDAO.delete("Burak") == false) {
-            System.out.println("Persoon kon niet worden verwijderd");
-        } else {
-            insuranceContract = InsuranceContractDAO.delete("Burak");
-        }
+
+            insuranceContract = InsuranceContractDAO.delete(clientName);
     }
 
     public Invoice getInvoice(Treatment treatment) {

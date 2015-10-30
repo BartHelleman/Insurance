@@ -22,6 +22,10 @@ public class Main {
         invoiceGUI.setVisible(true);
        
     //   build();
+       
+
+//       build();
+
 
         //UserGUI userGUI = new UserGUI();
         //userGUI.setVisible(true);
@@ -32,7 +36,7 @@ public class Main {
         //invoiceGUI.setVisible(true);
         //build();
     }
-
+/*
     private static void build() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -41,5 +45,5 @@ public class Main {
         }
         ClientGUI GUI = new ClientGUI();
         GUI.setVisible(true);
-    } 
+    } */
 }
