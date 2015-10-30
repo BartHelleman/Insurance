@@ -7,6 +7,7 @@ import edu.avans.ivh5.client.presentation.InsuranceCompanyGUI;
 import edu.avans.ivh5.client.presentation.InsuranceGUI;
 import edu.avans.ivh5.client.presentation.InvoiceGUI;
 import edu.avans.ivh5.client.presentation.UserGUI;
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 
 public class Main {
@@ -46,4 +47,5 @@ public class Main {
         ClientGUI GUI = new ClientGUI();
         GUI.setVisible(true);
     } */
+
 }

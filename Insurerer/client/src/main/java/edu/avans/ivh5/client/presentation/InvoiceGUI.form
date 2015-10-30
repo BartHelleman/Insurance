@@ -38,6 +38,9 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="panelPolis">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">

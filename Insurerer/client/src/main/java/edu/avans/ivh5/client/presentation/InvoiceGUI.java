@@ -54,7 +54,6 @@ public class InvoiceGUI extends javax.swing.JFrame {
         displayErrorArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1920, 1080));
 
         backButton.setText("< - -");
 
@@ -288,7 +287,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     private javax.swing.JTextField ownRiskField;
-    private javax.swing.JPanel panelPolis;
+    javax.swing.JPanel panelPolis;
     private javax.swing.JButton saveButton;
     private javax.swing.JTextField startDateField;
     // End of variables declaration//GEN-END:variables
