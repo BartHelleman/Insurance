@@ -113,7 +113,6 @@ public class InsuranceCompanyDAO implements DAOInterface {
 
             companies.add(new InsuranceCompany(name, city, postcode, address, KVK));
         });
-
         return companies;
     }
 

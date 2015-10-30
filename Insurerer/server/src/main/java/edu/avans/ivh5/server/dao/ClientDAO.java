@@ -116,8 +116,6 @@ public class ClientDAO implements DAOInterface {
                 return false;
         
         if (searchPattern instanceof String) {
-            if(result.size() != 1)
-                return false;
             
             Client clientToDelete = (Client) result.get(0);
 
