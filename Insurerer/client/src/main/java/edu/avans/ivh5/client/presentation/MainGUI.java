@@ -85,9 +85,7 @@ public class MainGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel1ComponentShown
-        clientGUI = new ClientGUI();
-        clientGUI.setVisible(true);
-        System.out.println("hij doet iets");
+
     }//GEN-LAST:event_jPanel1ComponentShown
 
     

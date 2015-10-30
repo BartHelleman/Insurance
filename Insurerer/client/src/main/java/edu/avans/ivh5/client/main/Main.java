@@ -7,7 +7,7 @@ import edu.avans.ivh5.client.presentation.InsuranceCompanyGUI;
 import edu.avans.ivh5.client.presentation.InsuranceGUI;
 import edu.avans.ivh5.client.presentation.InvoiceGUI;
 import edu.avans.ivh5.client.presentation.LoginGUI;
-import edu.avans.ivh5.client.presentation.LoginGUI2;
+import edu.avans.ivh5.client.presentation.LoginGUI;
 import edu.avans.ivh5.client.presentation.MainGUI;
 import edu.avans.ivh5.client.presentation.UserGUI;
 import javax.swing.JFrame;
@@ -20,12 +20,13 @@ public class Main {
         InsuranceGUI insuranceGUI = new InsuranceGUI(insuranceManager);
         insuranceGUI.setVisible(true);
 
-        */
+        
         InvoiceManager invoiceManager = new InvoiceManager();
         InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
         invoiceGUI.setVisible(true);
-       
-       // LoginGUI2 loginGUI = new LoginGUI2();
+       */
+        
+        LoginGUI loginGUI = new LoginGUI();
         //loginGUI.setVisible(true);
 
         //UserGUI userGUI = new UserGUI();
@@ -35,7 +36,7 @@ public class Main {
         //InvoiceManager invoiceManager = new InvoiceManager();
         //InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
         //invoiceGUI.setVisible(true);
-        build();
+        //build();
     }
 
     private static void build() {
