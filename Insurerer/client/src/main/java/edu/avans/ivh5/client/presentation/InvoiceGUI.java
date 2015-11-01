@@ -1,14 +1,20 @@
 package edu.avans.ivh5.client.presentation;
 
 import edu.avans.ivh5.client.businesslogic.InvoiceManager;
+import edu.avans.ivh5.server.dao.InsuranceDAO;
 import edu.avans.ivh5.shared.models.InsuranceContract;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -166,6 +172,12 @@ public class InvoiceGUI extends javax.swing.JFrame {
 
     public final String displayInvoice() {
         InsuranceContract contract = manager.getInsuranceContract(null);
+         try {
+            InsuranceDAO dao = new InsuranceDAO();
+            dao.get("");
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            Logger.getLogger(InvoiceGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         String clientName = contract.getClientName();
 
         if (contract.getOwnRisk() == null) {
