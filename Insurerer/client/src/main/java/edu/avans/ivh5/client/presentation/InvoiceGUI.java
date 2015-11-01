@@ -281,7 +281,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     private javax.swing.JTextField ownRiskField;
-    private javax.swing.JPanel panelPolis;
+    javax.swing.JPanel panelPolis;
     private javax.swing.JButton saveButton;
     private javax.swing.JTextField startDateField;
     // End of variables declaration//GEN-END:variables

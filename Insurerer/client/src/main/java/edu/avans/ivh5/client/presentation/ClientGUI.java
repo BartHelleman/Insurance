@@ -80,6 +80,8 @@ public class ClientGUI extends javax.swing.JFrame {
         clientIBANTextField = new javax.swing.JTextField();
         clientEmailLabel1 = new javax.swing.JLabel();
         polisCheckBox = new javax.swing.JCheckBox();
+        jLabel3 = new javax.swing.JLabel();
+        declineButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -100,7 +102,6 @@ public class ClientGUI extends javax.swing.JFrame {
                 return false;
             }}
         );
-        clientsTable.setColumnSelectionAllowed(false);
         clientsTable.getTableHeader().setResizingAllowed(false);
         clientsTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(clientsTable);
@@ -288,6 +289,18 @@ public class ClientGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 102, 255));
+        jLabel3.setText("Client Toevoegen");
+
+        declineButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        declineButton.setText("Annuleren");
+        declineButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                declineButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout clientPanelLayout = new javax.swing.GroupLayout(clientPanel);
         clientPanel.setLayout(clientPanelLayout);
         clientPanelLayout.setHorizontalGroup(
@@ -295,55 +308,57 @@ public class ClientGUI extends javax.swing.JFrame {
             .addGroup(clientPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, clientPanelLayout.createSequentialGroup()
+                        .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(clientFirstNameLabel)
+                            .addComponent(clientLastNameLabel)
+                            .addComponent(clientBSNLabel)
+                            .addComponent(clientAddressLabel)
+                            .addComponent(clientPostCodeLabel)
+                            .addComponent(clientCityLabel)
+                            .addComponent(clientTelLabel)
+                            .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(clientIncassoLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(clientPanelLayout.createSequentialGroup()
+                                    .addComponent(clientEmailLabel1)
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(clientPanelLayout.createSequentialGroup()
+                                    .addComponent(clientPolisLabel)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                                    .addComponent(polisCheckBox))))
+                        .addGap(18, 18, 18)
+                        .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(clientEmailTextField)
+                                .addComponent(clientCityTextField)
+                                .addComponent(clientPostCodeTextField)
+                                .addComponent(clientAddressTextField)
+                                .addComponent(clientBSNTextField)
+                                .addComponent(clientLastNameTextField)
+                                .addComponent(clientFirstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(clientTelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(clientIBANTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(clientIncassoCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addInsuranceContractButton, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(saveClientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(clientPanelLayout.createSequentialGroup()
-                        .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(clientPanelLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(getInvoiceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(clientPanelLayout.createSequentialGroup()
-                                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(clientFirstNameLabel)
-                                    .addComponent(clientLastNameLabel)
-                                    .addComponent(clientBSNLabel)
-                                    .addComponent(clientAddressLabel)
-                                    .addComponent(clientPostCodeLabel)
-                                    .addComponent(clientCityLabel)
-                                    .addComponent(clientTelLabel)
-                                    .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(clientIncassoLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(clientPanelLayout.createSequentialGroup()
-                                            .addComponent(clientEmailLabel1)
-                                            .addGap(0, 97, Short.MAX_VALUE))
-                                        .addGroup(clientPanelLayout.createSequentialGroup()
-                                            .addComponent(clientPolisLabel)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(polisCheckBox))))
-                                .addGap(18, 18, 18)
-                                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(clientEmailTextField)
-                                        .addComponent(clientCityTextField)
-                                        .addComponent(clientPostCodeTextField)
-                                        .addComponent(clientAddressTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
-                                        .addComponent(clientBSNTextField)
-                                        .addComponent(clientLastNameTextField)
-                                        .addComponent(clientFirstNameTextField))
-                                    .addComponent(clientTelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(clientIBANTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(clientIncassoCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(addInsuranceContractButton, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(saveClientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 14, Short.MAX_VALUE)))
-                        .addGap(13, 13, 13))
-                    .addGroup(clientPanelLayout.createSequentialGroup()
-                        .addComponent(clientEmailLabel)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(clientEmailLabel))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, clientPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(getInvoiceButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(declineButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         clientPanelLayout.setVerticalGroup(
             clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(clientPanelLayout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, clientPanelLayout.createSequentialGroup()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(clientFirstNameLabel)
                     .addComponent(clientFirstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -392,8 +407,10 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addComponent(saveClientButton)
                 .addGap(20, 20, 20)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(getInvoiceButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(declineButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -426,7 +443,7 @@ public class ClientGUI extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 249, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 246, Short.MAX_VALUE)
                 .addComponent(clientPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(73, 73, 73))
         );
@@ -435,23 +452,21 @@ public class ClientGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(clientPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(searchClientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(searchClientTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 18, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(addClientButton)
                             .addComponent(deleteClientButton))
-                        .addGap(52, 52, 52))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(clientPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addGap(51, 51, 51))))
         );
 
         searchClientTextField.getAccessibleContext().setAccessibleName("");
@@ -600,6 +615,9 @@ public class ClientGUI extends javax.swing.JFrame {
         boolean result = clientManager.addClient(client);
         if (result == true) {
             JOptionPane.showMessageDialog(null, "De client is succesvol toegevoegd.", "Toevoegen", JOptionPane.INFORMATION_MESSAGE);
+            clientPanel.setVisible(false);
+            emptyTextFields();
+
         } else {
             JOptionPane.showMessageDialog(null, "Dit BSN nummer is al bekend in het systeem.", "Klant bestaat al", JOptionPane.ERROR_MESSAGE);
         }
@@ -610,17 +628,17 @@ public class ClientGUI extends javax.swing.JFrame {
     private void deleteClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteClientButtonActionPerformed
         DefaultTableModel tableModel = (DefaultTableModel) clientsTable.getModel();
         Object[] options = {"Ja", "Nee"};
-        
-            if (clientsTable.getSelectedRowCount() != 1) {
-                System.out.println("Selecteer één persoon");
-            } else {
-                int action = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze client wilt verwijderen?", "Verwijderen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-                System.out.println("" + action);
-                if (action == 0) {
-                    clientManager.deleteClient((String) clientsTable.getValueAt(clientsTable.getSelectedRow(), 2));
-                    tableModel.removeRow(clientsTable.getSelectedRow());
-                }
+
+        if (clientsTable.getSelectedRowCount() != 1) {
+            System.out.println("Selecteer één persoon");
+        } else {
+            int action = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze client wilt verwijderen?", "Verwijderen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+            System.out.println("" + action);
+            if (action == 0) {
+                clientManager.deleteClient((String) clientsTable.getValueAt(clientsTable.getSelectedRow(), 2));
+                tableModel.removeRow(clientsTable.getSelectedRow());
             }
+        }
     }//GEN-LAST:event_deleteClientButtonActionPerformed
 
     private void searchClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchClientButtonActionPerformed
@@ -654,8 +672,21 @@ public class ClientGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_polisCheckBoxActionPerformed
 
     private void addInsuranceContractButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInsuranceContractButtonActionPerformed
-        // TODO add your handling code here:
+        InvoiceGUI invoiceGUI = new InvoiceGUI();
+        
     }//GEN-LAST:event_addInsuranceContractButtonActionPerformed
+
+    private void declineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_declineButtonActionPerformed
+     Object[] options = {"Ja", "Nee"};
+        
+        int result = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze invoer wilt unnuleren?", "Annuleren", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+        if(result == JOptionPane.YES_OPTION) {
+            clientPanel.setVisible(false);
+            emptyTextFields();
+        }
+        
+            
+    }//GEN-LAST:event_declineButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -815,6 +846,21 @@ public class ClientGUI extends javax.swing.JFrame {
         }
         return false;
     }
+
+    /**
+     * clear TextField add Client Panal
+     */
+    public void emptyTextFields() {
+        clientFirstNameTextField.setText("");
+        clientLastNameTextField.setText("");
+        clientBSNTextField.setText("");
+        clientAddressTextField.setText("");
+        clientPostCodeTextField.setText("");
+        clientCityTextField.setText("");
+        clientTelTextField.setText("");
+        clientEmailTextField.setText("");
+        clientIBANTextField.setText("");
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addClientButton;
     private javax.swing.JButton addInsuranceContractButton;
@@ -841,10 +887,12 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JLabel clientTelLabel;
     private javax.swing.JTextField clientTelTextField;
     private javax.swing.JTable clientsTable;
+    private javax.swing.JButton declineButton;
     private javax.swing.JButton deleteClientButton;
     private javax.swing.JButton getInvoiceButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JCheckBox polisCheckBox;

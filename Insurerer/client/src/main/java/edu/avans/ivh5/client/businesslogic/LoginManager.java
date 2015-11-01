@@ -4,14 +4,16 @@ import edu.avans.ivh5.server.dao.LoginDAO;
 import edu.avans.ivh5.shared.models.User;
 import edu.avans.ivh5.shared.util.BCrypt;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 public class LoginManager {
 
     //private LoginDAO loginDAO = new LoginDAO();
-    private User user;
     private LoginDAO loginDAO;
+    private List<User> users = new ArrayList<>();
 
     public boolean login(String username, String password) {
 
@@ -21,10 +23,18 @@ public class LoginManager {
             System.out.println("Er is een exception: " + e.getMessage());
         }
 
-        user = (User) loginDAO.get(username).get(0);
+        if (!loginDAO.get(username).isEmpty()) {
 
-
-        return user.getUsername().equals(username) && BCrypt.checkpw(password, user.getPassword()); // Login succesful
+            for (Object o : loginDAO.get(username)) {
+                users.add((User) o);
+            }
+            for (User u : users) {
+                if (username.equals(u.getUsername())) {
+                    return u.getUsername().equals(username) && BCrypt.checkpw(password, u.getPassword()); // Login succesful
+                }
+            }
+        }
+        return false;
         // Login unsuccesful
 
     }

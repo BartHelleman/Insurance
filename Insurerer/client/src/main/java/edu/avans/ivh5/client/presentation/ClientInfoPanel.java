@@ -5,36 +5,21 @@
  */
 package edu.avans.ivh5.client.presentation;
 
-
-import edu.avans.ivh5.client.businesslogic.ClientManager;
 import edu.avans.ivh5.shared.models.Client;
-import java.awt.Frame;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JFrame;
+import edu.avans.ivh5.client.businesslogic.*;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-
 /**
  *
  * @author Bart Donders
  */
-public class ClientGUI extends javax.swing.JFrame {
-
-    //relaties
-    private ClientManager clientManager;
-    private List<Client> clienten;
-
+public class ClientInfoPanel extends javax.swing.JPanel {
+private ClientManager clientManager;
     /**
-     * Creates new form ClientGUI
+     * Creates new form NewJPanel
      */
-    public ClientGUI() {
-        this.clienten = new ArrayList<>();
+    public ClientInfoPanel(ClientManager clientManager) {
+        this.clientManager = clientManager;
         initComponents();
-        this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-
-        this.clientManager = new ClientManager();
-        
     }
 
     /**
@@ -46,13 +31,6 @@ public class ClientGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        clientsTable = new javax.swing.JTable();
-        searchClientButton = new javax.swing.JButton();
-        searchClientTextField = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        addClientButton = new javax.swing.JButton();
-        deleteClientButton = new javax.swing.JButton();
         clientPanel = new javax.swing.JPanel();
         clientFirstNameLabel = new javax.swing.JLabel();
         clientLastNameLabel = new javax.swing.JLabel();
@@ -81,62 +59,8 @@ public class ClientGUI extends javax.swing.JFrame {
         clientIBANTextField = new javax.swing.JTextField();
         clientEmailLabel1 = new javax.swing.JLabel();
         polisCheckBox = new javax.swing.JCheckBox();
-        jLabel2 = new javax.swing.JLabel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Clientbeheer");
-        setMinimumSize(null);
-        setName("Clientbeheer"); // NOI18N
-
-        clientsTable.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        clientsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Voornaam", "Achternaam", "BSN"
-            }
-        ){    @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }}
-        );
-        clientsTable.setColumnSelectionAllowed(false);
-        clientsTable.getTableHeader().setResizingAllowed(false);
-        clientsTable.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(clientsTable);
-
-        searchClientButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        searchClientButton.setText("Zoeken");
-        searchClientButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchClientButtonActionPerformed(evt);
-            }
-        });
-
-        searchClientTextField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        searchClientTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        searchClientTextField.setName(""); // NOI18N
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(51, 153, 255));
-        jLabel1.setText("Clientbeheer");
-
-        addClientButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        addClientButton.setText("Client toevoegen");
-        addClientButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addClientButtonActionPerformed(evt);
-            }
-        });
-
-        deleteClientButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        deleteClientButton.setText("Client verwijderen");
-        deleteClientButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteClientButtonActionPerformed(evt);
-            }
-        });
+        jLabel3 = new javax.swing.JLabel();
+        declineButton = new javax.swing.JButton();
 
         clientPanel.setVisible(false);
         clientPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -289,6 +213,18 @@ public class ClientGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 102, 255));
+        jLabel3.setText("Client Toevoegen");
+
+        declineButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        declineButton.setText("Annuleren");
+        declineButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                declineButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout clientPanelLayout = new javax.swing.GroupLayout(clientPanel);
         clientPanel.setLayout(clientPanelLayout);
         clientPanelLayout.setHorizontalGroup(
@@ -296,55 +232,57 @@ public class ClientGUI extends javax.swing.JFrame {
             .addGroup(clientPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, clientPanelLayout.createSequentialGroup()
+                        .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(clientFirstNameLabel)
+                            .addComponent(clientLastNameLabel)
+                            .addComponent(clientBSNLabel)
+                            .addComponent(clientAddressLabel)
+                            .addComponent(clientPostCodeLabel)
+                            .addComponent(clientCityLabel)
+                            .addComponent(clientTelLabel)
+                            .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(clientIncassoLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(clientPanelLayout.createSequentialGroup()
+                                    .addComponent(clientEmailLabel1)
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(clientPanelLayout.createSequentialGroup()
+                                    .addComponent(clientPolisLabel)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                                    .addComponent(polisCheckBox))))
+                        .addGap(18, 18, 18)
+                        .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(clientEmailTextField)
+                                .addComponent(clientCityTextField)
+                                .addComponent(clientPostCodeTextField)
+                                .addComponent(clientAddressTextField)
+                                .addComponent(clientBSNTextField)
+                                .addComponent(clientLastNameTextField)
+                                .addComponent(clientFirstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(clientTelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(clientIBANTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(clientIncassoCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addInsuranceContractButton, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(saveClientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(clientPanelLayout.createSequentialGroup()
-                        .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(clientPanelLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(getInvoiceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(clientPanelLayout.createSequentialGroup()
-                                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(clientFirstNameLabel)
-                                    .addComponent(clientLastNameLabel)
-                                    .addComponent(clientBSNLabel)
-                                    .addComponent(clientAddressLabel)
-                                    .addComponent(clientPostCodeLabel)
-                                    .addComponent(clientCityLabel)
-                                    .addComponent(clientTelLabel)
-                                    .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(clientIncassoLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(clientPanelLayout.createSequentialGroup()
-                                            .addComponent(clientEmailLabel1)
-                                            .addGap(0, 97, Short.MAX_VALUE))
-                                        .addGroup(clientPanelLayout.createSequentialGroup()
-                                            .addComponent(clientPolisLabel)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(polisCheckBox))))
-                                .addGap(18, 18, 18)
-                                .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(clientEmailTextField)
-                                        .addComponent(clientCityTextField)
-                                        .addComponent(clientPostCodeTextField)
-                                        .addComponent(clientAddressTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
-                                        .addComponent(clientBSNTextField)
-                                        .addComponent(clientLastNameTextField)
-                                        .addComponent(clientFirstNameTextField))
-                                    .addComponent(clientTelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(clientIBANTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(clientIncassoCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(addInsuranceContractButton, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(saveClientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 14, Short.MAX_VALUE)))
-                        .addGap(13, 13, 13))
-                    .addGroup(clientPanelLayout.createSequentialGroup()
-                        .addComponent(clientEmailLabel)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(clientEmailLabel))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, clientPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(getInvoiceButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(declineButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         clientPanelLayout.setVerticalGroup(
             clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(clientPanelLayout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, clientPanelLayout.createSequentialGroup()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(clientFirstNameLabel)
                     .addComponent(clientFirstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -393,117 +331,71 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addComponent(saveClientButton)
                 .addGap(20, 20, 20)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(getInvoiceButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(declineButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        clientFirstNameTextField.getAccessibleContext().setAccessibleName("");
-        clientFirstNameTextField.getAccessibleContext().setAccessibleDescription("");
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("Zoeken:");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(addClientButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(deleteClientButton))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(searchClientTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(searchClientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 249, Short.MAX_VALUE)
-                .addComponent(clientPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(73, 73, 73))
+            .addGap(0, 436, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(clientPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(searchClientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(searchClientTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(addClientButton)
-                            .addComponent(deleteClientButton))
-                        .addGap(52, 52, 52))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(clientPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+            .addGap(0, 629, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(clientPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
-
-        searchClientTextField.getAccessibleContext().setAccessibleName("");
-        searchClientTextField.getAccessibleContext().setAccessibleDescription("");
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addClientButtonActionPerformed
-        clientPanel.setVisible(true);
-    }//GEN-LAST:event_addClientButtonActionPerformed
-
-    private void clientIBANTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientIBANTextFieldActionPerformed
+    private void clientFirstNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientFirstNameTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_clientIBANTextFieldActionPerformed
-
-    private void getInvoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getInvoiceButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_getInvoiceButtonActionPerformed
-
-    private void clientEmailTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientEmailTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientEmailTextFieldActionPerformed
-
-    private void clientTelTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientTelTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientTelTextFieldActionPerformed
-
-    private void clientCityTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientCityTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientCityTextFieldActionPerformed
-
-    private void clientPostCodeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientPostCodeTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientPostCodeTextFieldActionPerformed
-
-    private void clientAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientAddressTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientAddressTextFieldActionPerformed
-
-    private void clientBSNTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientBSNTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientBSNTextFieldActionPerformed
+    }//GEN-LAST:event_clientFirstNameTextFieldActionPerformed
 
     private void clientLastNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientLastNameTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_clientLastNameTextFieldActionPerformed
 
-    private void clientFirstNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientFirstNameTextFieldActionPerformed
+    private void clientBSNTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientBSNTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_clientFirstNameTextFieldActionPerformed
+    }//GEN-LAST:event_clientBSNTextFieldActionPerformed
+
+    private void clientAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientAddressTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientAddressTextFieldActionPerformed
+
+    private void clientPostCodeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientPostCodeTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientPostCodeTextFieldActionPerformed
+
+    private void clientCityTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientCityTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientCityTextFieldActionPerformed
+
+    private void clientTelTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientTelTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientTelTextFieldActionPerformed
+
+    private void clientEmailTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientEmailTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientEmailTextFieldActionPerformed
+
+    private void addInsuranceContractButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInsuranceContractButtonActionPerformed
+        InvoiceGUI invoiceGUI = new InvoiceGUI();
+
+    }//GEN-LAST:event_addInsuranceContractButtonActionPerformed
 
     private void saveClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveClientButtonActionPerformed
         String BSN = clientBSNTextField.getText();
@@ -534,8 +426,8 @@ public class ClientGUI extends javax.swing.JFrame {
         boolean validIBAN = isValidIBAN(IBAN);
 
         /**
-         * Valid FirstName message
-         */
+        * Valid FirstName message
+        */
         if (validFirstName == false) {
             JOptionPane.showMessageDialog(null, "De ingevoerde voornaam is onjuist. Een naam mag enkel letters, spaties en - bevatten.", "Onjuiste voornaam", JOptionPane.ERROR_MESSAGE);
             return;
@@ -545,144 +437,94 @@ public class ClientGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "De ingevoerde achteraam is onjuist. Een naam mag enkel letters, spaties en - bevatten.", "Onjuiste achternaam", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         /**
-         * Valid BSN message
-         */
+        * Valid BSN message
+        */
         if (validBSN == false) {
             JOptionPane.showMessageDialog(null, "Het ingevoerde BSN is niet valide.", "Onjuiste BSN", JOptionPane.ERROR_MESSAGE);
             return;
         }
         /**
-         * Valid address message
-         */
+        * Valid address message
+        */
         if (validAddress == false) {
             JOptionPane.showMessageDialog(null, "Het ingevoerde adres is onjuist.", "Onjuist adres", JOptionPane.ERROR_MESSAGE);
             return;
         }
         /**
-         * Valid postcode message
-         */
+        * Valid postcode message
+        */
         if (validPostCode == false) {
             JOptionPane.showMessageDialog(null, "De ingevoerde postcode is onjuist. Postcode bevat vier cijfers en twee letters.", "Onjuiste Postcode", JOptionPane.ERROR_MESSAGE);
             return;
         }
         /**
-         * Valid city message
-         */
-        if(validCity == false) {
+        * Valid city message
+        */
+        if (validCity == false) {
             JOptionPane.showMessageDialog(null, "De ingevoerde plaats is onjuist. Een plaats mag enkel letters, spaties en de symbolen ' - bevatten.", "Onjuiste plaats", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         /**
-         * Valid tel message
-         */
-        if(validTel == false) {
+        * Valid tel message
+        */
+        if (validTel == false) {
             JOptionPane.showMessageDialog(null, "Het ingevoerde telefoonnummer is onjuist. Een telefoonnummer kan ekel cijfers en de symbolen - + bevatten.", "Onjuist telefoonnummer", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         /**
-         *  Valid email message
-         */
-        if(validEmail == false) {
+        * Valid email message
+        */
+        if (validEmail == false) {
             JOptionPane.showMessageDialog(null, "Het ingevoerde mailadres is onjuist.", "Onjuist mailadres", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        if(validIBAN == false) {
-             JOptionPane.showMessageDialog(null, "Het ingevoerde IBAN nummer is onjuist. Controleer uw invoer.", "Onjuist IBAN nummer", JOptionPane.ERROR_MESSAGE);
-             return;
+
+        if (validIBAN == false) {
+            JOptionPane.showMessageDialog(null, "Het ingevoerde IBAN nummer is onjuist. Controleer uw invoer.", "Onjuist IBAN nummer", JOptionPane.ERROR_MESSAGE);
+            return;
         }
         /**
-         * client succesfully added message
-         */
+        * client succesfully added message
+        */
         boolean result = clientManager.addClient(client);
         if (result == true) {
             JOptionPane.showMessageDialog(null, "De client is succesvol toegevoegd.", "Toevoegen", JOptionPane.INFORMATION_MESSAGE);
+            clientPanel.setVisible(false);
+            emptyTextFields();
+
         } else {
             JOptionPane.showMessageDialog(null, "Dit BSN nummer is al bekend in het systeem.", "Klant bestaat al", JOptionPane.ERROR_MESSAGE);
         }
 
-
     }//GEN-LAST:event_saveClientButtonActionPerformed
 
-    private void deleteClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteClientButtonActionPerformed
-        Object[] options = {"Ja", "Nee"};
-        JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze client wilt verwijderen?", "Verwijderen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-    }//GEN-LAST:event_deleteClientButtonActionPerformed
+    private void getInvoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getInvoiceButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_getInvoiceButtonActionPerformed
 
-    private void searchClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchClientButtonActionPerformed
-
-        DefaultTableModel tableModel = (DefaultTableModel) clientsTable.getModel();
-        
-        if (tableModel.getRowCount()
-                > 0) {
-            for (int i = tableModel.getRowCount() - 1; i > -1; i--) {
-                tableModel.removeRow(i);
-            }
-        }
-
-        clienten = clientManager.searchClient(searchClientTextField.getText());
-
-        //clientsTable
-        for (Client c : clienten) {
-
-            String firstName = c.getFirstName();
-            String lastName = c.getName();
-            String bsn = c.getBSN();
-
-            tableModel.addRow(new Object[]{firstName, lastName, bsn});
-
-        }
-
-    }//GEN-LAST:event_searchClientButtonActionPerformed
+    private void clientIBANTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientIBANTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientIBANTextFieldActionPerformed
 
     private void polisCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_polisCheckBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_polisCheckBoxActionPerformed
 
-    private void addInsuranceContractButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInsuranceContractButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addInsuranceContractButtonActionPerformed
+    private void declineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_declineButtonActionPerformed
+        Object[] options = {"Ja", "Nee"};
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ClientGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ClientGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ClientGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ClientGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        int result = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze invoer wilt unnuleren?", "Annuleren", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+        if(result == JOptionPane.YES_OPTION) {
+            clientPanel.setVisible(false);
+            emptyTextFields();
         }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ClientGUI().setVisible(true);
-            }
-        });
-    }
-
-    /**
+    }//GEN-LAST:event_declineButtonActionPerformed
+/**
      * Validate BSN according to
      * http://nl.wikipedia.org/wiki/Burgerservicenummer
      */
@@ -756,53 +598,71 @@ public class ClientGUI extends javax.swing.JFrame {
         }
         return false;
     }
+
     /**
      *
-     * @param email check email validate by RFC 5322 offical standard with regex.
-     * @return 
+     * @param email check email validate by RFC 5322 offical standard with
+     * regex.
+     * @return
      */
     private boolean isValidEmail(String email) {
-        if(email.matches("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")) {
+        if (email.matches("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")) {
             return true;
         }
         return false;
     }
+
     /**
-     * 
+     *
      * @param city check validate with regex.
-     * @return 
+     * @return
      */
     private boolean isValidCity(String city) {
-        if(city.matches("^([ \\u00c0-\\u01ffa-zA-Z'\\-])+$")) {
+        if (city.matches("^([ \\u00c0-\\u01ffa-zA-Z'\\-])+$")) {
             return true;
         }
         return false;
     }
+
     /**
-     * 
+     *
      * @param tel check validate telnumber with regex (made by Burak).
-     * @return 
+     * @return
      */
     private boolean isValidTel(String tel) {
-        if(tel.matches("^(\\+?)[\\d+]{0,5}(\\d|\\s|\\-)[\\d+]{0,8}$")) {
+        if (tel.matches("^(\\+?)[\\d+]{0,5}(\\d|\\s|\\-)[\\d+]{0,8}$")) {
             return true;
         }
         return false;
     }
-    
+
     /**
-     * 
+     *
      * @param IBAN check validate IBAN with regex.
-     * @return 
+     * @return
      */
-    private boolean isValidIBAN (String IBAN) {
+    private boolean isValidIBAN(String IBAN) {
         if (IBAN.matches("[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}")) {
             return true;
         }
         return false;
     }
+     /**
+     * clear TextField add Client Panal
+     */
+    public void emptyTextFields() {
+        clientFirstNameTextField.setText("");
+        clientLastNameTextField.setText("");
+        clientBSNTextField.setText("");
+        clientAddressTextField.setText("");
+        clientPostCodeTextField.setText("");
+        clientCityTextField.setText("");
+        clientTelTextField.setText("");
+        clientEmailTextField.setText("");
+        clientIBANTextField.setText("");
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addClientButton;
     private javax.swing.JButton addInsuranceContractButton;
     private javax.swing.JLabel clientAddressLabel;
     private javax.swing.JTextField clientAddressTextField;
@@ -826,17 +686,12 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JTextField clientPostCodeTextField;
     private javax.swing.JLabel clientTelLabel;
     private javax.swing.JTextField clientTelTextField;
-    private javax.swing.JTable clientsTable;
-    private javax.swing.JButton deleteClientButton;
+    private javax.swing.JButton declineButton;
     private javax.swing.JButton getInvoiceButton;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JCheckBox polisCheckBox;
     private javax.swing.JButton saveClientButton;
-    private javax.swing.JButton searchClientButton;
-    private javax.swing.JTextField searchClientTextField;
     private javax.swing.JTable treatmentsTable;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,19 +6,17 @@
 package edu.avans.ivh5.client.presentation;
 
 import edu.avans.ivh5.client.businesslogic.LoginManager;
-import java.util.Arrays;
 
 /**
  *
  * @author startklaar
  */
-public class LoginGUI extends javax.swing.JFrame {
+public class LoginGUI2 extends javax.swing.JFrame {
     LoginManager loginManager;
     /**
      * Creates new form LoginGUI2
      */
-    public LoginGUI() {
-        this.setVisible(true);
+    public LoginGUI2() {
         loginManager = new LoginManager();
         initComponents();
     }
@@ -35,10 +33,10 @@ public class LoginGUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         gebruikersnaamLabel = new javax.swing.JLabel();
         wachtwoordLabel = new javax.swing.JLabel();
+        gebruikersnaamField = new javax.swing.JTextField();
+        wachtwoordField = new javax.swing.JTextField();
         loginButton = new javax.swing.JButton();
         errorLabel = new javax.swing.JLabel();
-        wachtwoordField = new javax.swing.JPasswordField();
-        gebruikersnaamField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,6 +46,12 @@ public class LoginGUI extends javax.swing.JFrame {
         gebruikersnaamLabel.setText("Gebruikersnaam:");
 
         wachtwoordLabel.setText("Wachtwoord: ");
+
+        gebruikersnaamField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gebruikersnaamFieldActionPerformed(evt);
+            }
+        });
 
         loginButton.setText("Login");
         loginButton.addActionListener(new java.awt.event.ActionListener() {
@@ -59,24 +63,14 @@ public class LoginGUI extends javax.swing.JFrame {
         errorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         errorLabel.setText("jLabel2");
 
-        gebruikersnaamField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gebruikersnaamFieldActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
-                        .addGap(101, 101, 101))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
@@ -85,48 +79,53 @@ public class LoginGUI extends javax.swing.JFrame {
                                     .addComponent(wachtwoordLabel))
                                 .addGap(59, 59, 59)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(wachtwoordField)
-                                    .addComponent(gebruikersnaamField, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(84, 84, 84))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(121, 121, 121)
-                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(gebruikersnaamField)
+                                    .addComponent(wachtwoordField, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(100, 100, 100)
+                                .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(101, 101, 101))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(121, 121, 121)
+                        .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(114, 114, 114))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(45, 45, 45)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(wachtwoordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(gebruikersnaamLabel)
+                            .addComponent(gebruikersnaamField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(wachtwoordLabel)
+                        .addGap(5, 5, 5)))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(gebruikersnaamLabel)
-                    .addComponent(gebruikersnaamField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(wachtwoordLabel)
-                    .addComponent(wachtwoordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
                 .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(errorLabel)
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void gebruikersnaamFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gebruikersnaamFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_gebruikersnaamFieldActionPerformed
+
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         errorLabel.setVisible(false);
-        
-        String wachtwoord = new String (wachtwoordField.getPassword());
-        System.out.println(wachtwoord);
-        
-            if (gebruikersnaamField.getText().length() == 0 || wachtwoord.length() == 0) {
+            
+            if (gebruikersnaamField.getText().length() == 0 || wachtwoordField.getText().length() == 0) {
                 errorLabel.setText("naam en/of wachtwoord is leeg");
                 errorLabel.setVisible(true);
-            } else if (loginManager.login(gebruikersnaamField.getText(), wachtwoord)) {
+            } else if (loginManager.login(gebruikersnaamField.getText(), wachtwoordField.getText())) {
                 System.out.println("Je bent succesvol ingelogt");
                 MainGUI mainGUI = new MainGUI();
                 mainGUI.setVisible(true);
@@ -135,10 +134,6 @@ public class LoginGUI extends javax.swing.JFrame {
                 errorLabel.setVisible(true);
             }
     }//GEN-LAST:event_loginButtonActionPerformed
-
-    private void gebruikersnaamFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gebruikersnaamFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_gebruikersnaamFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -159,35 +154,34 @@ public class LoginGUI extends javax.swing.JFrame {
 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginGUI.class  
+            java.util.logging.Logger.getLogger(LoginGUI2.class  
 
 .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } 
 
 catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginGUI.class  
+            java.util.logging.Logger.getLogger(LoginGUI2.class  
 
 .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } 
 
 catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginGUI.class  
+            java.util.logging.Logger.getLogger(LoginGUI2.class  
 
 .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } 
 
 catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginGUI.class  
+            java.util.logging.Logger.getLogger(LoginGUI2.class  
 
 .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LoginGUI().setVisible(true);
+                new LoginGUI2().setVisible(true);
             }
         });
     }
@@ -198,7 +192,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
     private javax.swing.JLabel gebruikersnaamLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton loginButton;
-    private javax.swing.JPasswordField wachtwoordField;
+    private javax.swing.JTextField wachtwoordField;
     private javax.swing.JLabel wachtwoordLabel;
     // End of variables declaration//GEN-END:variables
 }

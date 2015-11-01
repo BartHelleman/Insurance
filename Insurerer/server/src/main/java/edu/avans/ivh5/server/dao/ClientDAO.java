@@ -90,24 +90,34 @@ public class ClientDAO implements DAOInterface {
         if (item instanceof String) {
             return getClients((String) item);
         } else if (item instanceof Client) {
-            //???
+            return getClients(((Client)item).getBSN());
         }
         throw new UnsupportedOperationException("The object type cannot be used to search in the XML files.");
     }
 
     @Override
     public boolean change(Object oldObject, Object newObject) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!(newObject instanceof Client) || !(oldObject instanceof Client))
+            throw new RuntimeException("Old and new clients must be client objects");
+        
+        Client oldClient = (Client)oldObject;
+        Client newClient = (Client)newObject;
+            
+        // First check if it could be deleted. If it can, check if it could be added
+        if(delete(oldClient.getBSN()))
+            return add(newClient);
+        return false;
     }
 
     @Override
     public boolean delete(Object searchPattern) {
         List<Object> result = get(searchPattern);
-        //List<Client> clientToDelete = new ArrayList<>();
-        Client clientToDelete;
+        if(result.size() != 1)
+                return false;
+        
         if (searchPattern instanceof String) {
-
-            clientToDelete = (Client) result.get(0);
+            
+            Client clientToDelete = (Client) result.get(0);
 
             List<Node> nodes = this.XMLParser.findElementsByName("client", clientToDelete.getBSN());
             for (Node node : nodes) {
