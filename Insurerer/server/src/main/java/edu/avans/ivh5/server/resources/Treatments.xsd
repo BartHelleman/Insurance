@@ -9,6 +9,7 @@
               <xs:element type="xs:string" name="code"/>
               <xs:element type="xs:decimal" name="priceSession"/>
               <xs:element type="xs:integer" name="amountSessions"/>
+               <xs:element type="xs:string" name="treatmentStatus"/>
             </xs:sequence>
           </xs:complexType>
         </xs:element>

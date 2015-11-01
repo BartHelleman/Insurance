@@ -7,6 +7,7 @@
         <code>001behandelcode001</code>
         <priceSession>15</priceSession>
         <amountSessions>10</amountSessions>
+        <treatmentStatus>betaald</treatmentStatus>
     </treatment>
 
     <treatment>
@@ -14,6 +15,7 @@
         <code>002behandelcode002</code>
         <priceSession>25</priceSession>
         <amountSessions>12</amountSessions>
+          <treatmentStatus>afgerond</treatmentStatus>
     </treatment>
     
     <treatment>

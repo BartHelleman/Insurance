@@ -26,6 +26,12 @@ public class InsuranceContract implements Serializable {
         return BSN;
     }
 
+    public InsuranceContract(BigDecimal ownRisk, String clientName, Integer insuranceID, Date startDate, Date endDate) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+   
+
     public BigDecimal getOwnRisk() {
         return ownRisk;
     }

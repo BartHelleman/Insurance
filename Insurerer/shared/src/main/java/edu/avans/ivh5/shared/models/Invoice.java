@@ -9,16 +9,18 @@ public class Invoice implements Serializable {
     private int invoiceNumber;
     private Date date, expirationDate;
     private BigDecimal VAT;
+    private String treatmentStatus;
     
     //relaties
     private Treatment treatment;
     private InsuranceCompany company;
 
-    public Invoice(int invoiceNumber, Date date, Date expirationDate, BigDecimal VAT) {
+    public Invoice(int invoiceNumber, Date date, Date expirationDate, BigDecimal VAT, String treatmentStatus) {
         this.invoiceNumber = invoiceNumber;
         this.date = date;
         this.expirationDate = expirationDate;
         this.VAT = VAT;
+        this.treatmentStatus = treatmentStatus;
     }
 
     public int getInvoiceNumber() {
@@ -35,6 +37,10 @@ public class Invoice implements Serializable {
 
     public BigDecimal getVAT() {
         return VAT;
+    }
+    
+    public String getTreatmentStatus(){
+        return treatmentStatus;
     }
     
     public BigDecimal getTotalAmount() {

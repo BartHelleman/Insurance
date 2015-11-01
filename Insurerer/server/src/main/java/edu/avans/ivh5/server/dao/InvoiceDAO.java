@@ -81,8 +81,9 @@ public class InvoiceDAO implements DAOInterface {
             Date date = DateFormatter.stringToDate(this.XMLParser.getValueByNodeName(invoiceNode, "date"));
             Date expirationDate = DateFormatter.stringToDate(this.XMLParser.getValueByNodeName(invoiceNode, "expirationDate"));
             BigDecimal VAT = new BigDecimal(this.XMLParser.getValueByNodeName(invoiceNode, "VAT"));
+            String treatmentStatus = this.XMLParser.getValueByNodeName(invoiceNode, "treatmentStatus");
+            invoices.add(new Invoice(invoiceNumber, date, expirationDate, VAT,treatmentStatus));
             
-            invoices.add(new Invoice(invoiceNumber, date, expirationDate, VAT));
         }
         
         return invoices;

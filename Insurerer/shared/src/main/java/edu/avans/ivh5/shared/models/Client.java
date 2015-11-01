@@ -5,6 +5,10 @@ import java.util.ArrayList;
 
 public class Client implements Serializable {
 
+    public static String getName(String username) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     private String BSN, tel;
     private String name, firstName, city, postcode, address, IBAN, email;
     private boolean incasso;
