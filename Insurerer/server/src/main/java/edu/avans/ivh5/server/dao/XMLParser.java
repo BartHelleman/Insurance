@@ -14,6 +14,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 
 public class XMLParser {
 
@@ -105,7 +106,8 @@ public class XMLParser {
                 
                 // If any of the values match the string, this is the node that we need
                 String nodeValue = getNodeValue(childNode);
-                if(nodeValue.contains(searchPattern))
+                //if(nodeValue.contains(searchPattern))
+                if(StringUtils.containsIgnoreCase(nodeValue, searchPattern))
                     nodeList.add(currentNode);
             }
         }
@@ -205,6 +207,7 @@ public class XMLParser {
         }
     }
 
+
     public File getXmlFile() {
         return xmlFile;
     }
@@ -242,6 +245,7 @@ public class XMLParser {
     {
         return node.getLastChild().getTextContent().trim();
     }
+    
     /*
     public static void main(String[] args)
     {

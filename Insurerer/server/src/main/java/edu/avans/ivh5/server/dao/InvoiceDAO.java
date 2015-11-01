@@ -1,5 +1,6 @@
 package edu.avans.ivh5.server.dao;
 
+import edu.avans.ivh5.shared.models.InsuranceContract;
 import edu.avans.ivh5.shared.models.Invoice;
 import java.io.IOException;
 import java.util.*;
@@ -67,7 +68,7 @@ public class InvoiceDAO implements DAOInterface {
     }
 
     @Override
-    public boolean delete(Object object) {
+    public boolean delete(Object value) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
@@ -75,9 +76,7 @@ public class InvoiceDAO implements DAOInterface {
         List<Object> invoices = new ArrayList<>();
         List<Node> invoiceNodes = this.XMLParser.findElementsByName("invoice", searchPattern);
         
-        for(int i = 0; i < invoiceNodes.size(); i++) {
-            Node invoiceNode = invoiceNodes.get(i);
-            
+        for (Node invoiceNode : invoiceNodes) {
             int invoiceNumber = Integer.parseInt(this.XMLParser.getValueByNodeName(invoiceNode, "invoiceNumber"));
             Date date = DateFormatter.stringToDate(this.XMLParser.getValueByNodeName(invoiceNode, "date"));
             Date expirationDate = DateFormatter.stringToDate(this.XMLParser.getValueByNodeName(invoiceNode, "expirationDate"));
@@ -88,5 +87,4 @@ public class InvoiceDAO implements DAOInterface {
         
         return invoices;
     }
-    
 }

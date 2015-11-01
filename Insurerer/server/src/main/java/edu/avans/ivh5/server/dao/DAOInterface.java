@@ -16,7 +16,7 @@ public interface DAOInterface {
     boolean add(Object item);
     List<Object> get(Object value);
     boolean change(Object oldObject, Object newObject);
-    boolean delete(Object object);
+    boolean delete(Object value);
     
     static void save(File file, Document document) {
         Transformer transformer = null;
