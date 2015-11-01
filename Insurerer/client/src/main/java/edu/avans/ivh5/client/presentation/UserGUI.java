@@ -13,7 +13,6 @@ public class UserGUI extends javax.swing.JFrame {
      */
     public UserGUI() {
         initComponents();
-        this.setVisible(true);
         errorLabel.setVisible(false);
         userManager = new UserManager();
     }
