@@ -1,11 +1,13 @@
 package edu.avans.ivh5.client.presentation;
 
 import edu.avans.ivh5.client.businesslogic.InsuranceManager;
+import edu.avans.ivh5.shared.models.Insurance;
 import java.util.ArrayList;
+import java.util.List;
 
 public class InsuranceGUI extends javax.swing.JFrame {
 
-    private final ArrayList<String> treatments = new ArrayList<>();
+    private final List<Integer> treatments = new ArrayList<>();
     private final InsuranceManager manager;
 
     /**
@@ -15,7 +17,16 @@ public class InsuranceGUI extends javax.swing.JFrame {
      */
     public InsuranceGUI(InsuranceManager insuranceManager) {
         this.manager = insuranceManager;
+        treatments.add(123321);
+        treatments.add(345678);
         initComponents();
+        String searchPattern = "";
+        
+        List<Insurance> insurance = (List<Insurance>) manager.getInsurances(searchPattern);
+        /*IDTextField.setText(Integer.toString(insurance.getID()));
+        nameTextField.setText(insurance.getName());
+        priceTextField.setText(insurance.getPrice().toString());
+        */
     }
 
     @SuppressWarnings("unchecked")
@@ -83,6 +94,11 @@ public class InsuranceGUI extends javax.swing.JFrame {
 
         saveButton.setBackground(new java.awt.Color(204, 204, 255));
         saveButton.setText("Opslaan");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
 
         nameLabel.setText("Naam");
 
@@ -98,7 +114,7 @@ public class InsuranceGUI extends javax.swing.JFrame {
             }
         });
 
-        treatmentComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Verzekering 1", "Verzekering 2", "Verzekering 3", "Verzekering 4" }));
+        treatmentComboBox.setModel(new javax.swing.DefaultComboBoxModel(treatments.toArray()));
         treatmentComboBox.setFocusable(false);
         treatmentComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -173,6 +189,11 @@ public class InsuranceGUI extends javax.swing.JFrame {
 
         addInsuranceButton.setBackground(new java.awt.Color(204, 204, 255));
         addInsuranceButton.setText("Verzekering toevoegen");
+        addInsuranceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addInsuranceButtonActionPerformed(evt);
+            }
+        });
 
         removeInsuranceButton.setBackground(new java.awt.Color(204, 204, 255));
         removeInsuranceButton.setText("Verzekering verwijderen");
@@ -272,11 +293,11 @@ public class InsuranceGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_seachTextFieldActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        changeInsurancePanel.setVisible(true);
+
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void treatmentComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treatmentComboBoxActionPerformed
-        String treatment = treatmentComboBox.getSelectedItem().toString();
+        Integer treatment = (Integer) treatmentComboBox.getSelectedItem();
         if (!treatments.contains(treatment)) {
             treatments.add(treatment);
             treatmentList.updateUI();
@@ -289,11 +310,19 @@ public class InsuranceGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_nameTextFieldActionPerformed
 
     private void treatmentListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_treatmentListMouseClicked
-        String selected = treatmentList.getSelectedValue().toString();
+        Integer selected = (Integer) treatmentList.getSelectedValue();
         treatments.remove(selected);
         treatmentList.clearSelection();
         treatmentList.updateUI();
     }//GEN-LAST:event_treatmentListMouseClicked
+
+    private void addInsuranceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInsuranceButtonActionPerformed
+        changeInsurancePanel.setVisible(true);
+    }//GEN-LAST:event_addInsuranceButtonActionPerformed
+
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+
+    }//GEN-LAST:event_saveButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel IDLabel;
