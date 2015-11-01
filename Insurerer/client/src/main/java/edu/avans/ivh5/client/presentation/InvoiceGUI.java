@@ -2,7 +2,6 @@ package edu.avans.ivh5.client.presentation;
 
 import edu.avans.ivh5.client.businesslogic.InvoiceManager;
 import edu.avans.ivh5.shared.models.InsuranceContract;
-import static java.awt.Color.red;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -33,7 +32,6 @@ public class InvoiceGUI extends javax.swing.JFrame {
         displayInvoice();
     }
 
-
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -50,13 +48,15 @@ public class InvoiceGUI extends javax.swing.JFrame {
         deleteButton = new javax.swing.JButton();
         startDateField = new javax.swing.JTextField();
         endDateField = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        displayErrorArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1920, 1080));
 
         backButton.setText("< - -");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
 
         insuranceIDField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,10 +86,6 @@ public class InvoiceGUI extends javax.swing.JFrame {
             }
         });
 
-        displayErrorArea.setColumns(20);
-        displayErrorArea.setRows(5);
-        jScrollPane1.setViewportView(displayErrorArea);
-
         javax.swing.GroupLayout panelPolisLayout = new javax.swing.GroupLayout(panelPolis);
         panelPolis.setLayout(panelPolisLayout);
         panelPolisLayout.setHorizontalGroup(
@@ -99,27 +95,27 @@ public class InvoiceGUI extends javax.swing.JFrame {
                 .addComponent(backButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPolisLayout.createSequentialGroup()
-                .addGap(0, 1136, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(panelPolisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelPolisLayout.createSequentialGroup()
+                        .addGroup(panelPolisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(103, 103, 103))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelPolisLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(panelPolisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(insuranceIDField)
+                    .addComponent(ownRiskField)
+                    .addComponent(startDateField)
+                    .addComponent(endDateField)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPolisLayout.createSequentialGroup()
                         .addComponent(deleteButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(saveButton))
-                    .addGroup(panelPolisLayout.createSequentialGroup()
-                        .addGroup(panelPolisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addGap(103, 103, 103)
-                        .addGroup(panelPolisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(insuranceIDField)
-                            .addComponent(ownRiskField, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
-                            .addComponent(startDateField)
-                            .addComponent(endDateField))))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
+                        .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(247, 247, 247))
         );
         panelPolisLayout.setVerticalGroup(
             panelPolisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,40 +124,41 @@ public class InvoiceGUI extends javax.swing.JFrame {
                     .addComponent(backButton)
                     .addGroup(panelPolisLayout.createSequentialGroup()
                         .addGap(92, 92, 92)
-                        .addGroup(panelPolisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelPolisLayout.createSequentialGroup()
-                                .addGroup(panelPolisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(insuranceIDField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(21, 21, 21)
-                                .addGroup(panelPolisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(startDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(21, 21, 21)
-                                .addGroup(panelPolisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(endDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(21, 21, 21)
-                                .addGroup(panelPolisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(ownRiskField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4)))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(panelPolisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(insuranceIDField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21)
+                        .addGroup(panelPolisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(startDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21)
+                        .addGroup(panelPolisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(endDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21)
+                        .addGroup(panelPolisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ownRiskField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))))
                 .addGap(27, 27, 27)
                 .addGroup(panelPolisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
                     .addComponent(deleteButton))
-                .addContainerGap(795, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelPolis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelPolis, javax.swing.GroupLayout.PREFERRED_SIZE, 636, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 1284, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelPolis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelPolis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 701, Short.MAX_VALUE))
         );
 
         pack();
@@ -170,7 +167,6 @@ public class InvoiceGUI extends javax.swing.JFrame {
     public final String displayInvoice() {
         InsuranceContract contract = manager.getInsuranceContract(null);
         String clientName = contract.getClientName();
-        displayErrorArea.setVisible(false);
 
         if (contract.getOwnRisk() == null) {
             deleteButton.setVisible(false);
@@ -212,10 +208,10 @@ public class InvoiceGUI extends javax.swing.JFrame {
 
         BigDecimal ownRisk = null;
 
-        String startDateHolder = null;
+        String startDateHolder;
         Date startDate = null;
 
-        String endDateHolder = null;
+        String endDateHolder;
         Date endDate = null;
 
         int insuranceID = 0;
@@ -226,14 +222,12 @@ public class InvoiceGUI extends javax.swing.JFrame {
             ownRisk = new BigDecimal(ownRiskField.getText());
             }
         } else {
-            ownRiskField.setBackground(red);
-            
+            ownRiskField.setText("Geef een geldig eigen risico op. Bijvoorbeeld 200");
         }
 
         if (!insuranceIDField.getText().isEmpty()) {
             insuranceID = Integer.parseInt(insuranceIDField.getText());
         } else {
-            insuranceIDField.setBackground(red);
         }
 
         if (!startDateField.getText().isEmpty()) {
@@ -245,7 +239,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
                 System.out.println("Error: " + ex);
             }
         } else {
-            startDateField.setBackground(red);
+            startDateField.setText("Geef een geldig datum op. Bijvoorbeeld 2000-01-01");
         }
 
         if (!endDateField.getText().isEmpty()) {
@@ -257,35 +251,34 @@ public class InvoiceGUI extends javax.swing.JFrame {
                 System.out.println("Error: " + ex);
             }
         } else {
-            endDateField.setBackground(red);
+            endDateField.setText("Geef een geldig datum op. Bijvoorbeeld 2000-01-01");
         }
 
-        if (startDate != null && endDate != null) {
+        if (startDate != null && endDate != null && startDate.before(endDate)) {
             if (ownRisk != null) {
                 insuranceContracts.add(new InsuranceContract(ownRisk, name, insuranceID, startDate, endDate));
                 insuranceContracts.stream().forEach(p -> manager.addInsuranceContract(p));
             } else {
 
             }
-        } else {
-            displayErrorArea.setVisible(true);
-            displayErrorArea.setEditable(false);
-            displayErrorArea.setText("Geef een geldig datum op. Bijvoorbeeld 2000-01-01");
         }
     }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_backButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.JButton deleteButton;
-    private javax.swing.JTextArea displayErrorArea;
     private javax.swing.JTextField endDateField;
     private javax.swing.JTextField insuranceIDField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     private javax.swing.JTextField ownRiskField;
     private javax.swing.JPanel panelPolis;

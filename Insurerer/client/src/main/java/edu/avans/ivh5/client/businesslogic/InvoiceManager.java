@@ -18,7 +18,7 @@ public class InvoiceManager {
     private InsuranceContractDAO InsuranceContractDAO;
 
     public InsuranceContract getInsuranceContract(Client client) {
-        InsuranceContract insuranceContract = null;
+        InsuranceContract insuranceContract;
 
         // client omzetten naar String clientName
         // Waarschijnlijk iets als String clientName = client.getName();

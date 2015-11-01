@@ -15,7 +15,7 @@ import org.xml.sax.SAXException;
 
 public class InsuranceContractDAO implements DAOInterface {
 
-    private XMLParser XMLParser;
+    private final XMLParser XMLParser;
 
     public InsuranceContractDAO() throws ParserConfigurationException, SAXException, IOException {
         this.XMLParser = new XMLParser("InsuranceContracts.xml", "InsuranceContracts.xsd");
