@@ -45,7 +45,7 @@ public class ClientManagerTest {
     public void tearDown() {
     }
 
-    @Test
+    /*@Test
     public void testSearchClients() {
         manager.addClient(burakClient);
         try {
@@ -111,7 +111,7 @@ public class ClientManagerTest {
             manager.deleteClient(newBurak);
         }
 
-    }
+    }*/
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //

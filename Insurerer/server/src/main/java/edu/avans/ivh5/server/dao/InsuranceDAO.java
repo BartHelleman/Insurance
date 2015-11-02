@@ -44,43 +44,18 @@ public class InsuranceDAO implements DAOInterface {
     private List<Object> getInsurances(String searchPattern) {
         List<Object> insurances = new ArrayList<>();
         List<Node> insuranceNodes = this.XMLParser.findElementsByName("insurance", searchPattern);
-        
-        if(!insuranceNodes.isEmpty()) {
-            for(Node insuranceNode : insuranceNodes) {
-                Integer id = Integer.parseInt(this.XMLParser.getValueByNodeName(insuranceNode, "ID"));
-                String name = this.XMLParser.getValueByNodeName(insuranceNode, "name");
-                BigDecimal price = new BigDecimal(this.XMLParser.getValueByNodeName(insuranceNode, "price"));
 
-                List<String> treatmentCodes = this.XMLParser.getSubnodeValuesByName(insuranceNode, "treatment");
+        insuranceNodes.stream().forEach((insuranceNode) -> {
+            int id = Integer.parseInt(this.XMLParser.getValueByNodeName(insuranceNode, "ID"));
+            String name = this.XMLParser.getValueByNodeName(insuranceNode, "name");
+            BigDecimal price = new BigDecimal(this.XMLParser.getValueByNodeName(insuranceNode, "price"));
 
-                insurances.add(new Insurance(id, name, price, treatmentCodes));
-            }
-        } else {
-            insurances = null;
-        }
+            List<String> treatmentCodes = this.XMLParser.getSubnodeValuesByName(insuranceNode, "treatment");
+
+            insurances.add(new Insurance(id, name, price, treatmentCodes));
+        });
+
         return insurances;
         
     }
-
-    /*private List<Object> getInsurances(String searchPattern) {
-     List<Object> insurances = new ArrayList<>();
-     List<Node> insuranceNodes = this.XMLParser.findElementsByName("insurance", searchPattern);
-     List<Node> treatmentsNodes = this.XMLParser.findElementsByName("treatments", searchPattern);
-
-     insuranceNodes.stream().forEach((insuranceNode) -> {
-     int id = Integer.parseInt(this.XMLParser.getValueByNodeName(insuranceNode, "id"));
-     String name = this.XMLParser.getValueByNodeName(insuranceNode, "name");
-     BigDecimal price = new BigDecimal(this.XMLParser.getValueByNodeName(insuranceNode, "price"));
-
-     for (int i = 0; i < treatmentsNodes.size(); i++) {
-     Node treatmentNode = treatmentsNodes.get(i);
-     Integer treatmentCode = Integer.parseInt(this.XMLParser.getValueByNodeName(treatmentNode, "treatment"));
-     treatments.add(treatmentCode);
-     }
-
-     insurances.add(new Insurance(id, name, price, treatments));
-     });
-
-     return insurances;
-     }*/
 }

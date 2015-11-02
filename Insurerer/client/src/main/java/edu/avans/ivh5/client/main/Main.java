@@ -30,13 +30,13 @@ public class Main {
         //InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
         //invoiceGUI.setVisible(true);
         
-        //LoginGUI loginGUI = new LoginGUI();
+        LoginGUI loginGUI = new LoginGUI();
         //loginGUI.setVisible(true);
 
         //UserGUI userGUI = new UserGUI();
         //userGUI.setVisible(true);
-        //InsuranceCompanyGUI insuranceCompanyGUI = new InsuranceCompanyGUI();
-        //insuranceCompanyGUI.setVisible(true);
+        InsuranceCompanyGUI insuranceCompanyGUI = new InsuranceCompanyGUI();
+        insuranceCompanyGUI.setVisible(true);
         //InvoiceManager invoiceManager = new InvoiceManager();
         //InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
         //invoiceGUI.setVisible(true);

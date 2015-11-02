@@ -2,9 +2,6 @@ package edu.avans.ivh5.client.presentation;
 
 import edu.avans.ivh5.client.businesslogic.InsuranceCompanyManager;
 import edu.avans.ivh5.shared.models.InsuranceCompany;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.transform.TransformerException;
 
 public class InsuranceCompanyGUI extends javax.swing.JFrame {
 
@@ -124,11 +121,7 @@ public class InsuranceCompanyGUI extends javax.swing.JFrame {
         String KVK = KVKTextField.getText();
 
         InsuranceCompany insuranceCompany = new InsuranceCompany(name, city, postcode, address, KVK);
-        try {
-            insuranceCompanyManager.changeInsuranceCompany(insuranceCompany);
-        } catch (TransformerException ex) {
-            Logger.getLogger(InsuranceCompanyGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        insuranceCompanyManager.change(insuranceCompanyManager.getInsuranceCompany(), insuranceCompany);
     }//GEN-LAST:event_saveCompanyButtonActionPerformed
 
     public static void main(String args[]) {
