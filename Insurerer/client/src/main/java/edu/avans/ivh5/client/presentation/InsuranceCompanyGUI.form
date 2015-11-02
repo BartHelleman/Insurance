@@ -111,14 +111,29 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="KVKTextField">
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="KVKTextFieldMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="addressTextField">
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="addressTextFieldMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="postcodeTextField">
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="postcodeTextFieldMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="cityTextField">
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cityTextFieldMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="companyNameTextField">
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="companyNameTextFieldMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="saveCompanyButton">
       <Properties>

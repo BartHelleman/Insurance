@@ -50,6 +50,36 @@ public class InsuranceCompanyGUI extends javax.swing.JFrame {
 
         KVKLabel.setText("KVK");
 
+        KVKTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                KVKTextFieldMouseClicked(evt);
+            }
+        });
+
+        addressTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addressTextFieldMouseClicked(evt);
+            }
+        });
+
+        postcodeTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                postcodeTextFieldMouseClicked(evt);
+            }
+        });
+
+        cityTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cityTextFieldMouseClicked(evt);
+            }
+        });
+
+        companyNameTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                companyNameTextFieldMouseClicked(evt);
+            }
+        });
+
         saveCompanyButton.setBackground(new java.awt.Color(204, 204, 255));
         saveCompanyButton.setText("Opslaan");
         saveCompanyButton.addActionListener(new java.awt.event.ActionListener() {
@@ -123,6 +153,26 @@ public class InsuranceCompanyGUI extends javax.swing.JFrame {
         InsuranceCompany insuranceCompany = new InsuranceCompany(name, city, postcode, address, KVK);
         insuranceCompanyManager.change(insuranceCompanyManager.getInsuranceCompany(), insuranceCompany);
     }//GEN-LAST:event_saveCompanyButtonActionPerformed
+
+    private void companyNameTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_companyNameTextFieldMouseClicked
+        companyNameTextField.selectAll();
+    }//GEN-LAST:event_companyNameTextFieldMouseClicked
+
+    private void cityTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cityTextFieldMouseClicked
+        cityTextField.selectAll();
+    }//GEN-LAST:event_cityTextFieldMouseClicked
+
+    private void postcodeTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_postcodeTextFieldMouseClicked
+        postcodeTextField.selectAll();
+    }//GEN-LAST:event_postcodeTextFieldMouseClicked
+
+    private void addressTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addressTextFieldMouseClicked
+        addressTextField.selectAll();
+    }//GEN-LAST:event_addressTextFieldMouseClicked
+
+    private void KVKTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_KVKTextFieldMouseClicked
+        KVKTextField.selectAll();
+    }//GEN-LAST:event_KVKTextFieldMouseClicked
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
