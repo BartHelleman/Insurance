@@ -90,33 +90,36 @@ public class ClientDAO implements DAOInterface {
         if (item instanceof String) {
             return getClients((String) item);
         } else if (item instanceof Client) {
-            return getClients(((Client)item).getBSN());
+            return getClients(((Client) item).getBSN());
         }
         throw new UnsupportedOperationException("The object type cannot be used to search in the XML files.");
     }
 
     @Override
     public boolean change(Object oldObject, Object newObject) {
-        if(!(newObject instanceof Client) || !(oldObject instanceof Client))
+        if (!(newObject instanceof Client) || !(oldObject instanceof Client)) {
             throw new RuntimeException("Old and new clients must be client objects");
-        
-        Client oldClient = (Client)oldObject;
-        Client newClient = (Client)newObject;
-            
+        }
+
+        Client oldClient = (Client) oldObject;
+        Client newClient = (Client) newObject;
+
         // First check if it could be deleted. If it can, check if it could be added
-        if(delete(oldClient.getBSN()))
+        if (delete(oldClient.getBSN())) {
             return add(newClient);
+        }
         return false;
     }
 
     @Override
     public boolean delete(Object searchPattern) {
         List<Object> result = get(searchPattern);
-        if(result.size() != 1)
-                return false;
-        
+        if (result.size() != 1) {
+            return false;
+        }
+
         if (searchPattern instanceof String) {
-            
+
             Client clientToDelete = (Client) result.get(0);
 
             List<Node> nodes = this.XMLParser.findElementsByName("client", clientToDelete.getBSN());
@@ -135,27 +138,24 @@ public class ClientDAO implements DAOInterface {
         List<Object> clients = new ArrayList<>();
         List<Node> clientsNodes = this.XMLParser.findElementsByName("client", searchPattern);
 
-        if (searchPattern.length() > 1) {
-            for (int i = 0; i < clientsNodes.size(); i++) {
-                Node clientNode = clientsNodes.get(i);
+        for (int i = 0; i < clientsNodes.size(); i++) {
+            Node clientNode = clientsNodes.get(i);
 
-                String BSN = this.XMLParser.getValueByNodeName(clientNode, "BSN");
-                String name = this.XMLParser.getValueByNodeName(clientNode, "name");
-                String firstName = this.XMLParser.getValueByNodeName(clientNode, "firstName");
-                String city = this.XMLParser.getValueByNodeName(clientNode, "city");
-                String postcode = this.XMLParser.getValueByNodeName(clientNode, "postcode");
-                String address = this.XMLParser.getValueByNodeName(clientNode, "address");
-                String IBAN = this.XMLParser.getValueByNodeName(clientNode, "IBAN");
-                boolean incasso = Boolean.getBoolean(this.XMLParser.getValueByNodeName(clientNode, "incasso"));
-                String email = this.XMLParser.getValueByNodeName(clientNode, "email");
-                String tel = this.XMLParser.getValueByNodeName(clientNode, "tel");
+            String BSN = this.XMLParser.getValueByNodeName(clientNode, "BSN");
+            String name = this.XMLParser.getValueByNodeName(clientNode, "name");
+            String firstName = this.XMLParser.getValueByNodeName(clientNode, "firstName");
+            String city = this.XMLParser.getValueByNodeName(clientNode, "city");
+            String postcode = this.XMLParser.getValueByNodeName(clientNode, "postcode");
+            String address = this.XMLParser.getValueByNodeName(clientNode, "address");
+            String IBAN = this.XMLParser.getValueByNodeName(clientNode, "IBAN");
+            boolean incasso = Boolean.getBoolean(this.XMLParser.getValueByNodeName(clientNode, "incasso"));
+            String email = this.XMLParser.getValueByNodeName(clientNode, "email");
+            String tel = this.XMLParser.getValueByNodeName(clientNode, "tel");
 
-                clients.add(new Client(BSN, name.substring(0, 1).toUpperCase() + name.substring(1), firstName.substring(0, 1).toUpperCase() + firstName.substring(1), city, postcode, address, IBAN, incasso, email, tel));
-            }
-
-            return clients;
-        } else {
-            return clients;
+            clients.add(new Client(BSN, name, firstName, city, postcode, address, IBAN, incasso, email, tel));
         }
+
+        return clients;
+
     }
 }
