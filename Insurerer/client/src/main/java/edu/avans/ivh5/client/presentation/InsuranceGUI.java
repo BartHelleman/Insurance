@@ -32,6 +32,11 @@ public class InsuranceGUI extends javax.swing.JFrame {
          priceTextField.setText(insurance.getPrice().toString());
          */
     }
+    
+    public InsuranceGUI()
+    {
+        this(new InsuranceManager());
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
