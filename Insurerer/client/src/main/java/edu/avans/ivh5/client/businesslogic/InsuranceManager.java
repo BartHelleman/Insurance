@@ -45,13 +45,16 @@ public class InsuranceManager {
         List<Insurance> insurances = new ArrayList();
         try {
             insuranceDAO = new InsuranceDAO();
+            List<Object> insurance = insuranceDAO.get("");
+            for(int i = 0; i < insurance.size(); i++) {
+                insurances.add((Insurance) insuranceDAO.get("").get(i));
+            }
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             Logger.getLogger(InsuranceManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         //List<String> treatments = new ArrayList();
         //treatments.add("123");
         //Insurance test = new Insurance(1, "naam", new BigDecimal(100), treatments);
-        insurances = (List<Insurance>) insuranceDAO.get(insurances).get(0);
         //insurances.add(test);
         
         return insurances;

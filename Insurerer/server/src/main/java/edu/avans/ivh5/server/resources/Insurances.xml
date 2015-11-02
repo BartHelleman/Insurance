@@ -6,7 +6,7 @@
     <insurance>
         <ID>001</ID>
         <name>zorgverzekering Standaard</name>
-        <price>60.00</price>
+        <price>60</price>
         <treatments>
             <treatment>123456</treatment>
         </treatments>
@@ -15,7 +15,7 @@
     <insurance>
         <ID>002</ID>
         <name>zorgverzekering Extra</name>
-        <price>110.00</price>
+        <price>110</price>
         <treatments>
             <treatment>123456</treatment>
             <treatment>111111</treatment>
@@ -25,7 +25,7 @@
     <insurance>
         <ID>003</ID>
         <name>zorgverzekering Royaal</name>
-        <price>170.00</price>
+        <price>170</price>
         <treatments>
             <treatment>123456</treatment>
             <treatment>111111</treatment>

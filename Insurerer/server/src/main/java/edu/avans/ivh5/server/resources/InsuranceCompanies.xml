@@ -1,3 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><companies xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="InsuranceCompanies.xsd">
-      
-<company><name>Zorg4U</name><city>Breda</city><postcode>1234AB</postcode><address>Hogeschoollaan 1</address><KVK>1234567890</KVK></company></companies>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<companies xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="InsuranceCompanies.xsd">      
+<company>
+    <name>Zorg4U</name>
+    <city>Breda</city>
+    <postcode>1234AB</postcode>
+    <address>Hogeschoollaan 1</address>
+    <KVK>1234567890</KVK>
+</company>
+</companies>
