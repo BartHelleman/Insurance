@@ -35,7 +35,7 @@ public class InsuranceManagerTest {
     @AfterClass
     public static void tearDownClass() {
     }
-    
+    /*
     @Before
     public void setUp() {
         manager = new InsuranceManager();
@@ -86,7 +86,7 @@ public class InsuranceManagerTest {
         assert(result.size() > 0);
         
         manager.deleteInsurance(newInsurance);
-    }
+    }*/
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //

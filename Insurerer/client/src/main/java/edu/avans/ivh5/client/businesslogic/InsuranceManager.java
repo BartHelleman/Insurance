@@ -5,6 +5,7 @@ import edu.avans.ivh5.server.dao.LoginDAO;
 import edu.avans.ivh5.shared.models.Insurance;
 import edu.avans.ivh5.shared.models.User;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -47,8 +48,11 @@ public class InsuranceManager {
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             Logger.getLogger(InsuranceManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        //List<String> treatments = new ArrayList();
+        //treatments.add("123");
+        //Insurance test = new Insurance(1, "naam", new BigDecimal(100), treatments);
         insurances = (List<Insurance>) insuranceDAO.get(insurances).get(0);
+        //insurances.add(test);
         
         return insurances;
     }

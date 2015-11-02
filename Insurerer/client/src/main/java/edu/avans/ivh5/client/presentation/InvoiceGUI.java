@@ -35,7 +35,6 @@ public class InvoiceGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
         panelPolis = new javax.swing.JPanel();
         backButton = new javax.swing.JButton();
         insuranceIDField = new javax.swing.JTextField();
@@ -279,7 +278,6 @@ public class InvoiceGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     private javax.swing.JTextField ownRiskField;
     javax.swing.JPanel panelPolis;
     private javax.swing.JButton saveButton;
