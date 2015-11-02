@@ -44,18 +44,22 @@ public class InsuranceDAO implements DAOInterface {
     private List<Object> getInsurances(String searchPattern) {
         List<Object> insurances = new ArrayList<>();
         List<Node> insuranceNodes = this.XMLParser.findElementsByName("insurance", searchPattern);
+        
+        if(!insuranceNodes.isEmpty()) {
+            for(Node insuranceNode : insuranceNodes) {
+                Integer id = Integer.parseInt(this.XMLParser.getValueByNodeName(insuranceNode, "ID"));
+                String name = this.XMLParser.getValueByNodeName(insuranceNode, "name");
+                BigDecimal price = new BigDecimal(this.XMLParser.getValueByNodeName(insuranceNode, "price"));
 
-        insuranceNodes.stream().forEach((insuranceNode) -> {
-            int id = Integer.parseInt(this.XMLParser.getValueByNodeName(insuranceNode, "id"));
-            String name = this.XMLParser.getValueByNodeName(insuranceNode, "name");
-            BigDecimal price = new BigDecimal(this.XMLParser.getValueByNodeName(insuranceNode, "price"));
+                List<String> treatmentCodes = this.XMLParser.getSubnodeValuesByName(insuranceNode, "treatment");
 
-            List<String> treatmentCodes = this.XMLParser.getSubnodeValuesByName(insuranceNode, "treatment");
-
-            insurances.add(new Insurance(id, name, price, treatmentCodes));
-        });
-
+                insurances.add(new Insurance(id, name, price, treatmentCodes));
+            }
+        } else {
+            insurances = null;
+        }
         return insurances;
+        
     }
 
     /*private List<Object> getInsurances(String searchPattern) {

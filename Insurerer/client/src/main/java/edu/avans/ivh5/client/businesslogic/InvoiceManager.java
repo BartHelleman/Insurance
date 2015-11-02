@@ -22,7 +22,7 @@ public class InvoiceManager {
 
         // client omzetten naar String clientName
         // Waarschijnlijk iets als String clientName = client.getName();
-        String clientName = "Je Moeder2";
+        String clientName = "Burak";
    
         try {
             InsuranceContractDAO = new InsuranceContractDAO();

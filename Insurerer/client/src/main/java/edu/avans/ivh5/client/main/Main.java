@@ -20,9 +20,9 @@ public class Main {
         //InsuranceGUI insuranceGUI = new InsuranceGUI(insuranceManager);
         //insuranceGUI.setVisible(true);
         
-        //InvoiceManager invoiceManager = new InvoiceManager();
-        //InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
-        //invoiceGUI.setVisible(true);
+        InvoiceManager invoiceManager = new InvoiceManager();
+        InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
+        invoiceGUI.setVisible(true);
        
         // build();
 
