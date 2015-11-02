@@ -26,8 +26,8 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="saveCompanyButton" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
+                  <Component id="saveCompanyButton" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="companyNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="cityLabel" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -37,15 +37,15 @@
                       </Group>
                       <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="companyNameTextField" alignment="0" pref="114" max="32767" attributes="0"/>
+                          <Component id="addressTextField" alignment="0" pref="150" max="32767" attributes="0"/>
+                          <Component id="KVKTextField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="companyNameTextField" max="32767" attributes="0"/>
                           <Component id="cityTextField" alignment="0" max="32767" attributes="0"/>
                           <Component id="postcodeTextField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="addressTextField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="KVKTextField" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="188" max="32767" attributes="0"/>
+              <EmptySpace pref="152" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -111,14 +111,29 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="KVKTextField">
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="KVKTextFieldMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="addressTextField">
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="addressTextFieldMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="postcodeTextField">
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="postcodeTextFieldMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="cityTextField">
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cityTextFieldMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="companyNameTextField">
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="companyNameTextFieldMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="saveCompanyButton">
       <Properties>

@@ -21,7 +21,6 @@ public class InsuranceCompanyDAO implements DAOInterface {
     public boolean add(Object item) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         if (item instanceof InsuranceCompany) {
-            System.out.println("hoi2");
             InsuranceCompany company = (InsuranceCompany) item;
             Element companyNode = this.XMLParser.createElement("company");
 
@@ -93,19 +92,29 @@ public class InsuranceCompanyDAO implements DAOInterface {
 
     @Override
     public boolean delete(Object value) {
-        List<Object> result = get(value.toString());
-        if (result.size() != 1) {
-            return false;
-        } else {
-            InsuranceCompany companyToDelete = (InsuranceCompany) result.get(0);
-            List<Node> nodes = this.XMLParser.findElementsByName("company", companyToDelete.getKVK());
-            nodes.stream().forEach((node) -> {
-                this.XMLParser.deleteNode(node);
-            });
-            DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
-            return true;
+        List<Object> result = null;
+        
+        if(value instanceof String)
+        {
+            result = get(value.toString());
         }
-
+        else if(value instanceof InsuranceCompany)
+        {
+            InsuranceCompany company = (InsuranceCompany)value;
+            result = get(company.getKVK());
+        }
+        else
+            return false;
+        
+        if(result == null || result.size() != 1)
+            return false;
+        
+        InsuranceCompany companyToDelete = (InsuranceCompany)result.get(0);
+        List<Node> nodes = this.XMLParser.findElementsByName("company", companyToDelete.getKVK());
+        for(Node node : nodes) {
+            this.XMLParser.deleteNode(node);
+        }
+        DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
+        return true;
     }
-
 }
