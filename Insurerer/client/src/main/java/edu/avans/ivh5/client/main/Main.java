@@ -20,9 +20,9 @@ public class Main {
         //InsuranceGUI insuranceGUI = new InsuranceGUI(insuranceManager);
         //insuranceGUI.setVisible(true);
         
-        InvoiceManager invoiceManager = new InvoiceManager();
-        InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
-        invoiceGUI.setVisible(true);
+        //InvoiceManager invoiceManager = new InvoiceManager();
+        //InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
+        //invoiceGUI.setVisible(true);
        
         // build();
 
@@ -30,7 +30,7 @@ public class Main {
         //InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
         //invoiceGUI.setVisible(true);
         
-        LoginGUI loginGUI = new LoginGUI();
+        //LoginGUI loginGUI = new LoginGUI();
         //loginGUI.setVisible(true);
 
         //UserGUI userGUI = new UserGUI();

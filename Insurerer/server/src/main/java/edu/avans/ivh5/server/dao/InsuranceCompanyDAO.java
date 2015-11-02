@@ -21,7 +21,6 @@ public class InsuranceCompanyDAO implements DAOInterface {
     public boolean add(Object item) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         if (item instanceof InsuranceCompany) {
-            System.out.println("hoi2");
             InsuranceCompany company = (InsuranceCompany) item;
             Element companyNode = this.XMLParser.createElement("company");
 

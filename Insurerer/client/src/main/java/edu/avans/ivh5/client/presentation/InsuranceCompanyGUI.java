@@ -2,10 +2,19 @@ package edu.avans.ivh5.client.presentation;
 
 import edu.avans.ivh5.client.businesslogic.InsuranceCompanyManager;
 import edu.avans.ivh5.shared.models.InsuranceCompany;
+import javax.swing.JOptionPane;
 
 public class InsuranceCompanyGUI extends javax.swing.JFrame {
 
     InsuranceCompanyManager insuranceCompanyManager = new InsuranceCompanyManager();
+
+    private JOptionPane saveOptionPane;
+
+    String name = "";
+    String city = "";
+    String postcode = "";
+    String address = "";
+    String KVK = "";
 
     /**
      * Creates new form InsuranceCompanyGUI
@@ -105,12 +114,12 @@ public class InsuranceCompanyGUI extends javax.swing.JFrame {
                             .addComponent(KVKLabel))
                         .addGap(44, 44, 44)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(companyNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+                            .addComponent(addressTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(KVKTextField)
+                            .addComponent(companyNameTextField)
                             .addComponent(cityTextField)
-                            .addComponent(postcodeTextField)
-                            .addComponent(addressTextField)
-                            .addComponent(KVKTextField))))
-                .addContainerGap(188, Short.MAX_VALUE))
+                            .addComponent(postcodeTextField))))
+                .addContainerGap(152, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,14 +153,35 @@ public class InsuranceCompanyGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveCompanyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveCompanyButtonActionPerformed
-        String name = companyNameTextField.getText();
-        String city = cityTextField.getText();
-        String postcode = postcodeTextField.getText();
-        String address = addressTextField.getText();
-        String KVK = KVKTextField.getText();
-
+        if (!companyNameTextField.getText().matches("[0-9]+")) {
+            name = companyNameTextField.getText();
+        } else {
+            JOptionPane.showMessageDialog(null, "De ingevulde naam is ongeldig", "Ongeldige naam", JOptionPane.ERROR_MESSAGE);
+        }
+        if (!cityTextField.getText().matches("[0-9]+")) {
+            city = cityTextField.getText();
+        } else {
+            JOptionPane.showMessageDialog(null, "De ingevulde plaats is ongeldig", "Ongeldige plaats", JOptionPane.ERROR_MESSAGE);
+        }
+        if (postcodeTextField.getText().matches("^[1-9][0-9]{3}[\\s]?[A-Za-z]{2}$")) {
+            postcode = postcodeTextField.getText();
+        } else {
+            JOptionPane.showMessageDialog(null, "De ingevulde postcode is ongeldig", "Ongeldig postcode", JOptionPane.ERROR_MESSAGE);
+        }
+        if (addressTextField.getText().matches("^([1-9][e][\\s])*([a-zA-Z]+(([\\.][\\s])|([\\s]))?)+[1-9][0-9]*(([-][1-9][0-9]*)|([\\s]?[a-zA-Z]+))?$")) {
+            address = addressTextField.getText();
+        } else {
+            JOptionPane.showMessageDialog(null, "Het ingevulde adres is ongeldig", "Ongeldig adres", JOptionPane.ERROR_MESSAGE);
+        }
+        if (KVKTextField.getText().matches("[0-9]+")) {
+            KVK = KVKTextField.getText();
+        } else {
+            JOptionPane.showMessageDialog(null, "Het ingevulde KVK is ongeldig", "Ongeldig KVK", JOptionPane.ERROR_MESSAGE);
+        }
+        
         InsuranceCompany insuranceCompany = new InsuranceCompany(name, city, postcode, address, KVK);
         insuranceCompanyManager.change(insuranceCompanyManager.getInsuranceCompany(), insuranceCompany);
+        JOptionPane.showMessageDialog(null, "Wijziging opgeslagen", "", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_saveCompanyButtonActionPerformed
 
     private void companyNameTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_companyNameTextFieldMouseClicked
