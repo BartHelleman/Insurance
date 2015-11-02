@@ -10,6 +10,7 @@ import edu.avans.ivh5.client.presentation.LoginGUI;
 import edu.avans.ivh5.client.presentation.LoginGUI;
 import edu.avans.ivh5.client.presentation.MainGUI;
 import edu.avans.ivh5.client.presentation.UserGUI;
+import edu.avans.ivh5.shared.models.Client;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 
@@ -20,8 +21,9 @@ public class Main {
         //InsuranceGUI insuranceGUI = new InsuranceGUI(insuranceManager);
         //insuranceGUI.setVisible(true);
         
+        Client client = new Client("0123456789", "Burak", "Niels", "Krimpen", "2922CD", "Blomsingel 31", "NL00 INGB 012345", false, "nskerdel", "0612345678");
         InvoiceManager invoiceManager = new InvoiceManager();
-        InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
+        InvoiceGUI invoiceGUI = new InvoiceGUI(client);
         invoiceGUI.setVisible(true);
        
         // build();
@@ -30,13 +32,13 @@ public class Main {
         //InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
         //invoiceGUI.setVisible(true);
         
-        LoginGUI loginGUI = new LoginGUI();
+        //LoginGUI loginGUI = new LoginGUI();
         //loginGUI.setVisible(true);
 
         //UserGUI userGUI = new UserGUI();
         //userGUI.setVisible(true);
-        InsuranceCompanyGUI insuranceCompanyGUI = new InsuranceCompanyGUI();
-        insuranceCompanyGUI.setVisible(true);
+        //InsuranceCompanyGUI insuranceCompanyGUI = new InsuranceCompanyGUI();
+        //insuranceCompanyGUI.setVisible(true);
         //InvoiceManager invoiceManager = new InvoiceManager();
         //InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
         //invoiceGUI.setVisible(true);

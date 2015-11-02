@@ -21,8 +21,7 @@ public class InvoiceManager {
         InsuranceContract insuranceContract;
 
         // client omzetten naar String clientName
-        // Waarschijnlijk iets als String clientName = client.getName();
-        String clientName = "Burak";
+        String clientName = client.getName();
    
         try {
             InsuranceContractDAO = new InsuranceContractDAO();
@@ -59,16 +58,15 @@ public class InvoiceManager {
         return null;
     }
 
-    public void deleteInsuranceContract(String clientName) {
-        Boolean insuranceContract = null;
+    public void deleteInsuranceContract(Client client) {
+        Boolean insuranceContract;
         
         try {
             InsuranceContractDAO = new InsuranceContractDAO();
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             System.out.println("Error message:" + ex.getMessage());
         }
-
-            insuranceContract = InsuranceContractDAO.delete(clientName);
+        insuranceContract = InsuranceContractDAO.delete(client.getName());
     }
 
     public Invoice getInvoice(Treatment treatment) {
