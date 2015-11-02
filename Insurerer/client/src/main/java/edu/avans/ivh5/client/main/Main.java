@@ -16,9 +16,9 @@ import javax.swing.UIManager;
 public class Main {
 
     public static void main(String[] args) {
-        InsuranceManager insuranceManager = new InsuranceManager();
-        InsuranceGUI insuranceGUI = new InsuranceGUI(insuranceManager);
-        insuranceGUI.setVisible(true);
+        //InsuranceManager insuranceManager = new InsuranceManager();
+        //InsuranceGUI insuranceGUI = new InsuranceGUI(insuranceManager);
+        //insuranceGUI.setVisible(true);
         
         //InvoiceManager invoiceManager = new InvoiceManager();
         //InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
@@ -35,8 +35,8 @@ public class Main {
 
         //UserGUI userGUI = new UserGUI();
         //userGUI.setVisible(true);
-        //InsuranceCompanyGUI insuranceCompanyGUI = new InsuranceCompanyGUI();
-        //insuranceCompanyGUI.setVisible(true);
+        InsuranceCompanyGUI insuranceCompanyGUI = new InsuranceCompanyGUI();
+        insuranceCompanyGUI.setVisible(true);
         //InvoiceManager invoiceManager = new InvoiceManager();
         //InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
         //invoiceGUI.setVisible(true);

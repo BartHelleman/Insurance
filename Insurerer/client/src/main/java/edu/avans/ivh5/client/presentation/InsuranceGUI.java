@@ -21,16 +21,14 @@ public class InsuranceGUI extends javax.swing.JFrame {
      */
     public InsuranceGUI(InsuranceManager insuranceManager) {
         this.manager = insuranceManager;
-        this.insurance = (List<Insurance>) manager.getInsurances(searchPattern);
+        insurance = (List<Insurance>) manager.getInsurances(searchPattern);
         treatments.add(123321);
         treatments.add(345678);
 
         initComponents();
 
-        /*IDTextField.setText(Integer.toString(insurance.getID()));
-         nameTextField.setText(insurance.getName());
-         priceTextField.setText(insurance.getPrice().toString());
-         */
+        
+         
     }
     
     public InsuranceGUI()
@@ -67,9 +65,7 @@ public class InsuranceGUI extends javax.swing.JFrame {
         addInsuranceButton = new javax.swing.JButton();
         removeInsuranceButton = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
+        insurancesList = new javax.swing.JList();
 
         jInternalFrame1.setVisible(true);
 
@@ -213,11 +209,16 @@ public class InsuranceGUI extends javax.swing.JFrame {
             String name = insurance.get(i).getName();
             insuranceList.add(name);
         }
-        jList1.setModel(new javax.swing.AbstractListModel() {
+        insurancesList.setModel(new javax.swing.AbstractListModel() {
             public int getSize() { return insuranceList.size(); }
             public Object getElementAt(int i) { return insuranceList.get(i); }
         });
-        jScrollPane3.setViewportView(jList1);
+        insurancesList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                insurancesListMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(insurancesList);
 
         javax.swing.GroupLayout insurancePanelLayout = new javax.swing.GroupLayout(insurancePanel);
         insurancePanel.setLayout(insurancePanelLayout);
@@ -256,30 +257,18 @@ public class InsuranceGUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jList2.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList2);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(insuranceTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(insuranceTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(insurancePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(changeInsurancePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(251, 251, 251)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(insurancePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(changeInsurancePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(1096, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -291,9 +280,7 @@ public class InsuranceGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(changeInsurancePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(insurancePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(109, 109, 109))
+                .addContainerGap(377, Short.MAX_VALUE))
         );
 
         pack();
@@ -332,8 +319,18 @@ public class InsuranceGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_addInsuranceButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-
+        
     }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void insurancesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_insurancesListMouseClicked
+        Integer selected = (Integer) insurancesList.getSelectedIndex();
+        changeInsurancePanel.setVisible(true);
+        Insurance insurance2 = insurance.get(selected);
+        IDTextField.setText(Integer.toString(insurance2.getID()));
+        nameTextField.setText(insurance2.getName());
+        priceTextField.setText(insurance2.getPrice().toString());
+        
+    }//GEN-LAST:event_insurancesListMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel IDLabel;
@@ -342,15 +339,13 @@ public class InsuranceGUI extends javax.swing.JFrame {
     private javax.swing.JPanel changeInsurancePanel;
     private javax.swing.JPanel insurancePanel;
     private javax.swing.JTabbedPane insuranceTabbedPane;
+    private javax.swing.JList insurancesList;
     private javax.swing.JInternalFrame jInternalFrame1;
-    private javax.swing.JList jList1;
-    private javax.swing.JList jList2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JPopupMenu jPopupMenu2;
     private javax.swing.JPopupMenu jPopupMenu3;
     private javax.swing.JPopupMenu jPopupMenu4;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel nameLabel;

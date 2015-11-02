@@ -46,7 +46,7 @@ public class InsuranceDAO implements DAOInterface {
         List<Node> insuranceNodes = this.XMLParser.findElementsByName("insurance", searchPattern);
 
         insuranceNodes.stream().forEach((insuranceNode) -> {
-            int id = Integer.parseInt(this.XMLParser.getValueByNodeName(insuranceNode, "id"));
+            int id = Integer.parseInt(this.XMLParser.getValueByNodeName(insuranceNode, "ID"));
             String name = this.XMLParser.getValueByNodeName(insuranceNode, "name");
             BigDecimal price = new BigDecimal(this.XMLParser.getValueByNodeName(insuranceNode, "price"));
 
