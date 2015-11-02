@@ -93,19 +93,29 @@ public class InsuranceCompanyDAO implements DAOInterface {
 
     @Override
     public boolean delete(Object value) {
-        List<Object> result = get(value.toString());
-        if (result.size() != 1) {
-            return false;
-        } else {
-            InsuranceCompany companyToDelete = (InsuranceCompany) result.get(0);
-            List<Node> nodes = this.XMLParser.findElementsByName("company", companyToDelete.getKVK());
-            nodes.stream().forEach((node) -> {
-                this.XMLParser.deleteNode(node);
-            });
-            DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
-            return true;
+        List<Object> result = null;
+        
+        if(value instanceof String)
+        {
+            result = get(value.toString());
         }
-
+        else if(value instanceof InsuranceCompany)
+        {
+            InsuranceCompany company = (InsuranceCompany)value;
+            result = get(company.getKVK());
+        }
+        else
+            return false;
+        
+        if(result == null || result.size() != 1)
+            return false;
+        
+        InsuranceCompany companyToDelete = (InsuranceCompany)result.get(0);
+        List<Node> nodes = this.XMLParser.findElementsByName("company", companyToDelete.getKVK());
+        for(Node node : nodes) {
+            this.XMLParser.deleteNode(node);
+        }
+        DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
+        return true;
     }
-
 }

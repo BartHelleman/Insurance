@@ -197,13 +197,11 @@ public class XMLParser {
     public void addNode(Node nodeToAdd)
     {
         NodeList allNodes = getAllNodes();
-        
+
         for(int i = 0; i < allNodes.getLength(); i++) {
             Node currentNode = allNodes.item(i);
-            if(currentNode instanceof Element) {
-                currentNode.getParentNode().appendChild(nodeToAdd);
-                break;
-            }
+            currentNode.getParentNode().appendChild(nodeToAdd);
+            break;
         }
     }
 
