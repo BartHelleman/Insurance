@@ -37,8 +37,26 @@ public class InsuranceDAO implements DAOInterface {
     }
 
     @Override
-    public boolean delete(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean delete(Object searchPattern) {
+        List<Insurance> insurances = new ArrayList<>();
+        List<Object> result = get(searchPattern);
+        insurances.clear();
+        
+        for (Object o : result) {
+            insurances.add((Insurance) o);
+        }
+        for (Insurance i : insurances){
+            if(searchPattern.equals(i.getID())){
+                
+            List<Node> nodes = this.XMLParser.findElementsByName("insurance", i.getID());
+            for (Node node : nodes) {
+                this.XMLParser.deleteNode(node);
+            }
+            DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
+            return true;    
+            }
+        }
+        return false;
     }
 
     private List<Object> getInsurances(String searchPattern) {
@@ -46,7 +64,7 @@ public class InsuranceDAO implements DAOInterface {
         List<Node> insuranceNodes = this.XMLParser.findElementsByName("insurance", searchPattern);
 
         insuranceNodes.stream().forEach((insuranceNode) -> {
-            int id = Integer.parseInt(this.XMLParser.getValueByNodeName(insuranceNode, "ID"));
+            String id = (this.XMLParser.getValueByNodeName(insuranceNode, "ID"));
             String name = this.XMLParser.getValueByNodeName(insuranceNode, "name");
             BigDecimal price = new BigDecimal(this.XMLParser.getValueByNodeName(insuranceNode, "price"));
 

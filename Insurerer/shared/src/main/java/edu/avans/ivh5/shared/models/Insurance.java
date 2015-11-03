@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Insurance implements Serializable {
 
-    private int ID;
+    private String ID;
     private String name;
     private BigDecimal price;
 
@@ -16,14 +16,14 @@ public class Insurance implements Serializable {
     private ArrayList<InsuranceContract> contract = new ArrayList<>();
     private InsuranceCompany company;
 
-    public Insurance(int ID, String name, BigDecimal price, List<String> treatments) {
+    public Insurance(String ID, String name, BigDecimal price, List<String> treatments) {
         this.ID = ID;
         this.name = name;
         this.price = price;
         this.treatments = treatments;
     }
 
-    public int getID() {
+    public String getID() {
         return ID;
     }
 

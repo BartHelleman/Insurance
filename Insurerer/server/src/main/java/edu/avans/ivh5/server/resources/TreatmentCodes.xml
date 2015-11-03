@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<treatmentCodes
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xsi:noNamespaceSchemaLocation='TreatmentCodes.xsd'>
+    <treatmentCode>
+        <name>rugbehandeling</name>
+        <code>001behandelcode001</code>
+        <priceSession>15</priceSession>
+    </treatmentCode>
+
+    <treatmentCode>
+        <name>nekbehandeling</name>
+        <code>002behandelcode002</code>
+        <priceSession>25</priceSession>
+    </treatmentCode>
+    
+    <treatmentCode>
+        <name>beenbehandeling</name>
+        <code>003behandelcode003</code>
+        <priceSession>10</priceSession>
+    </treatmentCode>	    
+    
+</treatmentCodes>

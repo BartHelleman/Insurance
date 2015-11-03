@@ -18,9 +18,8 @@ public class Main {
 
     public static void main(String[] args) {
         //InsuranceManager insuranceManager = new InsuranceManager();
-        InsuranceGUI insuranceGUI = new InsuranceGUI();
+        //InsuranceGUI insuranceGUI = new InsuranceGUI();
         //insuranceGUI.setVisible(true);
-        
 
      //   Client client = new Client("12345678", "Burak", "Niels", "Krimpen", "2922CD", "Blomsingel 31", "NL00 INGB 012345", false, "nskerdel", "0612345678");
      //   InvoiceManager invoiceManager = new InvoiceManager();
@@ -29,6 +28,20 @@ public class Main {
        
          build();
 
+
+//         Client client = new Client("004", "Burak", "Niels", "Krimpen", "2922CD", "Blomsingel 31", "NL00 INGB 012345", false, "nskerdel", "0612345678");
+//         InvoiceManager invoiceManager = new InvoiceManager();
+//         InvoiceGUI invoiceGUI = new InvoiceGUI(client);
+//         invoiceGUI.setVisible(true);
+        //InvoiceManager invoiceManager = new InvoiceManager();
+        //InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
+        //invoiceGUI.setVisible(true);
+        //build();
+        //InvoiceManager invoiceManager = new InvoiceManager();
+        //InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
+        //invoiceGUI.setVisible(true);
+        //LoginGUI loginGUI = new LoginGUI();
+        //loginGUI.setVisible(true);
         //UserGUI userGUI = new UserGUI();
         //userGUI.setVisible(true);
         //InsuranceCompanyGUI insuranceCompanyGUI = new InsuranceCompanyGUI();
@@ -47,6 +60,6 @@ public class Main {
         }
         ClientGUI GUI = new ClientGUI();
         GUI.setVisible(true);
-    } 
+    }
 
 }

@@ -194,7 +194,7 @@
             <Component class="javax.swing.JList" name="treatmentList">
               <Properties>
                 <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new javax.swing.AbstractListModel() {&#xa;    public int getSize() { return treatments.size(); }&#xa;    public Object getElementAt(int i) { return treatments.get(i); }&#xa;}" type="code"/>
+                  <Connection code="new javax.swing.AbstractListModel() {&#xa;    public int getSize() { return treatmentCodes.size(); }&#xa;    public Object getElementAt(int i) { return treatmentCodes.get(i); }&#xa;}" type="code"/>
                 </Property>
               </Properties>
               <Events>
@@ -235,9 +235,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="nameTextField">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nameTextFieldActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="IDTextField">
         </Component>
@@ -246,11 +243,12 @@
         <Component class="javax.swing.JComboBox" name="treatmentComboBox">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.DefaultComboBoxModel(treatments.toArray())" type="code"/>
+              <Connection code="new javax.swing.DefaultComboBoxModel()" type="code"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Events>
+            <EventHandler event="popupMenuWillBecomeVisible" listener="javax.swing.event.PopupMenuListener" parameters="javax.swing.event.PopupMenuEvent" handler="treatmentComboBoxPopupMenuWillBecomeVisible"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="treatmentComboBoxActionPerformed"/>
           </Events>
         </Component>
@@ -380,6 +378,9 @@
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTable2MouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

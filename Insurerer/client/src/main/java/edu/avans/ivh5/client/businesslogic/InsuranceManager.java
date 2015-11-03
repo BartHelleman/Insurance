@@ -2,7 +2,9 @@ package edu.avans.ivh5.client.businesslogic;
 
 import edu.avans.ivh5.server.dao.InsuranceDAO;
 import edu.avans.ivh5.server.dao.LoginDAO;
+import edu.avans.ivh5.server.dao.TreatmentCodeDAO;
 import edu.avans.ivh5.shared.models.Insurance;
+import edu.avans.ivh5.shared.models.TreatmentCode;
 import edu.avans.ivh5.shared.models.User;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -17,6 +19,7 @@ public class InsuranceManager {
 
     LoginDAO loginDAO;
     private InsuranceDAO insuranceDAO;
+    private TreatmentCodeDAO treatmentCodeDAO;
     private List<Insurance> insurances;
 
     public InsuranceManager() {
@@ -61,6 +64,23 @@ public class InsuranceManager {
         //insurances.add(test);
 
         return insurances;
+    }
+    
+    public List<TreatmentCode> getTreatmentCodes(String searchPattern){
+        List<Object> result = new ArrayList<>();
+        List<TreatmentCode> treatmentCodes = new ArrayList<>();
+        
+        try {
+            treatmentCodeDAO = new TreatmentCodeDAO();
+                    } catch (ParserConfigurationException | SAXException | IOException ex) {
+            Logger.getLogger(InsuranceManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        result = treatmentCodeDAO.getTreatments(searchPattern);
+        for(Object o : result){
+            treatmentCodes.add((TreatmentCode) o);
+        }
+        return treatmentCodes;
     }
 
     /**
