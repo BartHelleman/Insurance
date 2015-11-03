@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -210,6 +211,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
         ArrayList<InsuranceContract> insuranceContracts = new ArrayList<>();
         List<Insurance> insurance;
 
+        // Define all Strings, int etc.
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         format.setLenient(false);
 
@@ -221,18 +223,22 @@ public class InvoiceGUI extends javax.swing.JFrame {
         String endDateHolder;
         Date endDate = null;
 
+        
+        // get values which should be saved
         insurance = insuranceManager.getInsurances((String) insuranceIDComboBox.getSelectedItem());
 
         int insuranceID = insurance.get(0).getID();
 
         String name = client.getName();
 
+        
+        // Checks if values are correct
         if (!ownRiskField.getText().isEmpty() && ownRiskField.getText().matches("[0-9]+")) {
             if (Integer.parseInt(ownRiskField.getText()) > 0) {
                 ownRisk = new BigDecimal(ownRiskField.getText());
             }
         } else {
-            ownRiskField.setText("Geef een geldig eigen risico op. Bijvoorbeeld 200");
+            JOptionPane.showMessageDialog(null, "Eigen risico is incorrect", "", JOptionPane.ERROR_MESSAGE);
         }
 
         if (!startDateField.getText().isEmpty()) {
@@ -242,9 +248,10 @@ public class InvoiceGUI extends javax.swing.JFrame {
                 startDate = format.parse(startDateHolder);
             } catch (ParseException ex) {
                 System.out.println("Error: " + ex);
+                JOptionPane.showMessageDialog(null, "Startdatum is incorrect", "", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            startDateField.setText("Geef een geldig datum op. Bijvoorbeeld 2000-01-01");
+            JOptionPane.showMessageDialog(null, "Startdatum is incorrect", "", JOptionPane.ERROR_MESSAGE);
         }
 
         if (!endDateField.getText().isEmpty()) {
@@ -254,23 +261,18 @@ public class InvoiceGUI extends javax.swing.JFrame {
                 endDate = format.parse(endDateHolder);
             } catch (ParseException ex) {
                 System.out.println("Error: " + ex);
+                JOptionPane.showMessageDialog(null, "Einddatum is incorrect", "", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            endDateField.setText("Geef een geldig datum op. Bijvoorbeeld 2000-01-01");
+            JOptionPane.showMessageDialog(null, "Einddatum is incorrect", "", JOptionPane.ERROR_MESSAGE);
         }
 
-        if (startDate != null && endDate != null && startDate.before(endDate)) {
-            if (ownRisk != null) {
-                  insuranceContracts.add(new InsuranceContract(ownRisk, name, insuranceID, startDate, endDate));
-                  insuranceContracts.stream().forEach(p -> invoiceManager.addInsuranceContract(p));
-            } else {
-
-            }
-        }
         
-        // TO DO:
-        // Add check if ID exists
-        // Correct error message
+        // If everything is correct, add member
+        if (startDate != null && endDate != null && startDate.before(endDate) && ownRisk != null) {
+            insuranceContracts.add(new InsuranceContract(client.getBSN(), ownRisk, name, insuranceID, startDate, endDate));
+            insuranceContracts.stream().forEach(p -> invoiceManager.addInsuranceContract(p));
+        }
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed

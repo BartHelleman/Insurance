@@ -28,6 +28,11 @@ public class InsuranceContractDAO implements DAOInterface {
             InsuranceContract insuranceContract = (InsuranceContract) item;
             Element insuranceContractNode = this.XMLParser.createElement("contract");
             
+            Element BSN = this.XMLParser.createElement("BSN");
+            Text insuranceContractBSN = this.XMLParser.createTextNode(insuranceContract.getBSN());
+            BSN.appendChild(insuranceContractBSN);
+            insuranceContractNode.appendChild(BSN);
+            
             Element clientName = this.XMLParser.createElement("clientName");
             Text insuranceContractClientName = this.XMLParser.createTextNode(insuranceContract.getClientName());
             clientName.appendChild(insuranceContractClientName);
@@ -79,13 +84,13 @@ public class InsuranceContractDAO implements DAOInterface {
     @Override
     public boolean delete(Object searchPattern) {
         List<Object> result = get(searchPattern);
-        //List<Client> clientToDelete = new ArrayList<>();
+
         InsuranceContract contractToDelete;
         if (searchPattern instanceof String) {
 
             contractToDelete = (InsuranceContract) result.get(0);
 
-            List<Node> nodes = this.XMLParser.findElementsByName("contract", contractToDelete.getClientName());
+            List<Node> nodes = this.XMLParser.findElementsByName("contract", contractToDelete.getBSN());
             nodes.stream().forEach((node) -> {
                 this.XMLParser.deleteNode(node);
             });
@@ -101,13 +106,14 @@ public class InsuranceContractDAO implements DAOInterface {
 
         if(!insuranceContractNodes.isEmpty()) {
             for (Node insuranceContractNode : insuranceContractNodes) {
+                String BSN = this.XMLParser.getValueByNodeName(insuranceContractNode, "BSN");
                 String clientName = this.XMLParser.getValueByNodeName(insuranceContractNode, "clientName");
                 BigDecimal ownRisk = new BigDecimal(this.XMLParser.getValueByNodeName(insuranceContractNode, "ownRisk"));         
                 int insuranceID = Integer.parseInt(this.XMLParser.getValueByNodeName(insuranceContractNode, "insuranceID"));
                 Date startDate = DateFormatter.stringToDate(this.XMLParser.getValueByNodeName(insuranceContractNode, "startDate"));
                 Date endDate = DateFormatter.stringToDate(this.XMLParser.getValueByNodeName(insuranceContractNode, "endDate"));
 
-                insuranceContracts.add(new InsuranceContract(ownRisk, clientName, insuranceID, startDate, endDate));
+                insuranceContracts.add(new InsuranceContract(BSN, ownRisk, clientName, insuranceID, startDate, endDate));
             }
         } else {
             insuranceContracts = null;

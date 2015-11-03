@@ -4,6 +4,7 @@
     xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
     xsi:noNamespaceSchemaLocation='InsuranceContracts.xsd'>
     <contract>
+        <BSN>123456789</BSN>
         <clientName>Burak</clientName>
         <ownRisk>200</ownRisk>
         <insuranceID>001</insuranceID>
@@ -12,6 +13,7 @@
     </contract>    
 
     <contract>
+        <BSN>500005243</BSN>
         <clientName>Rico</clientName>
         <ownRisk>150</ownRisk>
         <insuranceID>002</insuranceID>
@@ -20,7 +22,8 @@
     </contract> 
     
     <contract>
-        <clientName>Bart</clientName>
+        <BSN>98765423</BSN>
+        <clientName>Burak</clientName>
         <ownRisk>50</ownRisk>
         <insuranceID>003</insuranceID>
         <startDate>2015-08-05</startDate>

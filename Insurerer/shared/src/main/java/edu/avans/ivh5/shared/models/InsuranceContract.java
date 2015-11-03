@@ -6,18 +6,24 @@ import java.util.Date;
 
 public class InsuranceContract implements Serializable {
 
+    private String BSN;
     private BigDecimal ownRisk;
     private String clientName;
     private int insuranceID;
     private Date startDate;
     private Date endDate;
 
-    public InsuranceContract(BigDecimal ownRisk, String clientName, int insuranceID, Date startDate, Date endDate) {
+    public InsuranceContract(String BSN, BigDecimal ownRisk, String clientName, int insuranceID, Date startDate, Date endDate) {
+        this.BSN = BSN;
         this.ownRisk = ownRisk;
         this.clientName = clientName;
         this.insuranceID = insuranceID;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+    
+    public String getBSN() {
+        return BSN;
     }
 
     public BigDecimal getOwnRisk() {
