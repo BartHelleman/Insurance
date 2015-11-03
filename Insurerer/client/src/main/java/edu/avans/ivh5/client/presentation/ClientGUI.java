@@ -712,7 +712,7 @@ public class ClientGUI extends javax.swing.JFrame {
         //frame.add((JPanel)new InvoiceGUI().getContentPane());
         //frame.pack();
         //frame.setVisible(true);        
-        InvoiceGUI gui = new InvoiceGUI(new InvoiceManager());
+        //InvoiceGUI gui = new InvoiceGUI(new InvoiceManager());
     }//GEN-LAST:event_addInsuranceContractButtonActionPerformed
 
     private void polisCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_polisCheckBoxActionPerformed
