@@ -1,4 +1,4 @@
-package edu.avans.ivh5.server.api;
+package edu.avans.ivh5.shared.api;
 
 public interface ServerInterface {
     
