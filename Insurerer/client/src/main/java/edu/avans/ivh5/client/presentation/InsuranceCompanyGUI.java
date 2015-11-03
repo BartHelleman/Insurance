@@ -8,8 +8,6 @@ public class InsuranceCompanyGUI extends javax.swing.JFrame {
 
     InsuranceCompanyManager insuranceCompanyManager = new InsuranceCompanyManager();
 
-    private JOptionPane saveOptionPane;
-
     String name = "";
     String city = "";
     String postcode = "";
@@ -28,7 +26,6 @@ public class InsuranceCompanyGUI extends javax.swing.JFrame {
         postcodeTextField.setText(insuranceCompany.getPostCode());
         addressTextField.setText(insuranceCompany.getAddress());
         KVKTextField.setText(insuranceCompany.getKVK());
-
     }
 
     @SuppressWarnings("unchecked")
@@ -152,54 +149,135 @@ public class InsuranceCompanyGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Actions that will be performed after pressing the save button.
+     */
     private void saveCompanyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveCompanyButtonActionPerformed
-        if (!companyNameTextField.getText().matches("[0-9]+")) {
-            name = companyNameTextField.getText();
-        } else {
+        name = companyNameTextField.getText();
+        city = cityTextField.getText();
+        postcode = postcodeTextField.getText();
+        address = addressTextField.getText();
+        KVK = KVKTextField.getText();
+
+        InsuranceCompany insuranceCompany = new InsuranceCompany(name, city, postcode, address, KVK);
+
+        boolean validName = isValidName(name);
+        boolean validCity = isValidCity(city);
+        boolean validPostcode = isValidPostcode(postcode);
+        boolean validAddress = isValidAddress(address);
+        boolean validKVK = isValidKVK(KVK);
+
+        /**
+         * Check validation name from input
+         */
+        if (validName == false) {
             JOptionPane.showMessageDialog(null, "De ingevulde naam is ongeldig", "Ongeldige naam", JOptionPane.ERROR_MESSAGE);
         }
-        if (!cityTextField.getText().matches("[0-9]+")) {
-            city = cityTextField.getText();
-        } else {
+
+        /**
+         * Check validation city from input
+         */
+        if (validCity == false) {
             JOptionPane.showMessageDialog(null, "De ingevulde plaats is ongeldig", "Ongeldige plaats", JOptionPane.ERROR_MESSAGE);
         }
-        if (postcodeTextField.getText().matches("^[1-9][0-9]{3}[\\s]?[A-Za-z]{2}$")) {
-            postcode = postcodeTextField.getText();
-        } else {
+
+        /**
+         * Check validation postcode from input
+         */
+        if (validPostcode == false) {
             JOptionPane.showMessageDialog(null, "De ingevulde postcode is ongeldig", "Ongeldig postcode", JOptionPane.ERROR_MESSAGE);
         }
-        if (addressTextField.getText().matches("^([1-9][e][\\s])*([a-zA-Z]+(([\\.][\\s])|([\\s]))?)+[1-9][0-9]*(([-][1-9][0-9]*)|([\\s]?[a-zA-Z]+))?$")) {
-            address = addressTextField.getText();
-        } else {
+
+        /**
+         * Check validation address from input
+         */
+        if (validAddress == false) {
             JOptionPane.showMessageDialog(null, "Het ingevulde adres is ongeldig", "Ongeldig adres", JOptionPane.ERROR_MESSAGE);
         }
-        if (KVKTextField.getText().matches("[0-9]+")) {
-            KVK = KVKTextField.getText();
-        } else {
+
+        /**
+         * Check validation KVK from input
+         */
+        if (validKVK == false) {
             JOptionPane.showMessageDialog(null, "Het ingevulde KVK is ongeldig", "Ongeldig KVK", JOptionPane.ERROR_MESSAGE);
         }
-        
-        InsuranceCompany insuranceCompany = new InsuranceCompany(name, city, postcode, address, KVK);
-        insuranceCompanyManager.change(insuranceCompanyManager.getInsuranceCompany(), insuranceCompany);
-        JOptionPane.showMessageDialog(null, "Wijziging opgeslagen", "", JOptionPane.INFORMATION_MESSAGE);
+
+        /**
+         * Saves changes only when all input is valid
+         */
+        if (validName == true && validCity == true && validPostcode == true && validAddress == true && validKVK == true) {
+            insuranceCompanyManager.change(insuranceCompanyManager.getInsuranceCompany(), insuranceCompany);
+            JOptionPane.showMessageDialog(null, "Wijziging opgeslagen", "", JOptionPane.INFORMATION_MESSAGE);
+        }
+
     }//GEN-LAST:event_saveCompanyButtonActionPerformed
 
+    /**
+     * Validation name from input
+     */
+    private boolean isValidName(String name) {
+        return name.matches("^[a-zA-Z0-9]*$");
+    }
+
+    /**
+     * Validation city from input
+     */
+    private boolean isValidCity(String city) {
+        return city.matches("^([ \\u00c0-\\u01ffa-zA-Z'\\-])+$");
+    }
+
+    /**
+     * Validation postcode from input
+     */
+    private boolean isValidPostcode(String postcode) {
+        return postcode.matches("^[1-9][0-9]{3}[\\s]?[A-Za-z]{2}$");
+    }
+
+    /**
+     * Validation address from input
+     */
+    private boolean isValidAddress(String address) {
+        return address.matches("^([1-9][e][\\s])*([a-zA-Z]+(([\\.][\\s])|([\\s]))?)+[1-9][0-9]*(([-][1-9][0-9]*)|([\\s]?[a-zA-Z]+))?$");
+    }
+
+    /**
+     * Validation KVK from input
+     */
+    private boolean isValidKVK(String KVK) {
+        return KVK.matches("^[0-9]{8}$");
+    }
+
+    /**
+     * Selects all the text in the textfield after clicking on it.
+     */
     private void companyNameTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_companyNameTextFieldMouseClicked
         companyNameTextField.selectAll();
     }//GEN-LAST:event_companyNameTextFieldMouseClicked
 
+    /**
+     * Selects all the text in the textfield after clicking on it.
+     */
     private void cityTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cityTextFieldMouseClicked
         cityTextField.selectAll();
     }//GEN-LAST:event_cityTextFieldMouseClicked
 
+    /**
+     * Selects all the text in the textfield after clicking on it.
+     */
     private void postcodeTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_postcodeTextFieldMouseClicked
         postcodeTextField.selectAll();
     }//GEN-LAST:event_postcodeTextFieldMouseClicked
 
+    /**
+     * Selects all the text in the textfield after clicking on it.
+     */
     private void addressTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addressTextFieldMouseClicked
         addressTextField.selectAll();
     }//GEN-LAST:event_addressTextFieldMouseClicked
 
+    /**
+     * Selects all the text in the textfield after clicking on it.
+     */
     private void KVKTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_KVKTextFieldMouseClicked
         KVKTextField.selectAll();
     }//GEN-LAST:event_KVKTextFieldMouseClicked
@@ -217,15 +295,11 @@ public class InsuranceCompanyGUI extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InsuranceCompanyGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InsuranceCompanyGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InsuranceCompanyGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(InsuranceCompanyGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+
         //</editor-fold>
 
         /* Create and display the form */

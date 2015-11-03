@@ -11,15 +11,25 @@ import org.xml.sax.SAXException;
 
 public class InsuranceCompanyDAO implements DAOInterface {
 
-    private XMLParser XMLParser;
+    private final XMLParser XMLParser;
 
+    /**
+     * Creates a new XMLParser with InsuranceCompanies.xml and InsuranceCompanies.xsd as parameters.
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException 
+     */
     public InsuranceCompanyDAO() throws ParserConfigurationException, SAXException, IOException {
         this.XMLParser = new XMLParser("InsuranceCompanies.xml", "InsuranceCompanies.xsd");
     }
 
+    /**
+     * Method to add the InsuranceCompany to the XML file.
+     * @param item the newCompany object containing the values of the input fields.
+     * @return boolean, true 
+     */
     @Override
     public boolean add(Object item) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         if (item instanceof InsuranceCompany) {
             InsuranceCompany company = (InsuranceCompany) item;
             Element companyNode = this.XMLParser.createElement("company");
@@ -58,6 +68,11 @@ public class InsuranceCompanyDAO implements DAOInterface {
         return false;
     }
 
+    /**
+     * Method to get the InsuranceCompany values from the XML file.
+     * @param value Used to get a specific InsuranceCompany, but not needed here.
+     * @return List with the object InsuranceCompany.
+     */
     @Override
     public List<Object> get(Object value) {
         List<Object> companies = new ArrayList<>();
@@ -75,6 +90,12 @@ public class InsuranceCompanyDAO implements DAOInterface {
         return companies;
     }
 
+    /**
+     * Deletes the old values from the XML file, and adds the new ones.
+     * @param oldObject the current values of InsuranceCompany
+     * @param newObject the new values of InsuranceCompany
+     * @return boolean
+     */
     @Override
     public boolean change(Object oldObject, Object newObject) {
         if (!(oldObject instanceof InsuranceCompany) || !(newObject instanceof InsuranceCompany)) {
@@ -90,30 +111,33 @@ public class InsuranceCompanyDAO implements DAOInterface {
         return false;
     }
 
+    /**
+     * Deletes the given parameter from the XML file.
+     * @param value attribute to specify which InsuranceCompany needs to get deleted from the XML file.
+     * @return boolean
+     */
     @Override
     public boolean delete(Object value) {
         List<Object> result = null;
-        
-        if(value instanceof String)
-        {
+
+        if (value instanceof String) {
             result = get(value.toString());
-        }
-        else if(value instanceof InsuranceCompany)
-        {
-            InsuranceCompany company = (InsuranceCompany)value;
+        } else if (value instanceof InsuranceCompany) {
+            InsuranceCompany company = (InsuranceCompany) value;
             result = get(company.getKVK());
+        } else {
+            return false;
         }
-        else
+
+        if (result == null || result.size() != 1) {
             return false;
-        
-        if(result == null || result.size() != 1)
-            return false;
-        
-        InsuranceCompany companyToDelete = (InsuranceCompany)result.get(0);
+        }
+
+        InsuranceCompany companyToDelete = (InsuranceCompany) result.get(0);
         List<Node> nodes = this.XMLParser.findElementsByName("company", companyToDelete.getKVK());
-        for(Node node : nodes) {
+        nodes.stream().forEach((node) -> {
             this.XMLParser.deleteNode(node);
-        }
+        });
         DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
         return true;
     }
