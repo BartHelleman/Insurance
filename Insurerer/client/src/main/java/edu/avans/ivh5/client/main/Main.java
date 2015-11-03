@@ -31,7 +31,7 @@ public class Main {
         //InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
         //invoiceGUI.setVisible(true);
        
-        // build();
+        build();
 
         //InvoiceManager invoiceManager = new InvoiceManager();
         //InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);

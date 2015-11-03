@@ -20,6 +20,7 @@ private ClientManager clientManager;
     public ClientInfoPanel(ClientManager clientManager) {
         this.clientManager = clientManager;
         initComponents();
+        this.setVisible(true);
     }
 
     /**
@@ -62,7 +63,7 @@ private ClientManager clientManager;
         jLabel3 = new javax.swing.JLabel();
         declineButton = new javax.swing.JButton();
 
-        clientPanel.setVisible(false);
+        clientPanel.setVisible(true);
         clientPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         clientFirstNameLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -215,7 +216,7 @@ private ClientManager clientManager;
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 102, 255));
-        jLabel3.setText("Client Toevoegen");
+        jLabel3.setText("Client Toevoegen2");
 
         declineButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         declineButton.setText("Annuleren");
@@ -249,7 +250,7 @@ private ClientManager clientManager;
                                     .addGap(0, 0, Short.MAX_VALUE))
                                 .addGroup(clientPanelLayout.createSequentialGroup()
                                     .addComponent(clientPolisLabel)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(polisCheckBox))))
                         .addGap(18, 18, 18)
                         .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,7 +271,7 @@ private ClientManager clientManager;
                         .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(clientEmailLabel))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 248, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, clientPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -342,12 +343,12 @@ private ClientManager clientManager;
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 436, Short.MAX_VALUE)
+            .addGap(0, 461, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(clientPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(16, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -393,8 +394,8 @@ private ClientManager clientManager;
     }//GEN-LAST:event_clientEmailTextFieldActionPerformed
 
     private void addInsuranceContractButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInsuranceContractButtonActionPerformed
-        InvoiceGUI invoiceGUI = new InvoiceGUI();
-
+        //InvoiceGUI invoiceGUI = new InvoiceGUI();
+        //invoiceGUI.setVisible(true);
     }//GEN-LAST:event_addInsuranceContractButtonActionPerformed
 
     private void saveClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveClientButtonActionPerformed

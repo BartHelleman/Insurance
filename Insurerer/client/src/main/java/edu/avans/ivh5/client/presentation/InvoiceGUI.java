@@ -32,10 +32,11 @@ public class InvoiceGUI extends javax.swing.JFrame {
         
         // Set the JFrame to maximize by default on opening
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        initComponents();
-        displayInvoice();
+
+        // Rest of the program
     }
 
+  
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -171,6 +172,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
       
         // If client exists display data
         // else display nothing
+
         if (contract.getOwnRisk() == null) {
             // Add items to the combobox
             insurance.stream().forEach((insurance1) -> {
