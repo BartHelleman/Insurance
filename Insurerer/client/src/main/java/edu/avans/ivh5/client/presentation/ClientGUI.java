@@ -8,6 +8,7 @@ package edu.avans.ivh5.client.presentation;
 import edu.avans.ivh5.client.businesslogic.ClientManager;
 import edu.avans.ivh5.client.businesslogic.InvoiceManager;
 import edu.avans.ivh5.shared.models.Client;
+import edu.avans.ivh5.shared.models.Invoice;
 import java.awt.Frame;
 import java.awt.LayoutManager;
 import java.util.ArrayList;
@@ -69,7 +70,18 @@ public class ClientGUI extends javax.swing.JFrame {
                     clientPanel.setVisible(true);
                     jScrollPane2.setVisible(true);
                     getInvoiceButton.setVisible(true);
+                    clientPolisLabel.setVisible(true);
+                    addInsuranceContractButton.setVisible(true);
+                    polisCheckBox.setVisible(true);
+                    
+                    if(clientManager.hasInsuranceContract(client)){
+                        setCheckBox(true);
+                    }
+                    else {
+                        setCheckBox(false);
+                    }
                 }
+
             }
 
         });
@@ -280,8 +292,8 @@ public class ClientGUI extends javax.swing.JFrame {
         clientEmailLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         clientEmailLabel1.setText("Email:");
 
-        polisCheckBox.setSelected(true);
         polisCheckBox.setText("toegevoegd");
+        polisCheckBox.setEnabled(false);
         polisCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 polisCheckBoxActionPerformed(evt);
@@ -489,6 +501,9 @@ public class ClientGUI extends javax.swing.JFrame {
         clientPanel.setVisible(true);
         jScrollPane2.setVisible(false);
         getInvoiceButton.setVisible(false);
+        clientPolisLabel.setVisible(false);
+        addInsuranceContractButton.setVisible(false);
+        polisCheckBox.setVisible(false);
 
     }//GEN-LAST:event_addClientButtonActionPerformed
 
@@ -504,6 +519,7 @@ public class ClientGUI extends javax.swing.JFrame {
             if (action == 0) {
                 clientManager.deleteClient((String) clientsTable.getValueAt(clientsTable.getSelectedRow(), 2));
                 tableModel.removeRow(clientsTable.getSelectedRow());
+            
             }
         }
     }//GEN-LAST:event_deleteClientButtonActionPerformed
@@ -660,9 +676,9 @@ public class ClientGUI extends javax.swing.JFrame {
 
     private void addInsuranceContractButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInsuranceContractButtonActionPerformed
         JFrame frame = new JFrame();
-        frame.add((JPanel)new InvoiceGUI(selectedClient).getContentPane());
+        frame.add((JPanel) new InvoiceGUI(selectedClient, this).getContentPane());
         frame.pack();
-        frame.setVisible(true);        
+        frame.setVisible(true);
         //InvoiceGUI gui = new InvoiceGUI(new InvoiceManager());
     }//GEN-LAST:event_addInsuranceContractButtonActionPerformed
 
@@ -883,6 +899,11 @@ public class ClientGUI extends javax.swing.JFrame {
         clientEmailTextField.setText("");
         clientIBANTextField.setText("");
     }
+
+    public void setCheckBox(boolean value) {
+        polisCheckBox.setSelected(value);
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addClientButton;
     private javax.swing.JButton addInsuranceContractButton;

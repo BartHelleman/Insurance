@@ -16,6 +16,8 @@ public class InvoiceManager {
     //relaties
     private ClientManager clientManager;
     private InsuranceContractDAO InsuranceContractDAO;
+    
+    
 
     public InsuranceContract getInsuranceContract(Client client) {
         InsuranceContract insuranceContract;

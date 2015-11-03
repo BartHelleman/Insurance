@@ -24,11 +24,13 @@ public class InvoiceGUI extends javax.swing.JFrame {
     private final InvoiceManager invoiceManager;
     private final InsuranceManager insuranceManager;
     private final Client client;
+    private ClientGUI clientGUI;
 
-    public InvoiceGUI(Client client) {
+    public InvoiceGUI(Client client, ClientGUI clientGUI) {
         this.client = client;
         this.invoiceManager = new InvoiceManager();
         this.insuranceManager = new InsuranceManager();
+        this.clientGUI = clientGUI;
         
         // Set the JFrame to maximize by default on opening
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -232,6 +234,8 @@ public class InvoiceGUI extends javax.swing.JFrame {
         int insuranceID = insurance.get(0).getID();
 
         String name = client.getName();
+        
+        clientGUI.setCheckBox(true);
 
         
         // Checks if values are correct

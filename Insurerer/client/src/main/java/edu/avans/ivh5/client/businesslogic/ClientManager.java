@@ -1,6 +1,7 @@
 package edu.avans.ivh5.client.businesslogic;
 
 import edu.avans.ivh5.server.dao.ClientDAO;
+import edu.avans.ivh5.server.dao.InsuranceContractDAO;
 import edu.avans.ivh5.shared.models.Client;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,6 +67,20 @@ public class ClientManager {
 
     public void changeClient(Client oldClient, Client newClient) {
         clientDAO.change(oldClient, newClient);
+    }
+    
+    public boolean hasInsuranceContract(Client client) {
+        try {
+            InsuranceContractDAO idao = new InsuranceContractDAO();
+            List<Object> contracts = idao.get(client.getBSN());
+            return contracts.size() != 0;
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        
+        return false;
     }
 
 }
