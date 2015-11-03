@@ -83,40 +83,58 @@ public class InsuranceContractDAO implements DAOInterface {
 
     @Override
     public boolean delete(Object searchPattern) {
+        List<InsuranceContract> insuranceContracts = new ArrayList();
         List<Object> result = get(searchPattern);
 
         InsuranceContract contractToDelete;
         if (searchPattern instanceof String) {
-
-            contractToDelete = (InsuranceContract) result.get(0);
-
-            List<Node> nodes = this.XMLParser.findElementsByName("contract", contractToDelete.getBSN());
-            nodes.stream().forEach((node) -> {
-                this.XMLParser.deleteNode(node);
+            result.stream().forEach((o) -> {
+                insuranceContracts.add((InsuranceContract) o);
             });
-            DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
-            return true;
+        
+            for (InsuranceContract p : insuranceContracts){
+                if(searchPattern.equals(p.getBSN())) {
+                    contractToDelete = (InsuranceContract) result.get(0);
+
+                    List<Node> nodes = this.XMLParser.findElementsByName("contract", contractToDelete.getBSN());
+                    nodes.stream().forEach((node) -> {
+                        this.XMLParser.deleteNode(node);
+                    });
+
+                    DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
+                    return true;
+                }
+            }
         }
         return false;
     }
 
-    private List<Object> getInsuranceContract(String searchPattern) {
+    private List<Object> getInsuranceContract(String searchPattern) { 
         List<Object> insuranceContracts = new ArrayList<>();
         List<Node> insuranceContractNodes = this.XMLParser.findElementsByName("contract", searchPattern);
+        List<InsuranceContract> insuranceContractsList = new ArrayList();
+        
+        if (searchPattern instanceof String) {
+            insuranceContracts.stream().forEach((o) -> {
+                insuranceContractsList.add((InsuranceContract) o);
+            });
+        
+            for (InsuranceContract p : insuranceContractsList){
+                if(!insuranceContractNodes.isEmpty() && searchPattern.equals(p.getBSN())) {
+                    for (Node insuranceContractNode : insuranceContractNodes) {
+                        String BSN = this.XMLParser.getValueByNodeName(insuranceContractNode, "BSN");
+                        String clientName = this.XMLParser.getValueByNodeName(insuranceContractNode, "clientName");
+                        BigDecimal ownRisk = new BigDecimal(this.XMLParser.getValueByNodeName(insuranceContractNode, "ownRisk"));         
+                        int insuranceID = Integer.parseInt(this.XMLParser.getValueByNodeName(insuranceContractNode, "insuranceID"));
+                        Date startDate = DateFormatter.stringToDate(this.XMLParser.getValueByNodeName(insuranceContractNode, "startDate"));
+                        Date endDate = DateFormatter.stringToDate(this.XMLParser.getValueByNodeName(insuranceContractNode, "endDate"));
 
-        if(!insuranceContractNodes.isEmpty()) {
-            for (Node insuranceContractNode : insuranceContractNodes) {
-                String BSN = this.XMLParser.getValueByNodeName(insuranceContractNode, "BSN");
-                String clientName = this.XMLParser.getValueByNodeName(insuranceContractNode, "clientName");
-                BigDecimal ownRisk = new BigDecimal(this.XMLParser.getValueByNodeName(insuranceContractNode, "ownRisk"));         
-                int insuranceID = Integer.parseInt(this.XMLParser.getValueByNodeName(insuranceContractNode, "insuranceID"));
-                Date startDate = DateFormatter.stringToDate(this.XMLParser.getValueByNodeName(insuranceContractNode, "startDate"));
-                Date endDate = DateFormatter.stringToDate(this.XMLParser.getValueByNodeName(insuranceContractNode, "endDate"));
-
-                insuranceContracts.add(new InsuranceContract(BSN, ownRisk, clientName, insuranceID, startDate, endDate));
+                        insuranceContracts.add(new InsuranceContract(BSN, ownRisk, clientName, insuranceID, startDate, endDate));
+                    }
+                } else {
+                    insuranceContracts = null;
+                }
             }
-        } else {
-            insuranceContracts = null;
         }
         return insuranceContracts;
     }

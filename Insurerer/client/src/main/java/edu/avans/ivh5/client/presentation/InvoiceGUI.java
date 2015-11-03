@@ -267,7 +267,6 @@ public class InvoiceGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Einddatum is incorrect", "", JOptionPane.ERROR_MESSAGE);
         }
 
-        
         // If everything is correct, add member
         if (startDate != null && endDate != null && startDate.before(endDate) && ownRisk != null) {
             insuranceContracts.add(new InsuranceContract(client.getBSN(), ownRisk, name, insuranceID, startDate, endDate));
