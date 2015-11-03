@@ -40,35 +40,36 @@ public class ClientGUI extends javax.swing.JFrame {
         clientsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent event) {
+                if (clientsTable.getSelectedRow() != -1) {
+                    String BSN = clientsTable.getValueAt(clientsTable.getSelectedRow(), 2).toString();
+                    List<Client> result = clientManager.searchClient(BSN);
+                    if (result.isEmpty()) {
+                        return;
+                    }
+                    Client client = result.get(0);
 
-                String BSN = clientsTable.getValueAt(clientsTable.getSelectedRow(), 2).toString();
-                List<Client> result = clientManager.searchClient(BSN);
-                if (result.size() == 0) {
-                    return;
+                    clientFirstNameTextField.setText(client.getFirstName());
+                    clientLastNameTextField.setText(client.getName());
+                    clientBSNTextField.setText(client.getBSN());
+                    clientAddressTextField.setText(client.getAddress());
+                    clientPostCodeTextField.setText(client.getPostcode());
+                    clientCityTextField.setText(client.getCity());
+                    clientTelTextField.setText(client.getTel());
+                    clientEmailTextField.setText(client.getEmail());
+                    clientIBANTextField.setText(client.getIBAN());
+                    int index;
+                    if (client.isIncasso()) {
+                        index = 0;
+                    } else {
+                        index = 1;
+                    }
+
+                    clientIncassoCombobox.setSelectedIndex(index);
+                    selectedClient = client;
+                    clientPanel.setVisible(true);
+                    jScrollPane2.setVisible(true);
+                    getInvoiceButton.setVisible(true);
                 }
-                Client client = result.get(0);
-
-                clientFirstNameTextField.setText(client.getFirstName());
-                clientLastNameTextField.setText(client.getName());
-                clientBSNTextField.setText(client.getBSN());
-                clientAddressTextField.setText(client.getAddress());
-                clientPostCodeTextField.setText(client.getPostcode());
-                clientCityTextField.setText(client.getCity());
-                clientTelTextField.setText(client.getTel());
-                clientEmailTextField.setText(client.getEmail());
-                clientIBANTextField.setText(client.getIBAN());
-                int index;
-                if (client.isIncasso()) {
-                    index = 0;
-                } else {
-                    index = 1;
-                }
-
-                clientIncassoCombobox.setSelectedIndex(index);
-
-                selectedClient = client;
-
-                clientPanel.setVisible(true);
             }
 
         });
@@ -708,10 +709,10 @@ public class ClientGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_saveClientButtonActionPerformed
 
     private void addInsuranceContractButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInsuranceContractButtonActionPerformed
-        //JFrame frame = new JFrame();
-        //frame.add((JPanel)new InvoiceGUI().getContentPane());
-        //frame.pack();
-        //frame.setVisible(true);        
+        JFrame frame = new JFrame();
+        frame.add((JPanel)new InvoiceGUI(selectedClient).getContentPane());
+        frame.pack();
+        frame.setVisible(true);        
         //InvoiceGUI gui = new InvoiceGUI(new InvoiceManager());
     }//GEN-LAST:event_addInsuranceContractButtonActionPerformed
 
