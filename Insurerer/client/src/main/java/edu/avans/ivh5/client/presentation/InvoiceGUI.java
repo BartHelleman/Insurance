@@ -32,6 +32,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
         
         // Set the JFrame to maximize by default on opening
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        initComponents();
         displayInvoice();
         // Rest of the program
     }
@@ -169,11 +170,10 @@ public class InvoiceGUI extends javax.swing.JFrame {
         InsuranceContract contract = invoiceManager.getInsuranceContract(client);
         
         insurance = insuranceManager.getInsurances("zorgverzekering");
-      
         // If client exists display data
         // else display nothing
 
-        if (contract.getOwnRisk() == null) {
+        if (contract.getBSN() == null) {
             // Add items to the combobox
             insurance.stream().forEach((insurance1) -> {
                 insuranceIDComboBox.addItem(insurance1.getName());
@@ -200,7 +200,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
             ownRiskField.setEditable(false);
             
             // Don't display save button
-            saveButton.setVisible(false);
+            saveButton.setVisible(false); 
         }
     }
 

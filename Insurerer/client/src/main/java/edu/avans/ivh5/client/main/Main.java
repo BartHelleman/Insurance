@@ -22,12 +22,12 @@ public class Main {
         //insuranceGUI.setVisible(true);
         
 
-        Client client = new Client("123456789", "Burak", "Niels", "Krimpen", "2922CD", "Blomsingel 31", "NL00 INGB 012345", false, "nskerdel", "0612345678");
-        InvoiceManager invoiceManager = new InvoiceManager();
-        InvoiceGUI invoiceGUI = new InvoiceGUI(client);
-        invoiceGUI.setVisible(true);
+     //   Client client = new Client("12345678", "Burak", "Niels", "Krimpen", "2922CD", "Blomsingel 31", "NL00 INGB 012345", false, "nskerdel", "0612345678");
+     //   InvoiceManager invoiceManager = new InvoiceManager();
+     //   InvoiceGUI invoiceGUI = new InvoiceGUI(client);
+     //   invoiceGUI.setVisible(true);
        
-        // build();
+         build();
 
         //UserGUI userGUI = new UserGUI();
         //userGUI.setVisible(true);
