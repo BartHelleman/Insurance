@@ -32,7 +32,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
         
         // Set the JFrame to maximize by default on opening
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-
+        displayInvoice();
         // Rest of the program
     }
 
