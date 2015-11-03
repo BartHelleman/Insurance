@@ -63,7 +63,7 @@ public class ClientManager {
     }
 
     public void changeClient(Client oldClient, Client newClient) {
-
+        clientDAO.change(oldClient, newClient);
     }
 
 }

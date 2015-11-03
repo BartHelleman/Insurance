@@ -20,21 +20,23 @@ public class InvoiceManager {
     public InsuranceContract getInsuranceContract(Client client) {
         InsuranceContract insuranceContract;
 
-        // client omzetten naar String clientName
-        // Waarschijnlijk iets als String clientName = client.getName();
-        String clientName = "Burak";
+        // client to BSN
+        String BSN = client.getBSN();
    
+        // New DAO
         try {
             InsuranceContractDAO = new InsuranceContractDAO();
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             System.out.println("Error message:" + ex.getMessage());
         }
         
-        if(InsuranceContractDAO.get(clientName) == null) {
-            insuranceContract = new InsuranceContract(null, clientName, 0, null, null);
-            System.out.println("Persoon heeft geen polis");
+        
+        // get all data off insurancecontracts
+        if(InsuranceContractDAO.get(BSN).size() == 1) {
+            insuranceContract = (InsuranceContract) InsuranceContractDAO.get(BSN).get(0);
         } else {
-            insuranceContract = (InsuranceContract) InsuranceContractDAO.get(clientName).get(0);
+            insuranceContract = new InsuranceContract(null, null, BSN, 0, null, null);
+            System.out.println("Persoon heeft geen polis");
         }
      
         return insuranceContract;
@@ -48,27 +50,31 @@ public class InvoiceManager {
             System.out.println("TEST" + insuranceContract1.getClientName() + insuranceContract1.getOwnRisk() + insuranceContract1.getInsuranceID() + insuranceContract1.getStartDate() + insuranceContract1.getEndDate());
         });
         
+        // new DAO
         try {
            InsuranceContractDAO = new InsuranceContractDAO();
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             System.out.println("Error message:" + ex.getMessage());
         }
 
+        // Add all members to XML
         insuranceContracts.stream().forEach(p -> InsuranceContractDAO.add(p));
 
         return null;
     }
 
-    public void deleteInsuranceContract(String clientName) {
-        Boolean insuranceContract = null;
+    public void deleteInsuranceContract(Client client) {
+        Boolean insuranceContract;    
         
+        // new DAO
         try {
             InsuranceContractDAO = new InsuranceContractDAO();
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             System.out.println("Error message:" + ex.getMessage());
         }
-
-            insuranceContract = InsuranceContractDAO.delete(clientName);
+        
+        // delete member from XML
+        insuranceContract = InsuranceContractDAO.delete(client.getBSN());
     }
 
     public Invoice getInvoice(Treatment treatment) {

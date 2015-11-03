@@ -1,10 +1,10 @@
 package edu.avans.ivh5.client.presentation;
 
+import edu.avans.ivh5.client.businesslogic.InsuranceManager;
 import edu.avans.ivh5.client.businesslogic.InvoiceManager;
-import edu.avans.ivh5.server.dao.InsuranceDAO;
+import edu.avans.ivh5.shared.models.Client;
 import edu.avans.ivh5.shared.models.Insurance;
 import edu.avans.ivh5.shared.models.InsuranceContract;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -12,35 +12,31 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.xml.parsers.ParserConfigurationException;
-import org.xml.sax.SAXException;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Niels
  */
 public class InvoiceGUI extends javax.swing.JFrame {
+    
+    private final InvoiceManager invoiceManager;
+    private final InsuranceManager insuranceManager;
+    private final Client client;
 
-    public InvoiceGUI() {
-
+    public InvoiceGUI(Client client) {
+        this.client = client;
+        this.invoiceManager = new InvoiceManager();
+        this.insuranceManager = new InsuranceManager();
+        
         // Set the JFrame to maximize by default on opening
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         // Rest of the program
     }
 
-    private InvoiceManager manager;
-     private InsuranceDAO insuranceDAO;
-
-    public InvoiceGUI(InvoiceManager manager) {
-        this.manager = manager;
-        initComponents();
-        displayInvoice();
-    }
-
+  
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -56,7 +52,6 @@ public class InvoiceGUI extends javax.swing.JFrame {
         startDateField = new javax.swing.JTextField();
         endDateField = new javax.swing.JTextField();
         insuranceIDComboBox = new javax.swing.JComboBox();
-        insuranceIDField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,8 +86,6 @@ public class InvoiceGUI extends javax.swing.JFrame {
 
         insuranceIDComboBox.setModel(new javax.swing.DefaultComboBoxModel());
 
-        insuranceIDField.setText("jTextField1");
-
         javax.swing.GroupLayout panelPolisLayout = new javax.swing.GroupLayout(panelPolis);
         panelPolis.setLayout(panelPolisLayout);
         panelPolisLayout.setHorizontalGroup(
@@ -120,13 +113,8 @@ public class InvoiceGUI extends javax.swing.JFrame {
                         .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(247, 247, 247))
             .addGroup(panelPolisLayout.createSequentialGroup()
-                .addGroup(panelPolisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelPolisLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(backButton))
-                    .addGroup(panelPolisLayout.createSequentialGroup()
-                        .addGap(346, 346, 346)
-                        .addComponent(insuranceIDField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap()
+                .addComponent(backButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelPolisLayout.setVerticalGroup(
@@ -135,9 +123,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
                 .addGroup(panelPolisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(backButton)
                     .addGroup(panelPolisLayout.createSequentialGroup()
-                        .addGap(51, 51, 51)
-                        .addComponent(insuranceIDField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(89, 89, 89)
                         .addGroup(panelPolisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(insuranceIDComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -178,33 +164,27 @@ public class InvoiceGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public final String displayInvoice() {
-        List<Insurance> insurance = new ArrayList<>();
-        Insurance insurances;
+    public final void displayInvoice() {
+        List<Insurance> insurance;
+        InsuranceContract contract = invoiceManager.getInsuranceContract(client);
         
-        InsuranceContract contract = manager.getInsuranceContract(null);
-         try {
-            insuranceDAO = new InsuranceDAO();
-            List<Object> iets = insuranceDAO.get("zorgverzekering");
-            
-            for(int i = 0; i < iets.size(); i++) {
-                insurance.add((Insurance) insuranceDAO.get("zorgverzekering").get(i));  
-            }
-            
-            insurance.stream().forEach((insurance1) -> {
-                insuranceIDComboBox.addItem(insurance1.getID());
-            });
-        } catch (ParserConfigurationException | SAXException | IOException ex) {
-            Logger.getLogger(InvoiceGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        String clientName = contract.getClientName();
+        insurance = insuranceManager.getInsurances("zorgverzekering");
+      
+        // If client exists display data
+        // else display nothing
 
         if (contract.getOwnRisk() == null) {
+            // Add items to the combobox
+            insurance.stream().forEach((insurance1) -> {
+                insuranceIDComboBox.addItem(insurance1.getName());
+                System.out.println(insurance1.getName());
+            });
+            
+            // Don't display delete button
             deleteButton.setVisible(false);
         } else {
-            insuranceIDField.setText(contract.getClientName());
-            insuranceIDComboBox.setSelectedItem("iets");
+            // Add content to the fields
+            insuranceIDComboBox.addItem(insurance.get(contract.getInsuranceID() - 1).getName());
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             startDateField.setText(formatter.format(contract.getStartDate()));
@@ -212,26 +192,28 @@ public class InvoiceGUI extends javax.swing.JFrame {
 
             Integer ownRisk = contract.getOwnRisk().intValue();
             ownRiskField.setText(Integer.toString(ownRisk));
-
-            saveButton.setVisible(false);
-
-            insuranceIDField.setEditable(false);
+            
+            // Can't edit fields
+            insuranceIDComboBox.setEnabled(false);
             startDateField.setEditable(false);
             endDateField.setEditable(false);
             ownRiskField.setEditable(false);
+            
+            // Don't display save button
+            saveButton.setVisible(false);
         }
-        return clientName;
     }
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        // TODO add your handling code here:
-        String clientName = displayInvoice();
-        manager.deleteInsuranceContract(clientName);
+        // Call delete function
+        invoiceManager.deleteInsuranceContract(client);
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         ArrayList<InsuranceContract> insuranceContracts = new ArrayList<>();
+        List<Insurance> insurance;
 
+        // Define all Strings, int etc.
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         format.setLenient(false);
 
@@ -244,20 +226,21 @@ public class InvoiceGUI extends javax.swing.JFrame {
         Date endDate = null;
 
         
-        int insuranceID = Integer.parseInt(insuranceIDComboBox.getSelectedItem().toString());
-        String name = displayInvoice();
+        // get values which should be saved
+        insurance = insuranceManager.getInsurances((String) insuranceIDComboBox.getSelectedItem());
 
+        int insuranceID = insurance.get(0).getID();
+
+        String name = client.getName();
+
+        
+        // Checks if values are correct
         if (!ownRiskField.getText().isEmpty() && ownRiskField.getText().matches("[0-9]+")) {
-            if(Integer.parseInt(ownRiskField.getText()) > 0) {
-            ownRisk = new BigDecimal(ownRiskField.getText());
+            if (Integer.parseInt(ownRiskField.getText()) > 0) {
+                ownRisk = new BigDecimal(ownRiskField.getText());
             }
         } else {
-            ownRiskField.setText("Geef een geldig eigen risico op. Bijvoorbeeld 200");
-        }
-
-        if (!insuranceIDField.getText().isEmpty()) {
-            insuranceID = Integer.parseInt(insuranceIDField.getText());
-        } else {
+            JOptionPane.showMessageDialog(null, "Eigen risico is incorrect", "", JOptionPane.ERROR_MESSAGE);
         }
 
         if (!startDateField.getText().isEmpty()) {
@@ -267,9 +250,10 @@ public class InvoiceGUI extends javax.swing.JFrame {
                 startDate = format.parse(startDateHolder);
             } catch (ParseException ex) {
                 System.out.println("Error: " + ex);
+                JOptionPane.showMessageDialog(null, "Startdatum is incorrect", "", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            startDateField.setText("Geef een geldig datum op. Bijvoorbeeld 2000-01-01");
+            JOptionPane.showMessageDialog(null, "Startdatum is incorrect", "", JOptionPane.ERROR_MESSAGE);
         }
 
         if (!endDateField.getText().isEmpty()) {
@@ -279,23 +263,21 @@ public class InvoiceGUI extends javax.swing.JFrame {
                 endDate = format.parse(endDateHolder);
             } catch (ParseException ex) {
                 System.out.println("Error: " + ex);
+                JOptionPane.showMessageDialog(null, "Einddatum is incorrect", "", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            endDateField.setText("Geef een geldig datum op. Bijvoorbeeld 2000-01-01");
+            JOptionPane.showMessageDialog(null, "Einddatum is incorrect", "", JOptionPane.ERROR_MESSAGE);
         }
 
-        if (startDate != null && endDate != null && startDate.before(endDate)) {
-            if (ownRisk != null) {
-                insuranceContracts.add(new InsuranceContract(ownRisk, name, insuranceID, startDate, endDate));
-                insuranceContracts.stream().forEach(p -> manager.addInsuranceContract(p));
-            } else {
-
-            }
+        // If everything is correct, add member
+        if (startDate != null && endDate != null && startDate.before(endDate) && ownRisk != null) {
+            insuranceContracts.add(new InsuranceContract(client.getBSN(), ownRisk, name, insuranceID, startDate, endDate));
+            insuranceContracts.stream().forEach(p -> invoiceManager.addInsuranceContract(p));
         }
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        // TODO add your handling code here:
+        // Close frame
         this.dispose();
     }//GEN-LAST:event_backButtonActionPerformed
 
@@ -305,7 +287,6 @@ public class InvoiceGUI extends javax.swing.JFrame {
     private javax.swing.JButton deleteButton;
     private javax.swing.JTextField endDateField;
     private javax.swing.JComboBox insuranceIDComboBox;
-    private javax.swing.JTextField insuranceIDField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

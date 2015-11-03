@@ -6,12 +6,17 @@
 package edu.avans.ivh5.client.presentation;
 
 import edu.avans.ivh5.client.businesslogic.ClientManager;
+import edu.avans.ivh5.client.businesslogic.InvoiceManager;
 import edu.avans.ivh5.shared.models.Client;
 import java.awt.Frame;
+import java.awt.LayoutManager;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,6 +28,7 @@ public class ClientGUI extends javax.swing.JFrame {
     //relaties
     private ClientManager clientManager;
     private List<Client> clienten;
+    private Client selectedClient;
 
     /**
      * Creates new form ClientGUI
@@ -30,6 +36,43 @@ public class ClientGUI extends javax.swing.JFrame {
     public ClientGUI() {
         this.clienten = new ArrayList<>();
         initComponents();
+
+        clientsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+
+                String BSN = clientsTable.getValueAt(clientsTable.getSelectedRow(), 2).toString();
+                List<Client> result = clientManager.searchClient(BSN);
+                if (result.size() == 0) {
+                    return;
+                }
+                Client client = result.get(0);
+
+                clientFirstNameTextField.setText(client.getFirstName());
+                clientLastNameTextField.setText(client.getName());
+                clientBSNTextField.setText(client.getBSN());
+                clientAddressTextField.setText(client.getAddress());
+                clientPostCodeTextField.setText(client.getPostcode());
+                clientCityTextField.setText(client.getCity());
+                clientTelTextField.setText(client.getTel());
+                clientEmailTextField.setText(client.getEmail());
+                clientIBANTextField.setText(client.getIBAN());
+                int index;
+                if (client.isIncasso()) {
+                    index = 0;
+                } else {
+                    index = 1;
+                }
+
+                clientIncassoCombobox.setSelectedIndex(index);
+
+                selectedClient = client;
+
+                clientPanel.setVisible(true);
+            }
+
+        });
+
         this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
         this.clientManager = new ClientManager();
@@ -104,6 +147,11 @@ public class ClientGUI extends javax.swing.JFrame {
         );
         clientsTable.getTableHeader().setResizingAllowed(false);
         clientsTable.getTableHeader().setReorderingAllowed(false);
+        clientsTable.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                clientsTablePropertyChange(evt);
+            }
+        });
         jScrollPane1.setViewportView(clientsTable);
 
         searchClientButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -291,7 +339,7 @@ public class ClientGUI extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 102, 255));
-        jLabel3.setText("Client Toevoegen");
+        jLabel3.setText("Client toevoegen / wijzigen");
 
         declineButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         declineButton.setText("Annuleren");
@@ -349,9 +397,9 @@ public class ClientGUI extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, clientPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(getInvoiceButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(declineButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(declineButton, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+                            .addComponent(getInvoiceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         clientPanelLayout.setVerticalGroup(
@@ -476,48 +524,78 @@ public class ClientGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addClientButtonActionPerformed
+        if (selectedClient != null) {
+            clientFirstNameTextField.setText("");
+            clientLastNameTextField.setText("");
+            clientBSNTextField.setText("");
+            clientAddressTextField.setText("");
+            clientPostCodeTextField.setText("");
+            clientCityTextField.setText("");
+            clientTelTextField.setText("");
+            clientEmailTextField.setText("");
+            clientIBANTextField.setText("");
+        }
         clientPanel.setVisible(true);
+        jScrollPane2.setVisible(false);
+        getInvoiceButton.setVisible(false);
+
     }//GEN-LAST:event_addClientButtonActionPerformed
 
-    private void clientIBANTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientIBANTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientIBANTextFieldActionPerformed
+    private void deleteClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteClientButtonActionPerformed
+        DefaultTableModel tableModel = (DefaultTableModel) clientsTable.getModel();
+        Object[] options = {"Ja", "Nee"};
+
+        if (clientsTable.getSelectedRowCount() != 1) {
+            System.out.println("Selecteer één persoon");
+        } else {
+            int action = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze client wilt verwijderen?", "Verwijderen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+            System.out.println("" + action);
+            if (action == 0) {
+                clientManager.deleteClient((String) clientsTable.getValueAt(clientsTable.getSelectedRow(), 2));
+                tableModel.removeRow(clientsTable.getSelectedRow());
+            }
+        }
+    }//GEN-LAST:event_deleteClientButtonActionPerformed
+
+    private void searchClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchClientButtonActionPerformed
+
+        DefaultTableModel tableModel = (DefaultTableModel) clientsTable.getModel();
+
+        if (tableModel.getRowCount()
+                > 0) {
+            for (int i = tableModel.getRowCount() - 1; i > -1; i--) {
+                tableModel.removeRow(i);
+            }
+        }
+
+        clienten = clientManager.searchClient(searchClientTextField.getText());
+
+        //clientsTable
+        for (Client c : clienten) {
+
+            String firstName = c.getFirstName();
+            String lastName = c.getName();
+            String bsn = c.getBSN();
+
+            tableModel.addRow(new Object[]{firstName, lastName, bsn});
+
+        }
+
+    }//GEN-LAST:event_searchClientButtonActionPerformed
+
+    private void declineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_declineButtonActionPerformed
+        Object[] options = {"Ja", "Nee"};
+
+        int result = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze invoer wilt unnuleren?", "Annuleren", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+        if (result == JOptionPane.YES_OPTION) {
+            clientPanel.setVisible(false);
+            emptyTextFields();
+        }
+    }//GEN-LAST:event_declineButtonActionPerformed
 
     private void getInvoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getInvoiceButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_getInvoiceButtonActionPerformed
-
-    private void clientEmailTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientEmailTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientEmailTextFieldActionPerformed
-
-    private void clientTelTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientTelTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientTelTextFieldActionPerformed
-
-    private void clientCityTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientCityTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientCityTextFieldActionPerformed
-
-    private void clientPostCodeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientPostCodeTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientPostCodeTextFieldActionPerformed
-
-    private void clientAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientAddressTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientAddressTextFieldActionPerformed
-
-    private void clientBSNTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientBSNTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientBSNTextFieldActionPerformed
-
-    private void clientLastNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientLastNameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientLastNameTextFieldActionPerformed
-
-    private void clientFirstNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientFirstNameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientFirstNameTextFieldActionPerformed
 
     private void saveClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveClientButtonActionPerformed
         String BSN = clientBSNTextField.getText();
@@ -612,81 +690,74 @@ public class ClientGUI extends javax.swing.JFrame {
         /**
          * client succesfully added message
          */
-        boolean result = clientManager.addClient(client);
-        if (result == true) {
-            JOptionPane.showMessageDialog(null, "De client is succesvol toegevoegd.", "Toevoegen", JOptionPane.INFORMATION_MESSAGE);
-            clientPanel.setVisible(false);
-            emptyTextFields();
-
+        if (selectedClient != null) {
+            clientManager.changeClient(selectedClient, client);
+            JOptionPane.showMessageDialog(null, "De client is succesvol gewijzigd.", "Gewijzigd", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Dit BSN nummer is al bekend in het systeem.", "Klant bestaat al", JOptionPane.ERROR_MESSAGE);
+
+            boolean result = clientManager.addClient(client);
+            if (result == true) {
+                JOptionPane.showMessageDialog(null, "De client is succesvol toegevoegd.", "Toevoegen", JOptionPane.INFORMATION_MESSAGE);
+                clientPanel.setVisible(false);
+                emptyTextFields();
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Dit BSN nummer is al bekend in het systeem.", "Klant bestaat al", JOptionPane.ERROR_MESSAGE);
+            }
         }
-
-
     }//GEN-LAST:event_saveClientButtonActionPerformed
 
-    private void deleteClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteClientButtonActionPerformed
-        DefaultTableModel tableModel = (DefaultTableModel) clientsTable.getModel();
-        Object[] options = {"Ja", "Nee"};
-
-        if (clientsTable.getSelectedRowCount() != 1) {
-            System.out.println("Selecteer één persoon");
-        } else {
-            int action = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze client wilt verwijderen?", "Verwijderen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-            System.out.println("" + action);
-            if (action == 0) {
-                clientManager.deleteClient((String) clientsTable.getValueAt(clientsTable.getSelectedRow(), 2));
-                tableModel.removeRow(clientsTable.getSelectedRow());
-            }
-        }
-    }//GEN-LAST:event_deleteClientButtonActionPerformed
-
-    private void searchClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchClientButtonActionPerformed
-
-        DefaultTableModel tableModel = (DefaultTableModel) clientsTable.getModel();
-
-        if (tableModel.getRowCount()
-                > 0) {
-            for (int i = tableModel.getRowCount() - 1; i > -1; i--) {
-                tableModel.removeRow(i);
-            }
-        }
-
-        clienten = clientManager.searchClient(searchClientTextField.getText());
-
-        //clientsTable
-        for (Client c : clienten) {
-
-            String firstName = c.getFirstName();
-            String lastName = c.getName();
-            String bsn = c.getBSN();
-
-            tableModel.addRow(new Object[]{firstName, lastName, bsn});
-
-        }
-
-    }//GEN-LAST:event_searchClientButtonActionPerformed
+    private void addInsuranceContractButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInsuranceContractButtonActionPerformed
+        //JFrame frame = new JFrame();
+        //frame.add((JPanel)new InvoiceGUI().getContentPane());
+        //frame.pack();
+        //frame.setVisible(true);        
+        //InvoiceGUI gui = new InvoiceGUI(new InvoiceManager());
+    }//GEN-LAST:event_addInsuranceContractButtonActionPerformed
 
     private void polisCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_polisCheckBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_polisCheckBoxActionPerformed
 
-    private void addInsuranceContractButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInsuranceContractButtonActionPerformed
-        InvoiceGUI invoiceGUI = new InvoiceGUI();
-        
-    }//GEN-LAST:event_addInsuranceContractButtonActionPerformed
+    private void clientEmailTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientEmailTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientEmailTextFieldActionPerformed
 
-    private void declineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_declineButtonActionPerformed
-     Object[] options = {"Ja", "Nee"};
-        
-        int result = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze invoer wilt unnuleren?", "Annuleren", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-        if(result == JOptionPane.YES_OPTION) {
-            clientPanel.setVisible(false);
-            emptyTextFields();
-        }
-        
-            
-    }//GEN-LAST:event_declineButtonActionPerformed
+    private void clientTelTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientTelTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientTelTextFieldActionPerformed
+
+    private void clientCityTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientCityTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientCityTextFieldActionPerformed
+
+    private void clientPostCodeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientPostCodeTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientPostCodeTextFieldActionPerformed
+
+    private void clientAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientAddressTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientAddressTextFieldActionPerformed
+
+    private void clientBSNTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientBSNTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientBSNTextFieldActionPerformed
+
+    private void clientLastNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientLastNameTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientLastNameTextFieldActionPerformed
+
+    private void clientFirstNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientFirstNameTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientFirstNameTextFieldActionPerformed
+
+    private void clientIBANTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientIBANTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientIBANTextFieldActionPerformed
+
+    private void clientsTablePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_clientsTablePropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientsTablePropertyChange
 
     /**
      * @param args the command line arguments

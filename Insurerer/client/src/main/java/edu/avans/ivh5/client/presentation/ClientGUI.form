@@ -126,6 +126,9 @@
               <TableHeader reorderingAllowed="false" resizingAllowed="false"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="clientsTablePropertyChange"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -254,9 +257,9 @@
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="getInvoiceButton" alignment="1" min="-2" pref="216" max="-2" attributes="0"/>
-                              <Component id="declineButton" alignment="1" min="-2" pref="216" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="declineButton" pref="216" max="32767" attributes="0"/>
+                              <Component id="getInvoiceButton" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -622,7 +625,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="66" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Client Toevoegen"/>
+            <Property name="text" type="java.lang.String" value="Client toevoegen / wijzigen"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="declineButton">

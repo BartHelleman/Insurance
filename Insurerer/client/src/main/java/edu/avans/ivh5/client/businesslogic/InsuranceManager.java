@@ -45,9 +45,9 @@ public class InsuranceManager {
         List<Insurance> insurances = new ArrayList();
         try {
             insuranceDAO = new InsuranceDAO();
-            List<Object> insurance = insuranceDAO.get("");
+            List<Object> insurance = insuranceDAO.get(searchPattern);
             for(int i = 0; i < insurance.size(); i++) {
-                insurances.add((Insurance) insuranceDAO.get("").get(i));
+                insurances.add((Insurance) insurance.get(i));
             }
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             Logger.getLogger(InsuranceManager.class.getName()).log(Level.SEVERE, null, ex);

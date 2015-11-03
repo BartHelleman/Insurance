@@ -5,6 +5,7 @@
         <xs:element name="contract" maxOccurs="unbounded">
           <xs:complexType>
             <xs:sequence>
+              <xs:element type="xs:string" name="BSN"/>
               <xs:element type="xs:string" name="clientName"/>
               <xs:element type="xs:decimal" name="ownRisk"/>
               <xs:element type="xs:integer" name="insuranceID"/>
