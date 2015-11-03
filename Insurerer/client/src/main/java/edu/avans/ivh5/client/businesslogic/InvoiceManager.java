@@ -32,11 +32,11 @@ public class InvoiceManager {
         
         
         // get all data off insurancecontracts
-        if(InsuranceContractDAO.get(BSN) == null) {
+        if(InsuranceContractDAO.get(BSN).size() == 1) {
+            insuranceContract = (InsuranceContract) InsuranceContractDAO.get(BSN).get(0);
+        } else {
             insuranceContract = new InsuranceContract(null, null, BSN, 0, null, null);
             System.out.println("Persoon heeft geen polis");
-        } else {
-            insuranceContract = (InsuranceContract) InsuranceContractDAO.get(BSN).get(0);
         }
      
         return insuranceContract;
@@ -64,8 +64,7 @@ public class InvoiceManager {
     }
 
     public void deleteInsuranceContract(Client client) {
-        Boolean insuranceContract;
-        
+        Boolean insuranceContract;    
         
         // new DAO
         try {
@@ -75,7 +74,7 @@ public class InvoiceManager {
         }
         
         // delete member from XML
-        insuranceContract = InsuranceContractDAO.delete(client.getName());
+        insuranceContract = InsuranceContractDAO.delete(client.getBSN());
     }
 
     public Invoice getInvoice(Treatment treatment) {
