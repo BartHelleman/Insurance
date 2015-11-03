@@ -16,38 +16,41 @@ import org.xml.sax.SAXException;
 public class InsuranceManager {
 
     LoginDAO loginDAO;
-    User user;
     private InsuranceDAO insuranceDAO;
+    private List<Insurance> insurances;
+
+    public InsuranceManager() {
+        insurances = new ArrayList();
+        try {
+            insuranceDAO = new InsuranceDAO();
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     /**
      * @param searchPattern
      * @return
      */
-    public ArrayList<Insurance> searchInsurance(String searchPattern) {
-        return null;
-    }
-    
-    /*public Insurance getInsurances(String searchPattern) {
-        Insurance insurance = null;
-        try {
-            insuranceDAO = new InsuranceDAO();
-        } catch (ParserConfigurationException | SAXException | IOException ex) {
-            Logger.getLogger(InsuranceManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public List<Insurance> searchInsurance(String searchPattern) {
+        insurances.clear();
+        List<Object> result = insuranceDAO.get(searchPattern);
 
-        insurance = (Insurance) InsuranceDAO.get(searchPattern);
-        
-        
-        return insurance;
-    }*/
-    
+        for (Object o : result) {
+            insurances.add((Insurance) o);
+        }
+        return insurances;
+    }
+
     public List<Insurance> getInsurances(String searchPattern) {
         List<Insurance> insurances = new ArrayList();
         try {
             insuranceDAO = new InsuranceDAO();
+
             List<Object> insurance = insuranceDAO.get(searchPattern);
             for(int i = 0; i < insurance.size(); i++) {
                 insurances.add((Insurance) insurance.get(i));
+
             }
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             Logger.getLogger(InsuranceManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -56,7 +59,7 @@ public class InsuranceManager {
         //treatments.add("123");
         //Insurance test = new Insurance(1, "naam", new BigDecimal(100), treatments);
         //insurances.add(test);
-        
+
         return insurances;
     }
 
@@ -73,8 +76,8 @@ public class InsuranceManager {
      * @param insurance
      * @return
      */
-    public boolean deleteInsurance(Insurance insurance) {
-        return false;
+    public void deleteInsurance(String id) {
+        insuranceDAO.delete(id);
     }
 
     /**

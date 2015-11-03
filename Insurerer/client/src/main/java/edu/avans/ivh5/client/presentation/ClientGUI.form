@@ -425,9 +425,6 @@
             <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
             <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value=""/>
           </AccessibilityProperties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clientFirstNameTextFieldActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="clientLastNameTextField">
           <Properties>
@@ -435,9 +432,6 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clientLastNameTextFieldActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="clientBSNTextField">
           <Properties>
@@ -445,9 +439,6 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clientBSNTextFieldActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="clientAddressTextField">
           <Properties>
@@ -455,9 +446,6 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clientAddressTextFieldActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="clientPostCodeTextField">
           <Properties>
@@ -465,9 +453,6 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clientPostCodeTextFieldActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="clientCityTextField">
           <Properties>
@@ -475,9 +460,6 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clientCityTextFieldActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="clientTelTextField">
           <Properties>
@@ -485,9 +467,6 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clientTelTextFieldActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="clientEmailTextField">
           <Properties>
@@ -495,9 +474,6 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clientEmailTextFieldActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="clientIncassoCombobox">
           <Properties>
@@ -586,9 +562,6 @@
             <Property name="text" type="java.lang.String" value="Toon factuur"/>
             <Property name="actionCommand" type="java.lang.String" value=""/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="getInvoiceButtonActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="clientIBANTextField">
           <Properties>
@@ -596,9 +569,6 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clientIBANTextFieldActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="clientEmailLabel1">
           <Properties>

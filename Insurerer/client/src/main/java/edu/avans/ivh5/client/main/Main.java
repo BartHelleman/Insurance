@@ -18,7 +18,7 @@ public class Main {
 
     public static void main(String[] args) {
         //InsuranceManager insuranceManager = new InsuranceManager();
-        //InsuranceGUI insuranceGUI = new InsuranceGUI(insuranceManager);
+        InsuranceGUI insuranceGUI = new InsuranceGUI();
         //insuranceGUI.setVisible(true);
         
 

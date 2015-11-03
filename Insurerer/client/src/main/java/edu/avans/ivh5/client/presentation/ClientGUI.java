@@ -220,60 +220,20 @@ public class ClientGUI extends javax.swing.JFrame {
         clientFirstNameTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         clientFirstNameTextField.setToolTipText("Voornaam");
         clientFirstNameTextField.setName(""); // NOI18N
-        clientFirstNameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clientFirstNameTextFieldActionPerformed(evt);
-            }
-        });
 
         clientLastNameTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        clientLastNameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clientLastNameTextFieldActionPerformed(evt);
-            }
-        });
 
         clientBSNTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        clientBSNTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clientBSNTextFieldActionPerformed(evt);
-            }
-        });
 
         clientAddressTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        clientAddressTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clientAddressTextFieldActionPerformed(evt);
-            }
-        });
 
         clientPostCodeTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        clientPostCodeTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clientPostCodeTextFieldActionPerformed(evt);
-            }
-        });
 
         clientCityTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        clientCityTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clientCityTextFieldActionPerformed(evt);
-            }
-        });
 
         clientTelTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        clientTelTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clientTelTextFieldActionPerformed(evt);
-            }
-        });
 
         clientEmailTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        clientEmailTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clientEmailTextFieldActionPerformed(evt);
-            }
-        });
 
         clientIncassoCombobox.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         clientIncassoCombobox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nee", "Ja" }));
@@ -314,18 +274,8 @@ public class ClientGUI extends javax.swing.JFrame {
         getInvoiceButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         getInvoiceButton.setText("Toon factuur");
         getInvoiceButton.setActionCommand("");
-        getInvoiceButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getInvoiceButtonActionPerformed(evt);
-            }
-        });
 
         clientIBANTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        clientIBANTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clientIBANTextFieldActionPerformed(evt);
-            }
-        });
 
         clientEmailLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         clientEmailLabel1.setText("Email:");
@@ -594,9 +544,9 @@ public class ClientGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_declineButtonActionPerformed
 
-    private void getInvoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getInvoiceButtonActionPerformed
+    private void getInvoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
         // TODO add your handling code here:
-    }//GEN-LAST:event_getInvoiceButtonActionPerformed
+    }                                                
 
     private void saveClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveClientButtonActionPerformed
         String BSN = clientBSNTextField.getText();
