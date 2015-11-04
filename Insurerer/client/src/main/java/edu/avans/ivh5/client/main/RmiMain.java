@@ -3,7 +3,7 @@
  */
 package edu.avans.ivh5.client.main;
 
-import java.awt.EventQueue;
+import edu.avans.ivh5.client.presentation.LoginGUI;
 import java.rmi.*;
 import edu.avans.ivh5.shared.util.*;
 import edu.avans.ivh5.shared.api.*;
@@ -29,6 +29,7 @@ public class RmiMain {
 
     // Get a logger instance for the current class
     static Logger logger = Logger.getLogger(RmiMain.class);
+    private static ClientInterface rmiInterface;
 
     /**
      * Constructor. Locate the registry, lookup the service name that was
@@ -42,43 +43,32 @@ public class RmiMain {
 
         System.out.println("Constructor using " + hostname);
 
-		// The service name consists of a group name and a service name.
+        // The service name consists of a group name and a service name.
         // The group name enables finding all services within a given group.
         String service = "/standard";//Settings.props.getProperty(Settings.propRmiServiceGroup)
                 //+ Settings.props.getProperty(Settings.propRmiServiceName);
 
         //RemoteMemberAdminClientIF manager = null;
-        ClientInterface manager = null;
         try {
             System.out.println("Locate registry on " + hostname);
             Registry registry = LocateRegistry.getRegistry(hostname);
             System.out.println("Found registry");
 
             System.out.println("Connecting to remote service " + service);
-            manager = (ClientInterface) registry.lookup(service);
+            rmiInterface = (ClientInterface) registry.lookup(service);
             System.out.println("Connected");
-            System.out.println(manager.addClient(null));
         } catch (java.security.AccessControlException e) {
             System.out.println("Could not access registry: " + e.getMessage());
+            return;
         } catch (RemoteException e) {
             System.out.println("RemoteException: " + e.getMessage());
+            return;
         } catch (NotBoundException e) {
             System.out.println("Service not found: " + e.getMessage());
+            return;
         }
-
-        // Create controller.
-        //final Controller controller = new Controller(manager);
-
-        /**
-         * Build the UI. Note that, since the Controller handles all UI events,
-         * it must be constructed and available before the UI gets created.
-         */
-        /*EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-                new UserInterface(controller).display();
-            }
-        });*/
+        
+        LoginGUI gui = new LoginGUI();
     }
 
     /**
@@ -103,10 +93,6 @@ public class RmiMain {
         if (System.getSecurityManager() == null) {
             System.setSecurityManager(new SecurityManager());
         }
-
-        // Configure logging using the given log config file.
-        //PropertyConfigurator.configure(Settings.props.getProperty(Settings.propLogConfigFile));
-        //logger.info("Starting application");
 
         // Create the client, and connect it to the given (server) hostname.
         String hostname = "localhost";//System.getProperty(Settings.propRmiHostName);
@@ -145,7 +131,13 @@ public class RmiMain {
             System.out.println("       -properties client.properties");
             System.exit(0);
         }
+        
         return propertiesfilename;
     }
 
+    public static ClientInterface getRmiInterface() {
+        return rmiInterface;
+    }
+    
+    
 }

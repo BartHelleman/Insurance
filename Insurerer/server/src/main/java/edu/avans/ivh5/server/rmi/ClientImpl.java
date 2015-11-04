@@ -5,13 +5,18 @@
  */
 package edu.avans.ivh5.server.rmi;
 
+import edu.avans.ivh5.server.dao.*;
 import edu.avans.ivh5.shared.api.ClientInterface;
 import edu.avans.ivh5.shared.models.*;
+import edu.avans.ivh5.shared.util.BCrypt;
+import java.io.IOException;
 import java.rmi.*;
 import java.util.*;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
+import org.xml.sax.SAXException;
 /**
  *
  * @author Burak
@@ -19,8 +24,31 @@ import org.apache.log4j.Priority;
 public class ClientImpl implements ClientInterface{
     
     private Logger logger;
+    private DAOInterface clientDAO;
+    private DAOInterface insuranceCompanyDAO;
+    private DAOInterface insuranceContractDAO;
+    private DAOInterface insuranceDAO;
+    private DAOInterface invoiceDAO;
+    private DAOInterface loginDAO;
+    private DAOInterface treatmentCodeDAO;
+    private DAOInterface treatmentDAO;
+    
     public ClientImpl() {
         logger = Logger.getLogger(ClientImpl.class);
+        try {
+            clientDAO = new ClientDAO();
+            insuranceCompanyDAO = new InsuranceCompanyDAO();
+            insuranceContractDAO = new InsuranceContractDAO();
+            insuranceDAO = new InsuranceDAO();
+            invoiceDAO = new InvoiceDAO();
+            loginDAO = new LoginDAO();
+            treatmentCodeDAO = new TreatmentCodeDAO();
+            treatmentDAO = new TreatmentDAO();
+            
+        } catch (ParserConfigurationException | SAXException | IOException ex)
+        {
+            System.out.println("EXCEPTION: " + ex.getMessage());
+        }
     }
 
     @Override
@@ -96,8 +124,23 @@ public class ClientImpl implements ClientInterface{
     }
 
     @Override
-    public void checkLogin(String username, String password) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean checkLogin(String username, String password) throws RemoteException {
+        List<User> users = new ArrayList<>();
+        if (!loginDAO.get(username).isEmpty()) {
+        //if(RmiMain.getRmiInterface().checkLogin(username, password))
+            
+            for (Object o : loginDAO.get(username)) {
+                users.add((User) o);
+            }
+            for (User u : users) {
+                if (username.equals(u.getUsername())) {
+                    return u.getUsername().equals(username) && BCrypt.checkpw(password, u.getPassword()); // Login succesful
+                }
+            }
+        }
+        return false;
+        // Login unsuccesful
+
     }
     
     
