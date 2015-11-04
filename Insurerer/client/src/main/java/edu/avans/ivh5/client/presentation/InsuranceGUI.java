@@ -7,6 +7,7 @@ import edu.avans.ivh5.shared.models.TreatmentCode;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -14,10 +15,10 @@ import javax.swing.table.DefaultTableModel;
 public class InsuranceGUI extends javax.swing.JFrame {
 
     private List<TreatmentCode> treatmentObjects = new ArrayList<>();
-    private final List<String> treatmentCodes = new ArrayList<>();
-    private final List<String> insuranceList = new ArrayList<>();
-    List<Insurance> insurances;
+    private List<String> treatmentCodes = new ArrayList<>();
+    private List<Insurance> insurances;
     private InsuranceManager insuranceManager = new InsuranceManager();
+    private DefaultListModel listModel = new DefaultListModel();
 
     /**
      * Creates new form InsuranceGUI
@@ -46,7 +47,7 @@ public class InsuranceGUI extends javax.swing.JFrame {
         insuranceTabbedPane = new javax.swing.JTabbedPane();
         changeInsurancePanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        treatmentList = new javax.swing.JList();
+        treatmentList = new javax.swing.JList(listModel);
         saveButton = new javax.swing.JButton();
         nameLabel = new javax.swing.JLabel();
         IDLabel = new javax.swing.JLabel();
@@ -62,7 +63,7 @@ public class InsuranceGUI extends javax.swing.JFrame {
         addInsuranceButton = new javax.swing.JButton();
         removeInsuranceButton = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        insuranceTable = new javax.swing.JTable();
 
         jInternalFrame1.setVisible(true);
 
@@ -85,10 +86,6 @@ public class InsuranceGUI extends javax.swing.JFrame {
 
         changeInsurancePanel.setVisible(false);
 
-        treatmentList.setModel(new javax.swing.AbstractListModel() {
-            public int getSize() { return treatmentCodes.size(); }
-            public Object getElementAt(int i) { return treatmentCodes.get(i); }
-        });
         treatmentList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 treatmentListMouseClicked(evt);
@@ -112,7 +109,6 @@ public class InsuranceGUI extends javax.swing.JFrame {
 
         treatmentsLabel.setText("Vergoede behandelingen");
 
-        treatmentComboBox.setModel(new javax.swing.DefaultComboBoxModel());
         treatmentComboBox.setFocusable(false);
         treatmentComboBox.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
             public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
@@ -203,20 +199,25 @@ public class InsuranceGUI extends javax.swing.JFrame {
             }
         });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        insuranceTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
                 "ID", "Naam", "Prijs"
             }
-        ));
-        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+
+        )     {    @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }}
+        );
+        insuranceTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable2MouseClicked(evt);
+                insuranceTableMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(jTable2);
+        jScrollPane3.setViewportView(insuranceTable);
 
         javax.swing.GroupLayout insurancePanelLayout = new javax.swing.GroupLayout(insurancePanel);
         insurancePanel.setLayout(insurancePanelLayout);
@@ -285,7 +286,8 @@ public class InsuranceGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        DefaultTableModel tableModel = (DefaultTableModel) jTable2.getModel();
+
+        DefaultTableModel tableModel = (DefaultTableModel) insuranceTable.getModel();
 
         if (tableModel.getRowCount()
                 > 0) {
@@ -309,21 +311,24 @@ public class InsuranceGUI extends javax.swing.JFrame {
 
 
     private void treatmentComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treatmentComboBoxActionPerformed
-        String treatment =(String) treatmentComboBox.getSelectedItem();
-        
-        if (!treatmentCodes.equals(treatment)) {
-            treatmentCodes.add(treatment);
-            treatmentList.updateUI();
-        } else {
-            System.out.println("error");
+        String treatment = (String) treatmentComboBox.getSelectedItem();
+
+        for (int i = 0; i <= listModel.getSize(); i++) {
+
+            if (!listModel.contains(treatment)) {
+                listModel.addElement(treatment);
+
+            } else {
+                System.out.println("object zit er al in");
+            }
         }
+
     }//GEN-LAST:event_treatmentComboBoxActionPerformed
 
     private void treatmentListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_treatmentListMouseClicked
         String selected = (String) treatmentList.getSelectedValue();
-        treatmentCodes.remove(selected);
-        treatmentList.clearSelection();
-        treatmentList.updateUI();
+
+        listModel.removeElement(selected);
     }//GEN-LAST:event_treatmentListMouseClicked
 
     private void addInsuranceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInsuranceButtonActionPerformed
@@ -331,59 +336,86 @@ public class InsuranceGUI extends javax.swing.JFrame {
         nameTextField.setText(null);
         IDTextField.setText(null);
         priceTextField.setText(null);
-        
-        jTable2.clearSelection();
-        
+
+        insuranceTable.clearSelection();
+
         changeInsurancePanel.setVisible(true);
     }//GEN-LAST:event_addInsuranceButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        if(!(nameTextField.getText().isEmpty() || IDTextField.getText().isEmpty() || priceTextField.getText().isEmpty())){
+            String name = nameTextField.getText();
+            String ID = IDTextField.getText();
+            BigDecimal price = new BigDecimal(priceTextField.getText());
+            //List<String> 
+            //Insurance insurance = new Insurance(name, ID, price, );
+            
+        } else{
+            JOptionPane.showMessageDialog(null, "Er zijn velden leeg", "velden leeg", JOptionPane.ERROR_MESSAGE);
 
+        }
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void removeInsuranceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeInsuranceButtonActionPerformed
 
-        DefaultTableModel tableModel = (DefaultTableModel) jTable2.getModel();
+        DefaultTableModel tableModel = (DefaultTableModel) insuranceTable.getModel();
         Object[] options = {"Ja", "Nee"};
 
-        if (jTable2.getSelectedRowCount() != 1) {
+        if (insuranceTable.getSelectedRowCount() != 1) {
             System.out.println("Selecteer één verzekering");
         } else {
             int action = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze verzekering wilt verwijderen?", "Verwijderen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
             System.out.println("" + action);
             if (action == 0) {
-                insuranceManager.deleteInsurance((String) jTable2.getValueAt(jTable2.getSelectedRow(), 0));
+                insuranceManager.deleteInsurance((String) insuranceTable.getValueAt(insuranceTable.getSelectedRow(), 0));
 
-                tableModel.removeRow(jTable2.getSelectedRow());
+                tableModel.removeRow(insuranceTable.getSelectedRow());
                 changeInsurancePanel.setVisible(false);
             }
         }
     }//GEN-LAST:event_removeInsuranceButtonActionPerformed
 
-    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
-
-        if (jTable2.getSelectedRowCount() != 1) {
+    private void insuranceTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_insuranceTableMouseClicked
+        insurances.clear();
+        
+        if (insuranceTable.getSelectedRowCount() != 1) {
             changeInsurancePanel.setVisible(false);
             System.out.println("selecteer 1 item");
         } else {
-            
-            
             changeInsurancePanel.setVisible(true);
-            
-            nameTextField.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 1));
-            IDTextField.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 0));
-            priceTextField.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 2));
+
+            //haal bijbehorende verzekering op
+            insurances = insuranceManager.searchInsurance((String) insuranceTable.getValueAt(insuranceTable.getSelectedRow(), 0));
+            List<String> reimbursedTreatments = new ArrayList<>();
+            for (Insurance i : insurances) {
+                if (insuranceTable.getValueAt(insuranceTable.getSelectedRow(), 0).equals(i.getID())) {
+                    listModel.clear();
+                    nameTextField.setText(i.getName());
+                    IDTextField.setText(i.getID());
+                    priceTextField.setText(i.getPrice().toString());
+
+                    reimbursedTreatments = i.getTreatments();
+
+                    for (String s : reimbursedTreatments) {
+                        listModel.addElement(s);
+                    }
+
+                }
+            }
+
         }
-    }//GEN-LAST:event_jTable2MouseClicked
+    }//GEN-LAST:event_insuranceTableMouseClicked
 
     private void treatmentComboBoxPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_treatmentComboBoxPopupMenuWillBecomeVisible
         treatmentCodes.clear();
+        treatmentObjects.clear();
+
         treatmentObjects = insuranceManager.getTreatmentCodes("");
-        
-        for(TreatmentCode t : treatmentObjects){
+
+        for (TreatmentCode t : treatmentObjects) {
             treatmentCodes.add(t.getCode());
         }
-       treatmentComboBox.setModel(new javax.swing.DefaultComboBoxModel(treatmentCodes.toArray()));
+        treatmentComboBox.setModel(new javax.swing.DefaultComboBoxModel(treatmentCodes.toArray()));
     }//GEN-LAST:event_treatmentComboBoxPopupMenuWillBecomeVisible
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -393,6 +425,7 @@ public class InsuranceGUI extends javax.swing.JFrame {
     private javax.swing.JPanel changeInsurancePanel;
     private javax.swing.JPanel insurancePanel;
     private javax.swing.JTabbedPane insuranceTabbedPane;
+    private javax.swing.JTable insuranceTable;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JPopupMenu jPopupMenu1;
@@ -401,7 +434,6 @@ public class InsuranceGUI extends javax.swing.JFrame {
     private javax.swing.JPopupMenu jPopupMenu4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable2;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JLabel priceLabel;

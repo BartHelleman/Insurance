@@ -18,7 +18,7 @@ public class Main {
 
     public static void main(String[] args) {
         //InsuranceManager insuranceManager = new InsuranceManager();
-        //InsuranceGUI insuranceGUI = new InsuranceGUI();
+        InsuranceGUI insuranceGUI = new InsuranceGUI();
         //insuranceGUI.setVisible(true);
 
      //   Client client = new Client("12345678", "Burak", "Niels", "Krimpen", "2922CD", "Blomsingel 31", "NL00 INGB 012345", false, "nskerdel", "0612345678");
@@ -26,7 +26,7 @@ public class Main {
      //   InvoiceGUI invoiceGUI = new InvoiceGUI(client);
      //   invoiceGUI.setVisible(true);
        
-         build();
+     //    build();
 
 
 //         Client client = new Client("004", "Burak", "Niels", "Krimpen", "2922CD", "Blomsingel 31", "NL00 INGB 012345", false, "nskerdel", "0612345678");

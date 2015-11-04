@@ -5,7 +5,7 @@
     xsi:noNamespaceSchemaLocation='Accounts.xsd'>
     <account>
         <username>Rico</username>
-        <password>Bakels</password>
+        <password>$2a$10$nuEFZz7ZxE2MWui6zcqYqOj5sL1rW309IVaIMNPCcsCrD9IeepGJe</password>
     </account>
 
     <account>
