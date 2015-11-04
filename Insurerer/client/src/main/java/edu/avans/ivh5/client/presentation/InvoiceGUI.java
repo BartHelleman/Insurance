@@ -36,6 +36,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
         displayInvoice();
+        invoiceManager.getInvoice(null);
         // Rest of the program
     }
 
@@ -231,7 +232,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
         // get values which should be saved
         insurance = insuranceManager.getInsurances((String) insuranceIDComboBox.getSelectedItem());
 
-        int insuranceID = insurance.get(0).getID();
+        int insuranceID = Integer.parseInt(insurance.get(0).getID());
 
         String name = client.getName();
         

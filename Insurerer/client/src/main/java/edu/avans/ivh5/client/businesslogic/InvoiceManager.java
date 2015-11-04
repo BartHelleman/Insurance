@@ -92,7 +92,7 @@ public class InvoiceManager {
     }
 
     public Invoice getInvoice(Treatment treatment) {
-  /*      DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+    /*    DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
         format.setLenient(false);
         String iets = "2000-03-03";
         Date date = null;
@@ -115,7 +115,7 @@ public class InvoiceManager {
         FileWriter fileWriter = null;
 
         try {
-            fileWriter = new FileWriter(fileName);
+            fileWriter = new FileWriter("ClieOp");
 
             //Write the CSV file header
             fileWriter.append(FILE_HEADER.toString());
@@ -124,16 +124,16 @@ public class InvoiceManager {
             fileWriter.append(NEW_LINE_SEPARATOR);
 
             //Write a new student object list to the CSV file
-            for (Student student : students) {
-                fileWriter.append(String.valueOf(student.getId()));
+            for (Invoice invoices : invoice) {
+                fileWriter.append(String.valueOf(invoices.getDate()));
                 fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(student.getFirstName());
+                fileWriter.append(String.valueOf(invoices.getExpirationDate()));
                 fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(student.getLastName());
+                fileWriter.append(String.valueOf(invoices.getInvoiceNumber()));
                 fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(student.getGender());
+                fileWriter.append(String.valueOf(invoices.getTotalAmount()));
                 fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(String.valueOf(student.getAge()));
+                fileWriter.append(String.valueOf(invoices.getVAT()));
                 fileWriter.append(NEW_LINE_SEPARATOR);
             }
             System.out.println("CSV file was created successfully !!!");
