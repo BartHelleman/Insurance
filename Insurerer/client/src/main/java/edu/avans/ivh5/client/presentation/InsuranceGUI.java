@@ -313,14 +313,11 @@ public class InsuranceGUI extends javax.swing.JFrame {
     private void treatmentComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treatmentComboBoxActionPerformed
         String treatment = (String) treatmentComboBox.getSelectedItem();
 
-        for (int i = 0; i <= listModel.getSize(); i++) {
+        if (!listModel.contains(treatment)) {
+            listModel.addElement(treatment);
 
-            if (!listModel.contains(treatment)) {
-                listModel.addElement(treatment);
-
-            } else {
-                System.out.println("object zit er al in");
-            }
+        } else {
+            System.out.println("object zit er al in");
         }
 
     }//GEN-LAST:event_treatmentComboBoxActionPerformed
@@ -343,14 +340,20 @@ public class InsuranceGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_addInsuranceButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        if(!(nameTextField.getText().isEmpty() || IDTextField.getText().isEmpty() || priceTextField.getText().isEmpty())){
+        List<String> treatmentCodes = new ArrayList<>();
+
+        if (!(nameTextField.getText().isEmpty() || IDTextField.getText().isEmpty() || priceTextField.getText().isEmpty())) {
             String name = nameTextField.getText();
             String ID = IDTextField.getText();
             BigDecimal price = new BigDecimal(priceTextField.getText());
-            //List<String> 
-            //Insurance insurance = new Insurance(name, ID, price, );
-            
-        } else{
+
+            for (int i = 0; i < listModel.size(); i++) {
+                treatmentCodes.add((String) listModel.getElementAt(i));
+            }
+
+            Insurance insurance = new Insurance(name, ID, price, treatmentCodes);
+            insuranceManager.addInsurance(insurance);
+        } else {
             JOptionPane.showMessageDialog(null, "Er zijn velden leeg", "velden leeg", JOptionPane.ERROR_MESSAGE);
 
         }
@@ -377,7 +380,7 @@ public class InsuranceGUI extends javax.swing.JFrame {
 
     private void insuranceTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_insuranceTableMouseClicked
         insurances.clear();
-        
+
         if (insuranceTable.getSelectedRowCount() != 1) {
             changeInsurancePanel.setVisible(false);
             System.out.println("selecteer 1 item");
