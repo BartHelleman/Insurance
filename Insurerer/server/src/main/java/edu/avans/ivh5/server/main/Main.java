@@ -61,7 +61,7 @@ public class Main {
 		// Get the properties file name from the command line, and load the
         // properties.
         if (args.length == 0) {
-            String propertiesfile = "C:\\Users\\Burak\\Documents\\InsuranceProftaak\\InsuranceIVH5\\Insurerer\\server\\target\\classes\\resources\\standard.properties";
+            String propertiesfile = "C:\\xampp\\htdocs\\classes\\standard.properties";
             Settings.loadProperties(propertiesfile);
         } else {
             System.out.println("No properties file was found. Provide a properties file name.");

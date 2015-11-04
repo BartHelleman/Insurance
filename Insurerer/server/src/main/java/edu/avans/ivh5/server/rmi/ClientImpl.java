@@ -21,7 +21,7 @@ import org.xml.sax.SAXException;
  *
  * @author Burak
  */
-public class ClientImpl implements ClientInterface{
+public class ClientImpl implements ClientInterface {
     
     private Logger logger;
     private DAOInterface clientDAO;
@@ -127,7 +127,6 @@ public class ClientImpl implements ClientInterface{
     public boolean checkLogin(String username, String password) throws RemoteException {
         List<User> users = new ArrayList<>();
         if (!loginDAO.get(username).isEmpty()) {
-        //if(RmiMain.getRmiInterface().checkLogin(username, password))
             
             for (Object o : loginDAO.get(username)) {
                 users.add((User) o);
