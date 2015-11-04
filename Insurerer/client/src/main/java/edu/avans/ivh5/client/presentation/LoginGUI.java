@@ -6,6 +6,7 @@
 package edu.avans.ivh5.client.presentation;
 
 import edu.avans.ivh5.client.businesslogic.LoginManager;
+import java.rmi.RemoteException;
 import java.util.Arrays;
 
 /**
@@ -122,6 +123,7 @@ public class LoginGUI extends javax.swing.JFrame {
         String wachtwoord = new String (wachtwoordField.getPassword());
         System.out.println(wachtwoord);
         
+        try {
             if (gebruikersnaamField.getText().length() == 0 || wachtwoord.length() == 0) {
                 errorLabel.setText("naam en/of wachtwoord is leeg");
                 errorLabel.setVisible(true);
@@ -134,6 +136,11 @@ public class LoginGUI extends javax.swing.JFrame {
                 errorLabel.setText("inloggegevens zijn onjuist");
                 errorLabel.setVisible(true);
             }
+        } catch(RemoteException e)
+        {
+            errorLabel.setText("Geen verbinding mogelijk met de server");
+            errorLabel.setVisible(true);
+        }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void gebruikersnaamFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gebruikersnaamFieldActionPerformed

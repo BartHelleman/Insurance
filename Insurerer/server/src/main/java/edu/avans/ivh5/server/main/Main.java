@@ -41,7 +41,7 @@ public class Main {
      */
     public Main() throws RemoteException, IOException {
         try {
-            logger.debug("Constructor");
+            System.out.println("Constructor");
         } catch(Exception e)
         {
             System.out.println();
@@ -60,8 +60,8 @@ public class Main {
 
 		// Get the properties file name from the command line, and load the
         // properties.
-        if (args.length == 2) {
-            String propertiesfile = parseCommandLine(args);
+        if (args.length == 0) {
+            String propertiesfile = "C:\\xampp\\htdocs\\classes\\standard.properties";
             Settings.loadProperties(propertiesfile);
         } else {
             System.out.println("No properties file was found. Provide a properties file name.");
@@ -78,8 +78,8 @@ public class Main {
         }
 
         // Configure logging using the given log config file.
-        PropertyConfigurator.configure(Settings.props.getProperty(Settings.propLogConfigFile));
-        logger.info("Starting application");
+        //PropertyConfigurator.configure(Settings.props.getProperty("C:\\Users\\Burak\\Documents\\InsuranceProftaak\\InsuranceIVH5\\Insurerer\\server\\target\\classes\\resources\\standard.logconfig"));
+        System.out.println("Starting application");
 
         try {
             String service = Settings.props.getProperty(Settings.propRmiServiceGroup)
@@ -91,25 +91,25 @@ public class Main {
             ShutdownHook shutdownHook = new ShutdownHook(service);
             Runtime.getRuntime().addShutdownHook(shutdownHook);
 
-            logger.debug("Creating stub");
+            System.out.println("Creating stub");
             //MemberAdminManagerImpl obj = new MemberAdminManagerImpl(service);
             ClientImpl obj = new ClientImpl();
             stub = (ClientInterface) UnicastRemoteObject.exportObject(obj, 0);
 
-            logger.debug("Locating registry on '" + hostname + "'");
+            System.out.println("Locating registry on '" + hostname + "'");
             Registry registry = LocateRegistry.getRegistry(hostname);
-            logger.debug("Registering stub using name \"" + service + "\"");
+            System.out.println("Registering stub using name \"" + service + "\"");
             registry.rebind(service, stub);
 
-            logger.info("Server ready");
+            System.out.println("Server ready");
         } catch (java.rmi.ConnectException e) {
-            logger.fatal("Could not connect: " + e.getMessage());
-            logger.fatal("(is rmiregistry running?)");
+            System.out.println("Could not connect: " + e.getMessage());
+            System.out.println("(is rmiregistry running?)");
         } catch (java.security.AccessControlException e) {
-            logger.fatal("No access: " + e.getMessage());
-            logger.fatal("(is the HTTP webserver running?)");
+            System.out.println("No access: " + e.getMessage());
+            System.out.println("(is the HTTP webserver running?)");
         } catch (Exception e) {
-            logger.fatal(e.toString());
+            System.out.println(e.toString());
         }
     }
 
@@ -122,9 +122,9 @@ public class Main {
      * @throws RemoteException
      */
     public static void exit(String service) throws RemoteException {
-        logger.info("Server is exiting, cleaning up registry.");
+        System.out.println("Server is exiting, cleaning up registry.");
         try {
-            logger.debug("Unbind servicename " + service);
+            System.out.println("Unbind servicename " + service);
             Naming.unbind(service);
         } catch (java.net.MalformedURLException e) {
             logger.error("Servicename not found in registry.");
@@ -133,7 +133,7 @@ public class Main {
         } catch (Exception e) {
             logger.error("Could not contact registry.");
         } finally {
-            logger.info("Bye.");
+            System.out.println("Bye.");
         }
     }
 

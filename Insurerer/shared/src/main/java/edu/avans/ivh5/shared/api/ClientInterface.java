@@ -68,7 +68,7 @@ public interface ClientInterface extends Remote {
     
     // <editor-fold defaultstate="collapsed" desc="#LoginManager methods">
     
-    void checkLogin(String username, String password) throws RemoteException;
+    boolean checkLogin(String username, String password) throws RemoteException;
     
     // </editor-fold>
     
