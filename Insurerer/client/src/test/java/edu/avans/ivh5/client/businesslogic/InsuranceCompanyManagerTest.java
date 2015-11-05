@@ -7,7 +7,6 @@ package edu.avans.ivh5.client.businesslogic;
 
 import edu.avans.ivh5.shared.models.InsuranceCompany;
 import java.rmi.RemoteException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.After;
@@ -21,29 +20,29 @@ import org.junit.Test;
  * @author Burak
  */
 public class InsuranceCompanyManagerTest {
-    
+
     private InsuranceCompanyManager manager;
-   
+
     public InsuranceCompanyManagerTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         manager = new InsuranceCompanyManager();
     }
-    
+
     @After
     public void tearDown() {
     }
-    
+
     @Test
     public void testGetInsuranceCompany() {
         try {
@@ -52,7 +51,7 @@ public class InsuranceCompanyManagerTest {
             Logger.getLogger(InsuranceCompanyManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Test
     public void testChange() {
         Object beforeChange = null;
@@ -62,19 +61,19 @@ public class InsuranceCompanyManagerTest {
             Logger.getLogger(InsuranceCompanyManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         Object newObject = new InsuranceCompany("Zorg4U", "Breda", "1234AB", "Breda", "0123456789");
-        
+
         try {
             manager.changeInsuranceCompany(beforeChange, newObject);
         } catch (RemoteException ex) {
             Logger.getLogger(InsuranceCompanyManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         Object afterChange = null;
         try {
             afterChange = manager.getInsuranceCompany();
         } catch (RemoteException ex) {
             Logger.getLogger(InsuranceCompanyManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        assert(beforeChange != null && afterChange != null);
+        assert (beforeChange != null && afterChange != null);
     }
 }

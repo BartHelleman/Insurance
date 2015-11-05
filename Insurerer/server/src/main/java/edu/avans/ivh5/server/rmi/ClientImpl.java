@@ -84,6 +84,7 @@ public class ClientImpl implements ClientInterface {
         return clientDAO.delete(clientBSN);
     }
 
+    @Override
     public boolean hadInsuranceContract(Client client) throws RemoteException {
         List<Object> contracts = insuranceContractDAO.get(client.getBSN());
         return !contracts.isEmpty();
@@ -92,8 +93,8 @@ public class ClientImpl implements ClientInterface {
     @Override
     public InsuranceCompany getInsuranceCompany() throws RemoteException {
         List<InsuranceCompany> insuranceCompany = new ArrayList();
-                
-        for(Object o : insuranceCompanyDAO.get("")){
+
+        for (Object o : insuranceCompanyDAO.get("")) {
             insuranceCompany.add((InsuranceCompany) o);
         }
         return insuranceCompany.get(0);
@@ -107,14 +108,14 @@ public class ClientImpl implements ClientInterface {
 
     @Override
     public List<Insurance> searchInsurance(String searchPattern) throws RemoteException {
-        List<Object> result = new ArrayList<>();
+        List<Object> result;
         List<Insurance> insurance = new ArrayList<>();
 
         result = insuranceDAO.get(searchPattern);
 
-        for (Object o : result) {
+        result.stream().forEach((o) -> {
             insurance.add((Insurance) o);
-        }
+        });
 
         return insurance;
     }
@@ -167,9 +168,9 @@ public class ClientImpl implements ClientInterface {
     public List<TreatmentCode> getTreatmentCodes(String searchPattern) throws RemoteException {
         List<TreatmentCode> treatmentCodes = new ArrayList<>();
 
-        for (Object o : treatmentCodeDAO.get(searchPattern)) {
+        treatmentCodeDAO.get(searchPattern).stream().forEach((o) -> {
             treatmentCodes.add((TreatmentCode) o);
-        }
+        });
         return treatmentCodes;
     }
 
@@ -198,9 +199,9 @@ public class ClientImpl implements ClientInterface {
         List<User> users = new ArrayList<>();
         if (!loginDAO.get(username).isEmpty()) {
 
-            for (Object o : loginDAO.get(username)) {
+            loginDAO.get(username).stream().forEach((o) -> {
                 users.add((User) o);
-            }
+            });
             for (User u : users) {
                 if (username.equals(u.getUsername())) {
                     return u.getUsername().equals(username) && BCrypt.checkpw(password, u.getPassword()); // Login succesful
@@ -208,8 +209,12 @@ public class ClientImpl implements ClientInterface {
             }
         }
         return false;
-        // Login unsuccesful
 
+    }
+
+    @Override
+    public boolean addUser(User user) throws RemoteException {
+        return loginDAO.add(user);
     }
 
 }

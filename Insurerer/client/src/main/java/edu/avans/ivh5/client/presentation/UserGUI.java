@@ -1,7 +1,12 @@
 package edu.avans.ivh5.client.presentation;
 
 import edu.avans.ivh5.client.businesslogic.UserManager;
-import java.util.function.Predicate;
+import edu.avans.ivh5.shared.models.User;
+import edu.avans.ivh5.shared.util.BCrypt;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 
 public class UserGUI extends javax.swing.JFrame {
@@ -121,42 +126,41 @@ public class UserGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameTextFieldActionPerformed
 
     private void addUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserButtonActionPerformed
-        int res = 0;
         String password = String.valueOf(passwordTextField.getPassword());
         String repeatPassword = String.valueOf(passwordRepeatTextField.getPassword());
 
         if (usernameTextField.getText().isEmpty() || password.isEmpty()) {
             errorLabel.setText("Naam en/of wachtwoord is leeg");
-            errorLabel.setVisible(true);
+            JOptionPane.showMessageDialog(null, "Naam en/of wachtwoord is leeg", "Fout", JOptionPane.ERROR_MESSAGE);
             return;
         }
         if (!password.equals(repeatPassword)) {
-            errorLabel.setText("Wachtwoorden zijn niet gelijk");
-            errorLabel.setVisible(true);
+            JOptionPane.showMessageDialog(null, "Wachtwoorden zijn niet gelijk", "Fout wachtwoord", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if (!userManager.passwordValid(password)) {
+        if (!passwordValid(password)) {
             errorLabel.setText("Wachtwoord mag alleen letters en/of cijfers bevatten");
-            errorLabel.setVisible(true);
+            JOptionPane.showMessageDialog(null, "Wachtwoord mag alleen letters en/of cijfers bevatten", "Fout wachtwoord", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        //System.out.println("wachtwoorden goed herhaald");
-        if (userManager.createAccount(usernameTextField.getText(), password)) {
-            //JOptionPane.showMessageDialog(this, "Account gemaakt");
-            JOptionPane.showOptionDialog(null, "Account aangemaakt", "Geslaagd", JOptionPane.DEFAULT_OPTION,
-                    JOptionPane.INFORMATION_MESSAGE, null, null, null);
-            errorLabel.setVisible(false);
-
-        } else {
-            errorLabel.setText("Account bestaat al");
-            errorLabel.setVisible(true);
-
+        User user = new User(usernameTextField.getText(), BCrypt.hashpw(password, BCrypt.gensalt()));
+        try {
+            if (userManager.createAccount(user)) {
+                JOptionPane.showMessageDialog(null, "De gebruiker is aangemaakt.", "Gebruiker aangemaakt", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Het is niet gelukt de gebruiker aan te maken", "Aanmaken mislukt", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (RemoteException ex) {
+            Logger.getLogger(UserGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-
 
     }//GEN-LAST:event_addUserButtonActionPerformed
+
+    public boolean passwordValid(String password) {
+        return password.matches("^[a-zA-Z0-9]+$");
+    }
 
     /**
      * @param args the command line arguments

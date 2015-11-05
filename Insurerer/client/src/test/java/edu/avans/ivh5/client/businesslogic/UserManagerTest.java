@@ -5,11 +5,7 @@
  */
 package edu.avans.ivh5.client.businesslogic;
 
-import edu.avans.ivh5.shared.models.InsuranceCompany;
-import java.rmi.RemoteException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import edu.avans.ivh5.client.presentation.UserGUI;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -23,6 +19,8 @@ import org.junit.Test;
 public class UserManagerTest {
 
     private UserManager manager;
+    private UserGUI userGUI;
+    private UserManager userManager;
     private LoginManager loginManager;
 
     public UserManagerTest() {
@@ -38,7 +36,8 @@ public class UserManagerTest {
 
     @Before
     public void setUp() {
-        manager = new UserManager();
+        userGUI = new UserGUI();
+        userManager = new UserManager();
     }
 
     @After
@@ -46,28 +45,10 @@ public class UserManagerTest {
     }
 
     @Test
-    public void testUserValid() {
-        String username = "Rico";
-
-        assert (manager.userValid(username) == true);
-    }
-
-    @Test
     public void testPasswordValid() {
         String password = "Bakels";
 
-        assert (manager.passwordValid(password) == true);
+        assert (userGUI.passwordValid(password) == true);
     }
 
-    @Test
-    public void testCreateAccount() {
-        String username = "Nielss";
-        String password = "Kerdell";
-        boolean hasFound = false;
-
-        if (manager.createAccount(username, password) == true) {
-            hasFound = true;
-        }
-        assert (hasFound);
-    }
 }
