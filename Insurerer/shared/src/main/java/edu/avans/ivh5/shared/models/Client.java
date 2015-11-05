@@ -1,6 +1,5 @@
 package edu.avans.ivh5.shared.models;
 
-import com.itextpdf.text.pdf.PdfPTable;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -69,18 +68,6 @@ public class Client implements Serializable {
 
     public boolean isIncasso() {
         return incasso;
-    }
-
-<<<<<<< 37b8eec74d5e7e851666b154b9dff86f2aeca676
-    public void add(PdfPTable table) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-=======
-    public static class get {
-
-        public get() {
-        }
->>>>>>> Invoice Manager aangepast. Invoices generen
-    }
-    
+    }  
     
 }
