@@ -137,7 +137,6 @@ public class ClientDAO implements DAOInterface {
 
         List<Object> clients = new ArrayList<>();
         List<Node> clientsNodes = this.XMLParser.findElementsByName("client", searchPattern);
-
         for (int i = 0; i < clientsNodes.size(); i++) {
             Node clientNode = clientsNodes.get(i);
 
@@ -148,10 +147,11 @@ public class ClientDAO implements DAOInterface {
             String postcode = this.XMLParser.getValueByNodeName(clientNode, "postcode");
             String address = this.XMLParser.getValueByNodeName(clientNode, "address");
             String IBAN = this.XMLParser.getValueByNodeName(clientNode, "IBAN");
-            boolean incasso = Boolean.getBoolean(this.XMLParser.getValueByNodeName(clientNode, "incasso"));
+            boolean incasso = Boolean.parseBoolean(this.XMLParser.getValueByNodeName(clientNode, "incasso"));
             String email = this.XMLParser.getValueByNodeName(clientNode, "email");
             String tel = this.XMLParser.getValueByNodeName(clientNode, "tel");
-
+            String iets = this.XMLParser.getValueByNodeName(clientNode, "incasso");
+            
             clients.add(new Client(BSN, name, firstName, city, postcode, address, IBAN, incasso, email, tel));
         }
 

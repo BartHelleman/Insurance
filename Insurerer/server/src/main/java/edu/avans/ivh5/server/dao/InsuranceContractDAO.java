@@ -24,7 +24,6 @@ public class InsuranceContractDAO implements DAOInterface {
     @Override
     public boolean add(Object item) {
         if (item instanceof InsuranceContract) {
-            System.out.println("Return true");
             InsuranceContract insuranceContract = (InsuranceContract) item;
             Element insuranceContractNode = this.XMLParser.createElement("contract");
 
@@ -61,8 +60,6 @@ public class InsuranceContractDAO implements DAOInterface {
             this.XMLParser.addNode(insuranceContractNode);
             DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
             return true;
-        } else {
-            System.out.println("Return false");
         }
         return false;
     }

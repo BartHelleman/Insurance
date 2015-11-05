@@ -83,7 +83,7 @@ public class InvoiceDAO implements DAOInterface {
             BigDecimal VAT = new BigDecimal(this.XMLParser.getValueByNodeName(invoiceNode, "VAT"));
             String treatmentStatus = this.XMLParser.getValueByNodeName(invoiceNode, "treatmentStatus");
             invoices.add(new Invoice(invoiceNumber, date, expirationDate, VAT,treatmentStatus));
-            
+
         }
         
         return invoices;

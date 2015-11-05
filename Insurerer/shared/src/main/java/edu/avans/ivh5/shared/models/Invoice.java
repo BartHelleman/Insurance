@@ -47,6 +47,9 @@ public class Invoice implements Serializable {
         BigDecimal treatmentPrice = treatment.getPrice();
         BigDecimal treatmentAmount = new BigDecimal(treatment.getAmountSessions());
         
+     //   BigDecimal treatmentPrice = new BigDecimal(2);
+     //   BigDecimal treatmentAmount = new BigDecimal(3);
+        System.out.println("Told you so: " + treatmentPrice + " " + treatmentAmount);
         // Price * amount * vat
         return treatmentPrice.multiply(treatmentAmount).multiply(VAT);
     }

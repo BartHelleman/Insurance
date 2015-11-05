@@ -36,10 +36,9 @@ public class ClientManager {
         clienten.clear();
         
         List<Object> result = clientDAO.get(searchPattern);
-        
         for(Object o : result){
             Client c = (Client) o;
-            System.out.println(c.getName());
+            // System.out.println(c.getName());
             clienten.add((Client) o);
         }
         

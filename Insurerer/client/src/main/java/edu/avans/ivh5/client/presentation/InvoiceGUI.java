@@ -37,7 +37,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
         displayInvoice();
-        invoiceManager.getInvoice(null);
+        invoiceManager.getInvoice(null, client);
         // Rest of the program
     }
 
@@ -186,7 +186,6 @@ public class InvoiceGUI extends javax.swing.JFrame {
             // Add items to the combobox
             insurance.stream().forEach((insurance1) -> {
                 insuranceIDComboBox.addItem(insurance1.getName());
-                System.out.println(insurance1.getName());
             });
             
             // Don't display delete button
