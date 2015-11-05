@@ -21,59 +21,53 @@ import org.junit.Test;
  * @author Burak
  */
 public class UserManagerTest {
-    
+
     private UserManager manager;
     private LoginManager loginManager;
-   
+
     public UserManagerTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         manager = new UserManager();
     }
-    
+
     @After
     public void tearDown() {
     }
-    
+
     @Test
     public void testUserValid() {
         String username = "Rico";
-        
-        assert(manager.userValid(username) == true);
+
+        assert (manager.userValid(username) == true);
     }
-    
+
     @Test
     public void testPasswordValid() {
         String password = "Bakels";
-                
-        assert(manager.passwordValid(password) == true);
+
+        assert (manager.passwordValid(password) == true);
     }
-    
+
     @Test
     public void testCreateAccount() {
-        String username = "Niels";
-        String password = "Kerdel";
+        String username = "Nielss";
+        String password = "Kerdell";
         boolean hasFound = false;
-        
-        if( manager.createAccount(username, password) == true) {
-            try {
-                if(loginManager.login(username, password) == true) {
-                    hasFound = true;
-                }
-            } catch (RemoteException ex) {
-                Logger.getLogger(UserManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
+        if (manager.createAccount(username, password) == true) {
+            hasFound = true;
         }
-        assert(hasFound);
+        assert (hasFound);
     }
 }
