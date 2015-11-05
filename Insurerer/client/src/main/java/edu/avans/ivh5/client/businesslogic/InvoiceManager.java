@@ -2,6 +2,7 @@ package edu.avans.ivh5.client.businesslogic;
 
 import edu.avans.ivh5.server.dao.ClientDAO;
 import edu.avans.ivh5.server.dao.InsuranceContractDAO;
+import edu.avans.ivh5.server.dao.InvoiceDAO;
 import edu.avans.ivh5.shared.models.Client;
 import edu.avans.ivh5.shared.models.InsuranceContract;
 import edu.avans.ivh5.shared.models.Invoice;
@@ -28,10 +29,10 @@ public class InvoiceManager {
 
     //relaties
     private ClientManager clientManager;
-    private InsuranceContractDAO InsuranceContractDAO;
-
+    private InsuranceContractDAO insuranceContractDAO;
     private Treatment treatment;
     private ClientDAO clientDAO;
+    private InvoiceDAO invoiceDAO;
 
     private static final String COMMA_DELIMITER = ",";
 
@@ -48,14 +49,16 @@ public class InvoiceManager {
 
         // New DAO
         try {
-            InsuranceContractDAO = new InsuranceContractDAO();
+            insuranceContractDAO = new InsuranceContractDAO();
+            invoiceDAO = new InvoiceDAO();
+            clientDAO = new ClientDAO();
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             System.out.println("Error message:" + ex.getMessage());
         }
 
         // get all data off insurancecontracts
-        if (InsuranceContractDAO.get(BSN).size() == 1) {
-            insuranceContract = (InsuranceContract) InsuranceContractDAO.get(BSN).get(0);
+        if (insuranceContractDAO.get(BSN).size() == 1) {
+            insuranceContract = (InsuranceContract) insuranceContractDAO.get(BSN).get(0);
         } else {
             insuranceContract = new InsuranceContract(null, null, BSN, 0, null, null);
         }
@@ -69,13 +72,13 @@ public class InvoiceManager {
 
         // new DAO
         try {
-            InsuranceContractDAO = new InsuranceContractDAO();
+            insuranceContractDAO = new InsuranceContractDAO();
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             System.out.println("Error message:" + ex.getMessage());
         }
 
         // Add all members to XML
-        insuranceContracts.stream().forEach(p -> InsuranceContractDAO.add(p));
+        insuranceContracts.stream().forEach(p -> insuranceContractDAO.add(p));
 
         return null;
     }
@@ -85,13 +88,13 @@ public class InvoiceManager {
 
         // new DAO
         try {
-            InsuranceContractDAO = new InsuranceContractDAO();
+            insuranceContractDAO = new InsuranceContractDAO();
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             System.out.println("Error message:" + ex.getMessage());
         }
 
         // delete member from XML
-        insuranceContract = InsuranceContractDAO.delete(client.getBSN());
+        insuranceContract = insuranceContractDAO.delete(client.getBSN());
     }
 
     public Invoice getInvoice(Treatment treatment, Client client) {
@@ -182,9 +185,7 @@ public class InvoiceManager {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                try {
-                    clientDAO = new ClientDAO();
-                } catch (ParserConfigurationException | SAXException | IOException ex) {}
+
                 Treatment treatment = new Treatment(null, null, null, 0, null, null, null);
                 List<Treatment> treatments = treatment.treatments();
                 for (Treatment t : treatments) {
@@ -202,19 +203,16 @@ public class InvoiceManager {
             }
         }, 10000, 5000);
     }
-    
+
     public void generateInvoice(Treatment t, Client c) {
-        InsuranceContractDAO dao = null;
-        try {
-            dao = new InsuranceContractDAO();
-        } catch (ParserConfigurationException | SAXException | IOException ex) {}
-        if (dao != null) {
-            List<Object> contracts = dao.getInsuranceContract(c.getBSN());
+        if (insuranceContractDAO != null) {
+            List<Object> contracts = insuranceContractDAO.getInsuranceContract(c.getBSN());
             InsuranceContract contract = (InsuranceContract) contracts.get(0);
             printValues(t, c, contract);
+            
         }
     }
-    
+
     private void printValues(Treatment t, Client c, InsuranceContract i) {
         System.out.println(t.getAmountSessions());
         System.out.println("Treatment bsn = " + t.getBSNClient());

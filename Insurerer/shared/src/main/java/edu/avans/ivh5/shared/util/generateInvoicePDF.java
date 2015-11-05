@@ -69,13 +69,14 @@ public class generateInvoicePDF {
         //c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         //table.addCell(c1);
         //table.setHeaderRows(1);
-        
-        table.addCell("Naam Klant: " + client.getFirstName() + " " + client.getName());
-        table.addCell("Naam bedrijf: " + insuranceCompany.getName());
-        table.addCell("Adres Klant: " + client.getAddress());
-        table.addCell("Adres Bedrijf: " + insuranceCompany.getAddress());
-        table.addCell("Postcode + Plaats klant: " + client.getPostcode() + " " + client.getCity());
-        table.addCell("Postcode + Plaats bv: " + insuranceCompany.getPostCode()+ " " + insuranceCompany.getCity());
+        table.addCell("Klantgegevens");
+        table.addCell(client.getFirstName() + " " + client.getName());
+        table.addCell("Bedrijfsgegevens");
+        table.addCell(insuranceCompany.getName());
+        table.addCell(client.getAddress());
+        table.addCell(insuranceCompany.getAddress());
+        table.addCell(client.getPostcode() + " " + client.getCity());
+        table.addCell(insuranceCompany.getPostCode()+ " " + insuranceCompany.getCity());
         table.addCell("");
         table.addCell("KVK nummer: " + insuranceCompany.getKVK());
         //table.addCell("");
