@@ -26,7 +26,6 @@ public class Main {
      //   InvoiceGUI invoiceGUI = new InvoiceGUI(client);
      //   invoiceGUI.setVisible(true);
        
-     //    build();
 
 
 //         Client client = new Client("004", "Burak", "Niels", "Krimpen", "2922CD", "Blomsingel 31", "NL00 INGB 012345", false, "nskerdel", "0612345678");
@@ -45,8 +44,8 @@ public class Main {
         //invoiceGUI.setVisible(true);
         //LoginGUI loginGUI = new LoginGUI();
         //loginGUI.setVisible(true);
-        //UserGUI userGUI = new UserGUI();
-        //userGUI.setVisible(true);
+        UserGUI userGUI = new UserGUI();
+        userGUI.setVisible(true);
         //InsuranceCompanyGUI insuranceCompanyGUI = new InsuranceCompanyGUI();
         //insuranceCompanyGUI.setVisible(true);
         //InvoiceManager invoiceManager = new InvoiceManager();
