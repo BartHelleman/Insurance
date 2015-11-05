@@ -23,11 +23,7 @@
         <code>003behandelcode003</code>
         <priceSession>10</priceSession>
         <amountSessions>8</amountSessions>
-<<<<<<< HEAD
         <treatmentStatus>betaald</treatmentStatus>
-=======
-        <treatmentStatus>afgerond</treatmentStatus>
->>>>>>> 0f04ef4680d4288d1ee6d4cfd4def360237d6940
     </treatment>	    
     
 </treatments>

@@ -5,13 +5,13 @@
         <xs:element name="insurance" maxOccurs="unbounded" minOccurs="0">
           <xs:complexType>
             <xs:sequence>
-              <xs:element type="xs:integer" name="ID"/>
+              <xs:element type="xs:string" name="ID"/>
               <xs:element type="xs:string" name="name"/>
               <xs:element type="xs:decimal" name="price"/>
               <xs:element name="treatments">
                 <xs:complexType>
                   <xs:sequence>
-                    <xs:element type="xs:String" name="treatment" maxOccurs="unbounded" minOccurs="0"/>
+                    <xs:element type="xs:string" name="treatment" maxOccurs="unbounded" minOccurs="0"/>
                   </xs:sequence>
                 </xs:complexType>
               </xs:element>
