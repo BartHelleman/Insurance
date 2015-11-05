@@ -111,12 +111,12 @@ public class InsuranceGUI extends javax.swing.JFrame {
 
         treatmentComboBox.setFocusable(false);
         treatmentComboBox.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
-            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
-                treatmentComboBoxPopupMenuWillBecomeVisible(evt);
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
             }
             public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
             }
-            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                treatmentComboBoxPopupMenuWillBecomeVisible(evt);
             }
         });
         treatmentComboBox.addActionListener(new java.awt.event.ActionListener() {

@@ -63,7 +63,11 @@ public class InsuranceCompanyManagerTest {
         }
         Object newObject = new InsuranceCompany("Zorg4U", "Breda", "1234AB", "Breda", "0123456789");
         
-        manager.change(beforeChange, newObject);
+        try {
+            manager.changeInsuranceCompany(beforeChange, newObject);
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceCompanyManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         Object afterChange = null;
         try {

@@ -63,16 +63,18 @@
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="insuranceIDComboBox" max="32767" attributes="0"/>
-                      <Component id="ownRiskField" alignment="0" max="32767" attributes="0"/>
-                      <Component id="startDateField" alignment="0" max="32767" attributes="0"/>
-                      <Component id="endDateField" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="deleteButton" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="139" max="32767" attributes="0"/>
-                          <Component id="saveButton" min="-2" pref="89" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="insuranceIDComboBox" max="32767" attributes="0"/>
+                          <Component id="ownRiskField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="endDateField" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="deleteButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="139" max="32767" attributes="0"/>
+                              <Component id="saveButton" min="-2" pref="89" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
+                      <Component id="startDateField" min="-2" pref="317" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="247" max="-2" attributes="0"/>
               </Group>

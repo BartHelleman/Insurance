@@ -48,9 +48,9 @@ public class InvoiceDAO implements DAOInterface {
             this.XMLParser.addNode(invoiceNode);
             DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
             return true;
+        } else {
+            return false;
         }
-        
-        return false;
     }
 
     @Override
