@@ -7,6 +7,7 @@ package edu.avans.ivh5.client.presentation;
 
 import edu.avans.ivh5.shared.models.Client;
 import edu.avans.ivh5.client.businesslogic.*;
+import java.rmi.RemoteException;
 import javax.swing.JOptionPane;
 /**
  *
@@ -491,6 +492,7 @@ private ClientManager clientManager;
         /**
         * client succesfully added message
         */
+        try{
         boolean result = clientManager.addClient(client);
         if (result == true) {
             JOptionPane.showMessageDialog(null, "De client is succesvol toegevoegd.", "Toevoegen", JOptionPane.INFORMATION_MESSAGE);
@@ -500,7 +502,9 @@ private ClientManager clientManager;
         } else {
             JOptionPane.showMessageDialog(null, "Dit BSN nummer is al bekend in het systeem.", "Klant bestaat al", JOptionPane.ERROR_MESSAGE);
         }
-
+        }catch(RemoteException e){
+            JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_saveClientButtonActionPerformed
 
     private void getInvoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getInvoiceButtonActionPerformed

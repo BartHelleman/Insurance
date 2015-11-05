@@ -6,8 +6,11 @@
 package edu.avans.ivh5.client.businesslogic;
 
 import edu.avans.ivh5.shared.models.Client;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -50,7 +53,11 @@ public class ClientManagerTest {
 
     @Test
     public void testSearchClients() {
-        manager.addClient(burakClient);
+        try {
+            manager.addClient(burakClient);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ClientManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
 
             List<Client> searchResult = manager.searchClient("Bart");
@@ -64,60 +71,91 @@ public class ClientManagerTest {
                 }
             }
             assert (hasFound);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ClientManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            manager.deleteClient(burakClient.getBSN());
+            try {
+                manager.deleteClient(burakClient.getBSN());
+            } catch (RemoteException ex) {
+                Logger.getLogger(ClientManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
     @Test
     public void testDeleteClient() {
 
-        List<Client> beforeAdding = manager.searchClient("201938157"); // 5 personen
-        int listSize = beforeAdding.size();
-        manager.addClient(burakClient);
-
-        List<Client> afterAdding = manager.searchClient("201938157"); // 5 + 1 personen
-
-        assert (afterAdding.size() == listSize + 1);
-
-        manager.deleteClient(burakClient.getBSN());
-
-        List<Client> afterDelete = manager.searchClient("201938157"); // 5 personen
-        System.out.println("Found3: " + manager.searchClient("201938157") + " Size: " + afterDelete.size());
-
-        assert (beforeAdding.size() == afterDelete.size());
+        try {
+            
+            List<Client> beforeAdding = null;
+            try {
+                beforeAdding = manager.searchClient("201938157"); // 5 personen
+            } catch (RemoteException ex) {
+                Logger.getLogger(ClientManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            int listSize = beforeAdding.size();
+            try {
+                manager.addClient(burakClient);
+            } catch (RemoteException ex) {
+                Logger.getLogger(ClientManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            List<Client> afterAdding = manager.searchClient("201938157"); // 5 + 1 personen
+            
+            assert (afterAdding.size() == listSize + 1);
+            
+            manager.deleteClient(burakClient.getBSN());
+            
+            List<Client> afterDelete = manager.searchClient("201938157"); // 5 personen
+            System.out.println("Found3: " + manager.searchClient("201938157") + " Size: " + afterDelete.size());
+            
+            assert (beforeAdding.size() == afterDelete.size());
+            
+        } catch (RemoteException ex) {
+            Logger.getLogger(ClientManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
     @Test
     public void testAddClient() {
-        List<Client> beforeAdding = manager.searchClient("201938157");
-        int listSize = beforeAdding.size();
-        manager.addClient(burakClient);
         try {
-            List<Client> afterAdding = manager.searchClient("201938157");
-            assert (afterAdding.size() == listSize + 1);
-        } finally {
-            manager.deleteClient(burakClient.getBSN());
+            List<Client> beforeAdding = manager.searchClient("201938157");
+            int listSize = beforeAdding.size();
+            manager.addClient(burakClient);
+            try {
+                List<Client> afterAdding = manager.searchClient("201938157");
+                assert (afterAdding.size() == listSize + 1);
+            } finally {
+                manager.deleteClient(burakClient.getBSN());
+            }
+        }   catch (RemoteException ex) {
+            Logger.getLogger(ClientManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Test
     public void testChangeClient() {
 
-        Client newBurak = new Client("984422754", "Kerdel", "Niels", "Krimpen", "8765II", "Schuwacht 01", "NL00XXXX0000009000", false, "nielskerdel@hotmail.com", "0656789012");
-
-        List<Client> beforeAdding = manager.searchClient("201938157"); // 5 personen
-        manager.addClient(burakClient);
-
         try {
-            List<Client> afterAdding = manager.searchClient("201938157"); // 5 + 1 personen
-            manager.changeClient(burakClient, newBurak);
-
-            List<Client> result = manager.searchClient("984422754");
-            assert (result.size() > 0);
-        } finally {
-            manager.deleteClient(newBurak.getBSN());
+            
+            Client newBurak = new Client("984422754", "Kerdel", "Niels", "Krimpen", "8765II", "Schuwacht 01", "NL00XXXX0000009000", false, "nielskerdel@hotmail.com", "0656789012");
+            
+            List<Client> beforeAdding = manager.searchClient("201938157"); // 5 personen
+            manager.addClient(burakClient);
+            
+            try {
+                List<Client> afterAdding = manager.searchClient("201938157"); // 5 + 1 personen
+                manager.changeClient(burakClient, newBurak);
+                
+                List<Client> result = manager.searchClient("984422754");
+                assert (result.size() > 0);
+            } finally {
+                manager.deleteClient(newBurak.getBSN());
+            }
+            
+        }   catch (RemoteException ex) {
+            Logger.getLogger(ClientManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

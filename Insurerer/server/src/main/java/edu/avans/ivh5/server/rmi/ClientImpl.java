@@ -54,20 +54,39 @@ public class ClientImpl implements ClientInterface {
 
     @Override
     public List<Client> searchClient(String searchPattern) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Client> clients = new ArrayList<>();
+        for (Object o : clientDAO.get(searchPattern)) {
+            clients.add((Client) o);
+        }
+        return clients;
     }
 
     @Override
     public boolean addClient(Client client) throws RemoteException {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        logger.log(Priority.INFO, "YES");
+        List<Object> clients = clientDAO.get(client.getBSN()); /* Make list with Objects */
 
-        return true;
+        if (clients.isEmpty()) { /* check if list is empty. When list is empty, then start add function from clientDAO. */
+
+            return clientDAO.add(client);
+        } else {
+            return false;
+
+        }
     }
 
     @Override
-    public boolean deleteClient(Client client) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean changeClient(Object oldClient, Object newClient) throws RemoteException {
+        return clientDAO.change(oldClient, newClient);
+    }
+
+    @Override
+    public boolean deleteClient(String clientBSN) throws RemoteException {
+        return clientDAO.delete(clientBSN);
+    }
+
+    public boolean hadInsuranceContract(Client client) throws RemoteException {
+        List<Object> contracts = insuranceContractDAO.get(client.getBSN());
+        return !contracts.isEmpty();
     }
 
     @Override
@@ -126,6 +145,7 @@ public class ClientImpl implements ClientInterface {
             System.out.println("meerdere resultaten verkregen?");
             return false;
         }
+
     }
 
     @Override

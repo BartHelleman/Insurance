@@ -22,12 +22,16 @@ public interface ClientInterface extends Remote {
      */
     boolean addClient(Client client) throws RemoteException;
     
+    boolean changeClient(Object oldvalue, Object newValue) throws RemoteException;
+    
     /**
      * Deletes a client from the client list (stored in the XML list)
      * @param client
      * @return 
      */
-    boolean deleteClient(Client client) throws RemoteException;
+    boolean deleteClient(String client) throws RemoteException;
+    
+    boolean hadInsuranceContract(Client client) throws RemoteException;
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="#InsuranceCompany methods">
