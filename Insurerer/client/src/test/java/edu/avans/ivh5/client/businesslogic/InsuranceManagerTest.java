@@ -7,8 +7,14 @@ package edu.avans.ivh5.client.businesslogic;
 
 import edu.avans.ivh5.shared.models.Client;
 import edu.avans.ivh5.shared.models.Insurance;
+import edu.avans.ivh5.shared.models.Treatment;
+import edu.avans.ivh5.shared.models.TreatmentCode;
 import java.math.BigDecimal;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -35,11 +41,13 @@ public class InsuranceManagerTest {
     @AfterClass
     public static void tearDownClass() {
     }
-    /*
+    
     @Before
     public void setUp() {
         manager = new InsuranceManager();
-        insurance = new Insurance(1, 5, "Behandeling", new BigDecimal("100"));
+        List<String> treatments = new ArrayList();
+        treatments.add("123456");
+        insurance = new Insurance("007", "Zorgverkering Plus Extra", new BigDecimal("180"), treatments);
     }
     
     @After
@@ -48,8 +56,15 @@ public class InsuranceManagerTest {
     
     @Test
     public void testSearchInsurance() {
-        manager.addInsurance(insurance);
-        ArrayList<Insurance> foundInsurances = manager.searchInsurance("Behandeling");
+        manager.searchInsurance(null); 
+        try {
+            manager.addInsurance(insurance);
+            
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        List<Insurance> foundInsurances = manager.searchInsurance("Behandeling");
         assert(foundInsurances.size() > 0);
         
         boolean hasFound = false;
@@ -64,29 +79,39 @@ public class InsuranceManagerTest {
     
     @Test
     public void testAddInsurance() {
-        ArrayList<Insurance> beforeAdding = manager.searchInsurance("Behandeling");
-        manager.addInsurance(insurance);
-        ArrayList<Insurance> afterAdding = manager.searchInsurance("Behandeling");
+        List<Insurance> beforeAdding = manager.searchInsurance("Behandeling");
+        try {
+            manager.addInsurance(insurance);
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        List<Insurance> afterAdding = manager.searchInsurance("Behandeling");
         
         assert(afterAdding.size() == beforeAdding.size() + 1);
-        manager.deleteInsurance(insurance);
+        manager.deleteInsurance(insurance.getID());
     }
 
     @Test
     public void testChangeInsurance() {
-        ArrayList<Insurance> beforeAdding = manager.searchInsurance("Behandeling");
-        manager.addInsurance(insurance);
-        ArrayList<Insurance> afterAdding = manager.searchInsurance("Behandeling");
+        List<String> treatments = new ArrayList();
+        treatments.add("123456");
+        List<Insurance> beforeAdding = manager.searchInsurance("Behandeling");
+        try {
+            manager.addInsurance(insurance);
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        List<Insurance> afterAdding = manager.searchInsurance("Behandeling");
         assert(afterAdding.size() == beforeAdding.size() + 1);
         
-        Insurance newInsurance = new Insurance(2, 5, "Een behandeling", new BigDecimal("100"));
+        Insurance newInsurance = new Insurance("", "", new BigDecimal("100"), treatments);
         manager.changeInsurance(insurance, newInsurance);
         
-        ArrayList<Insurance> result = manager.searchInsurance("Een behandeling");
+        List<Insurance> result = manager.searchInsurance("Een behandeling");
         assert(result.size() > 0);
         
-        manager.deleteInsurance(newInsurance);
-    }*/
+        manager.deleteInsurance(newInsurance.getID());
+    }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //

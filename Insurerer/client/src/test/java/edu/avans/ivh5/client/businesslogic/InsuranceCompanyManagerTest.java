@@ -5,7 +5,9 @@
  */
 package edu.avans.ivh5.client.businesslogic;
 
+import edu.avans.ivh5.shared.models.InsuranceCompany;
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.After;
@@ -18,10 +20,11 @@ import org.junit.Test;
  *
  * @author Burak
  */
-public class LoginManagerTest {
+public class InsuranceCompanyManagerTest {
     
-    private LoginManager manager;
-    public LoginManagerTest() {
+    private InsuranceCompanyManager manager;
+   
+    public InsuranceCompanyManagerTest() {
     }
     
     @BeforeClass
@@ -34,7 +37,7 @@ public class LoginManagerTest {
     
     @Before
     public void setUp() {
-        manager = new LoginManager();
+        manager = new InsuranceCompanyManager();
     }
     
     @After
@@ -42,19 +45,18 @@ public class LoginManagerTest {
     }
     
     @Test
-    public void testLogin() {
-        String username = "Rico";
-        String password = "Bakels";
-        
-        try {
-            assert(manager.login(username, password) == true);
-        } catch (RemoteException ex) {
-            Logger.getLogger(LoginManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void testGetInsuranceCompany() {
+        manager.getInsuranceCompany();
     }
     
     @Test
-    public void testLogout() {
-        manager.logout();
+    public void testChange() {
+        Object beforeChange = manager.getInsuranceCompany();
+        Object newObject = new InsuranceCompany("Zorg4U", "Breda", "1234AB", "Breda", "0123456789");
+        
+        manager.change(beforeChange, newObject);
+        
+        Object afterChange = manager.getInsuranceCompany();
+        assert(beforeChange != null && afterChange != null);
     }
 }

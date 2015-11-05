@@ -86,7 +86,6 @@ public class InvoiceManager {
     }
 
     public Invoice getInvoice(Treatment treatment, Client client) {
-
         if(client.isIncasso() == true) {
             // Testing data
             // Treatment treatment1 = new Treatment("Treatment10", "9292309309", new BigDecimal(2), 2);
