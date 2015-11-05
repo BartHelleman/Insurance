@@ -73,7 +73,15 @@ public class InsuranceDAO implements DAOInterface {
 
     @Override
     public boolean change(Object oldObject, Object newObject) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!(oldObject instanceof Insurance) || !(newObject instanceof Insurance))
+            return false;
+        
+        Insurance oldInsurance = (Insurance)oldObject;
+        Insurance newInsurance = (Insurance)newObject;
+        
+        if(delete(oldInsurance.getName()))
+            return add(newInsurance);
+        return false;
     }
 
     @Override

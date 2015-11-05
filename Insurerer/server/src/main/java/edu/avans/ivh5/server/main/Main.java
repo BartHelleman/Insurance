@@ -31,7 +31,7 @@ public class Main {
     // Access to remote manager
     static private ClientInterface stub;
     static private PhysioServerInterface physioInterface;
-    static final bolean RMI = false;
+    static final boolean RMI = false;
     // Get a logger instance for the current class
     static Logger logger = Logger.getLogger(Main.class);
 

@@ -161,7 +161,8 @@ public class ClientImpl implements ClientInterface {
 
     @Override
     public boolean changeInsurance(Insurance oldInsurance, Insurance newInsurance) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return insuranceDAO.change(oldInsurance, newInsurance);
     }
 
     @Override
