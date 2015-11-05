@@ -13,6 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -21,7 +23,7 @@ import javax.swing.JOptionPane;
  * @author Niels
  */
 public class InvoiceGUI extends javax.swing.JFrame {
-    
+
     private final InvoiceManager invoiceManager;
     private final InsuranceManager insuranceManager;
     private final Client client;
@@ -32,7 +34,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
         this.invoiceManager = new InvoiceManager();
         this.insuranceManager = new InsuranceManager();
         this.clientGUI = clientGUI;
-        
+
         // Set the JFrame to maximize by default on opening
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
@@ -41,7 +43,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
         // Rest of the program
     }
 
-  
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -172,14 +174,13 @@ public class InvoiceGUI extends javax.swing.JFrame {
 
     public final void displayInvoice() {
         List<Insurance> insurance = new ArrayList<>();
-        InsuranceContract contract = invoiceManager.getInsuranceContract(client);
-        try{
-        insurance = insuranceManager.getInsurances("zorgverzekering");
-        } catch(RemoteException e){
+        InsuranceContract contract = null;
+        try {
+            contract = invoiceManager.getInsuranceContract(client);
+            insurance = insuranceManager.getInsurances("zorgverzekering");
+        } catch (RemoteException e) {
             JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
         }
-        
-
 
         // If client exists display data
         // else display nothing
@@ -188,7 +189,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
             insurance.stream().forEach((insurance1) -> {
                 insuranceIDComboBox.addItem(insurance1.getName());
             });
-            
+
             // Don't display delete button
             deleteButton.setVisible(false);
         } else {
@@ -201,21 +202,25 @@ public class InvoiceGUI extends javax.swing.JFrame {
 
             Integer ownRisk = contract.getOwnRisk().intValue();
             ownRiskField.setText(Integer.toString(ownRisk));
-            
+
             // Can't edit fields
             insuranceIDComboBox.setEnabled(false);
             startDateField.setEditable(false);
             endDateField.setEditable(false);
             ownRiskField.setEditable(false);
-            
+
             // Don't display save button
-            saveButton.setVisible(false); 
+            saveButton.setVisible(false);
         }
     }
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        // Call delete function
-        invoiceManager.deleteInsuranceContract(client);
+        try {
+            // Call delete function
+            invoiceManager.deleteInsuranceContract(client);
+        } catch (RemoteException e) {
+
+        }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
@@ -234,20 +239,18 @@ public class InvoiceGUI extends javax.swing.JFrame {
         String endDateHolder;
         Date endDate = null;
 
-        
         // get values which should be saved
-        try{
-        insurance = insuranceManager.getInsurances((String) insuranceIDComboBox.getSelectedItem());
-        } catch (RemoteException e){
+        try {
+            insurance = insuranceManager.getInsurances((String) insuranceIDComboBox.getSelectedItem());
+        } catch (RemoteException e) {
             JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
         }
         int insuranceID = Integer.parseInt(insurance.get(0).getID());
 
         String name = client.getName();
-        
+
         clientGUI.setCheckBox(true);
 
-        
         // Checks if values are correct
         if (!ownRiskField.getText().isEmpty() && ownRiskField.getText().matches("[0-9]+")) {
             if (Integer.parseInt(ownRiskField.getText()) > 0) {
@@ -286,8 +289,16 @@ public class InvoiceGUI extends javax.swing.JFrame {
         // If everything is correct, add member
         if (startDate != null && endDate != null && startDate.before(endDate) && ownRisk != null) {
             insuranceContracts.add(new InsuranceContract(client.getBSN(), ownRisk, name, insuranceID, startDate, endDate));
-            insuranceContracts.stream().forEach(p -> invoiceManager.addInsuranceContract(p));
+            insuranceContracts.stream().forEach(p -> {
+                try {
+                    invoiceManager.addInsuranceContract(p);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(InvoiceGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
         }
+
+
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed

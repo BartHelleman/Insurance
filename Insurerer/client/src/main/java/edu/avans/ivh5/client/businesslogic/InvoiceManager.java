@@ -1,5 +1,6 @@
 package edu.avans.ivh5.client.businesslogic;
 
+import edu.avans.ivh5.client.main.RmiMain;
 import edu.avans.ivh5.server.dao.ClientDAO;
 import edu.avans.ivh5.server.dao.InsuranceContractDAO;
 import edu.avans.ivh5.server.dao.InvoiceDAO;
@@ -11,6 +12,7 @@ import java.io.FileWriter;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,62 +43,22 @@ public class InvoiceManager {
     //CSV file header
     private static final String FILE_HEADER = "Zorg4U ClieOp bestand";
 
-    public InsuranceContract getInsuranceContract(Client client) {
-        InsuranceContract insuranceContract;
+    public InsuranceContract getInsuranceContract(Client client) throws RemoteException {
 
-        // client to BSN
-        String BSN = client.getBSN();
+        return RmiMain.getRmiInterface().getInsuranceContract(client);
 
-        // New DAO
-        try {
-            insuranceContractDAO = new InsuranceContractDAO();
-            invoiceDAO = new InvoiceDAO();
-            clientDAO = new ClientDAO();
-        } catch (ParserConfigurationException | SAXException | IOException ex) {
-            System.out.println("Error message:" + ex.getMessage());
-        }
-        
-        
-
-        // get all data off insurancecontracts
-        if (insuranceContractDAO.get(BSN).size() == 1) {
-            insuranceContract = (InsuranceContract) insuranceContractDAO.get(BSN).get(0);
-        } else {
-            insuranceContract = new InsuranceContract(null, null, BSN, 0, null, null);
-        }
-
-        return insuranceContract;
     }
 
-    public InsuranceContract addInsuranceContract(InsuranceContract contract) {
-        ArrayList<InsuranceContract> insuranceContracts = new ArrayList<>();
-        insuranceContracts.add(contract);
-
-        // new DAO
-        try {
-            insuranceContractDAO = new InsuranceContractDAO();
-        } catch (ParserConfigurationException | SAXException | IOException ex) {
-            System.out.println("Error message:" + ex.getMessage());
-        }
-
-        // Add all members to XML
-        insuranceContracts.stream().forEach(p -> insuranceContractDAO.add(p));
-
-        return null;
+    public InsuranceContract addInsuranceContract(InsuranceContract contract) throws RemoteException {
+        
+        return RmiMain.getRmiInterface().addInsuranceContract(contract);
+        
+       
     }
 
-    public void deleteInsuranceContract(Client client) {
-        Boolean insuranceContract;
-
-        // new DAO
-        try {
-            insuranceContractDAO = new InsuranceContractDAO();
-        } catch (ParserConfigurationException | SAXException | IOException ex) {
-            System.out.println("Error message:" + ex.getMessage());
-        }
-
-        // delete member from XML
-        insuranceContract = insuranceContractDAO.delete(client.getBSN());
+    public boolean deleteInsuranceContract(Client client) throws RemoteException{
+       
+        return RmiMain.getRmiInterface().deleteInsuranceContract(client);
     }
 
     public Invoice getInvoice(Treatment treatment, Client client) {

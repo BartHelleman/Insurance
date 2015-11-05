@@ -66,7 +66,7 @@ public interface ClientInterface extends Remote {
     
     InsuranceContract getInsuranceContract(Client client) throws RemoteException;
     InsuranceContract addInsuranceContract(InsuranceContract contract) throws RemoteException;
-    void deleteInsuranceContract(String clientName) throws RemoteException;
+    boolean deleteInsuranceContract(Client client) throws RemoteException;
     Invoice getInvoice(Treatment treatment) throws RemoteException;
     //void printInvoice(InsuranceContract contract) throws RemoteException;
     

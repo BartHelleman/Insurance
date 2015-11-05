@@ -141,12 +141,12 @@ public class ClientImpl implements ClientInterface {
     @Override
     public boolean addInsurance(Insurance insurance) throws RemoteException {
         int i = getInsurance(insurance.getID()).size();
-        
+
         System.out.println("" + i);
         if (getInsurance(insurance.getID()).isEmpty()) {
             System.out.println("clientImpl geeft true");
             return insuranceDAO.add(insurance);
-            
+
         } else {
             System.out.println("meerdere resultaten verkregen?");
             return false;
@@ -176,17 +176,33 @@ public class ClientImpl implements ClientInterface {
 
     @Override
     public InsuranceContract getInsuranceContract(Client client) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        InsuranceContract insuranceContract;
+
+// get all data off insurancecontracts
+        if (insuranceContractDAO.get(client.getBSN()).size() == 1) {
+            insuranceContract = (InsuranceContract) insuranceContractDAO.get(client.getBSN()).get(0);
+        } else {
+            insuranceContract = new InsuranceContract(null, null, client.getBSN(), 0, null, null);
+        }
+
+        return insuranceContract;
     }
 
     @Override
     public InsuranceContract addInsuranceContract(InsuranceContract contract) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+        ArrayList<InsuranceContract> insuranceContracts = new ArrayList<>();
+        insuranceContracts.add(contract);
+        
+        insuranceContracts.stream().forEach(p -> insuranceContractDAO.add(p));
+
+        return null;
+
     }
 
     @Override
-    public void deleteInsuranceContract(String clientName) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean deleteInsuranceContract(Client client) throws RemoteException {
+        return insuranceContractDAO.delete(client.getBSN());
     }
 
     @Override
