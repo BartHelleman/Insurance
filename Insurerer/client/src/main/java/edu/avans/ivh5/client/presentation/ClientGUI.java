@@ -629,6 +629,7 @@ public class ClientGUI extends javax.swing.JFrame {
          */
         if (validBSN == false) {
             JOptionPane.showMessageDialog(null, "Het ingevoerde BSN is niet valide.", "Onjuiste BSN", JOptionPane.ERROR_MESSAGE);
+
             return;
         }
         /**
@@ -680,10 +681,17 @@ public class ClientGUI extends javax.swing.JFrame {
             try {
                 if (clientManager.changeClient(selectedClient, client)) {
                     JOptionPane.showMessageDialog(null, "De client is succesvol gewijzigd.", "Gewijzigd", JOptionPane.INFORMATION_MESSAGE);
+                    searchClientButton.doClick();
                 }
             } catch (RemoteException e) {
                 JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
             }
+            
+            
+            
+            emptyTextFields();
+            clientPanel.setVisible(false);
+            
         } else {
             try {
                 boolean result = clientManager.addClient(client);

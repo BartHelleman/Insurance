@@ -9,6 +9,7 @@ import edu.avans.ivh5.shared.util.*;
 import edu.avans.ivh5.shared.api.*;
 import java.rmi.registry.*;
 
+
 import org.apache.log4j.*;
 
 /**
@@ -78,6 +79,8 @@ public class RmiMain {
      * Format: -properties [filename].
      */
     public static void main(String[] args) {
+        
+        
 
 		// Get the properties file name from the command line, and load the
         // properties.

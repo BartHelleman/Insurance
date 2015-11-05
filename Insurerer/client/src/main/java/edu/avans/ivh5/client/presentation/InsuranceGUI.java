@@ -340,6 +340,8 @@ public class InsuranceGUI extends javax.swing.JFrame {
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         List<String> treatmentCodes = new ArrayList<>();
+        
+        System.out.println("Succesvol toegevoegd.");
 
         if (!(nameTextField.getText().isEmpty() || IDTextField.getText().isEmpty() || priceTextField.getText().isEmpty())) {
             String name = nameTextField.getText();
