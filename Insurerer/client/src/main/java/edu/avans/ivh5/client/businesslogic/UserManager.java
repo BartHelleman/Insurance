@@ -5,17 +5,15 @@ import edu.avans.ivh5.shared.models.User;
 import edu.avans.ivh5.shared.util.BCrypt;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 public class UserManager {
 
-    String username = "";
-    String password = "";
+    String username;
+    String password;
     List<User> users = new ArrayList<>();
     LoginDAO loginDAO;
 
@@ -30,7 +28,6 @@ public class UserManager {
 
     public boolean userValid(String username) {
         return users.stream().filter(u -> u.getUsername().equals(username)).collect(Collectors.toList()).isEmpty();
-
     }
 
     public boolean passwordValid(String password) {
@@ -40,9 +37,9 @@ public class UserManager {
 
     public boolean createAccount(String username, String password) {
 
-        for (Object o : loginDAO.get("")) {
+        loginDAO.get("").stream().forEach((o) -> {
             users.add((User) o);
-        }
+        });
 
         if (!userValid(username)) {
             System.out.println("Deze username bestaat al");

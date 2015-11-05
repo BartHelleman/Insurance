@@ -14,10 +14,12 @@ public class InsuranceCompanyDAO implements DAOInterface {
     private final XMLParser XMLParser;
 
     /**
-     * Creates a new XMLParser with InsuranceCompanies.xml and InsuranceCompanies.xsd as parameters.
+     * Creates a new XMLParser with InsuranceCompanies.xml and
+     * InsuranceCompanies.xsd as parameters.
+     *
      * @throws ParserConfigurationException
      * @throws SAXException
-     * @throws IOException 
+     * @throws IOException
      */
     public InsuranceCompanyDAO() throws ParserConfigurationException, SAXException, IOException {
         this.XMLParser = new XMLParser("InsuranceCompanies.xml", "InsuranceCompanies.xsd");
@@ -25,8 +27,10 @@ public class InsuranceCompanyDAO implements DAOInterface {
 
     /**
      * Method to add the InsuranceCompany to the XML file.
-     * @param item the newCompany object containing the values of the input fields.
-     * @return boolean, true 
+     *
+     * @param item the newCompany object containing the values of the input
+     * fields.
+     * @return boolean, true
      */
     @Override
     public boolean add(Object item) {
@@ -70,7 +74,9 @@ public class InsuranceCompanyDAO implements DAOInterface {
 
     /**
      * Method to get the InsuranceCompany values from the XML file.
-     * @param value Used to get a specific InsuranceCompany, but not needed here.
+     *
+     * @param value Used to get a specific InsuranceCompany, but not needed
+     * here.
      * @return List with the object InsuranceCompany.
      */
     @Override
@@ -92,6 +98,7 @@ public class InsuranceCompanyDAO implements DAOInterface {
 
     /**
      * Deletes the old values from the XML file, and adds the new ones.
+     *
      * @param oldObject the current values of InsuranceCompany
      * @param newObject the new values of InsuranceCompany
      * @return boolean
@@ -113,12 +120,14 @@ public class InsuranceCompanyDAO implements DAOInterface {
 
     /**
      * Deletes the given parameter from the XML file.
-     * @param value attribute to specify which InsuranceCompany needs to get deleted from the XML file.
+     *
+     * @param value attribute to specify which InsuranceCompany needs to get
+     * deleted from the XML file.
      * @return boolean
      */
     @Override
     public boolean delete(Object value) {
-        List<Object> result = null;
+        List<Object> result;
 
         if (value instanceof String) {
             result = get(value.toString());

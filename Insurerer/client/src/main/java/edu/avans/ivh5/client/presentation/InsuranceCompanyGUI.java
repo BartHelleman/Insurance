@@ -11,11 +11,11 @@ public class InsuranceCompanyGUI extends javax.swing.JFrame {
 
     InsuranceCompanyManager insuranceCompanyManager = new InsuranceCompanyManager();
 
-    String name = "";
-    String city = "";
-    String postcode = "";
-    String address = "";
-    String KVK = "";
+    String name;
+    String city;
+    String postcode;
+    String address;
+    String KVK;
 
     /**
      * Creates new form InsuranceCompanyGUI
@@ -213,7 +213,7 @@ public class InsuranceCompanyGUI extends javax.swing.JFrame {
          */
         if (validName == true && validCity == true && validPostcode == true && validAddress == true && validKVK == true) {
             try {
-                if(insuranceCompanyManager.changeInsuranceCompany(insuranceCompanyManager.getInsuranceCompany(), insuranceCompany)) {
+                if (insuranceCompanyManager.changeInsuranceCompany(insuranceCompanyManager.getInsuranceCompany(), insuranceCompany)) {
                     JOptionPane.showMessageDialog(null, "Wijziging opgeslagen", "", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "Wijziging mislukt", "", JOptionPane.ERROR_MESSAGE);
@@ -261,35 +261,35 @@ public class InsuranceCompanyGUI extends javax.swing.JFrame {
     }
 
     /**
-     * Selects all the text in the textfield after clicking on it.
+     * Selects all the text in the text field after clicking on it.
      */
     private void companyNameTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_companyNameTextFieldMouseClicked
         companyNameTextField.selectAll();
     }//GEN-LAST:event_companyNameTextFieldMouseClicked
 
     /**
-     * Selects all the text in the textfield after clicking on it.
+     * Selects all the text in the text field after clicking on it.
      */
     private void cityTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cityTextFieldMouseClicked
         cityTextField.selectAll();
     }//GEN-LAST:event_cityTextFieldMouseClicked
 
     /**
-     * Selects all the text in the textfield after clicking on it.
+     * Selects all the text in the text field after clicking on it.
      */
     private void postcodeTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_postcodeTextFieldMouseClicked
         postcodeTextField.selectAll();
     }//GEN-LAST:event_postcodeTextFieldMouseClicked
 
     /**
-     * Selects all the text in the textfield after clicking on it.
+     * Selects all the text in the text field after clicking on it.
      */
     private void addressTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addressTextFieldMouseClicked
         addressTextField.selectAll();
     }//GEN-LAST:event_addressTextFieldMouseClicked
 
     /**
-     * Selects all the text in the textfield after clicking on it.
+     * Selects all the text in the text field after clicking on it.
      */
     private void KVKTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_KVKTextFieldMouseClicked
         KVKTextField.selectAll();
