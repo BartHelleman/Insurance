@@ -23,6 +23,7 @@
         <code>003behandelcode003</code>
         <priceSession>10</priceSession>
         <amountSessions>8</amountSessions>
+        <treatmentStatus>afgerond</treatmentStatus>
     </treatment>	    
     
 </treatments>
