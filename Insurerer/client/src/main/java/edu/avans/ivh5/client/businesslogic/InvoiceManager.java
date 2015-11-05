@@ -55,6 +55,8 @@ public class InvoiceManager {
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             System.out.println("Error message:" + ex.getMessage());
         }
+        
+        
 
         // get all data off insurancecontracts
         if (insuranceContractDAO.get(BSN).size() == 1) {
