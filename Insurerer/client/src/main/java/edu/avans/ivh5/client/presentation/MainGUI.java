@@ -40,7 +40,7 @@ public class MainGUI extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = (JPanel)new ClientGUI().getContentPane();
-        jPanel2 = new javax.swing.JPanel();
+        jPanel2 = (JPanel)new InsuranceGUI().getContentPane();
         jPanel3 = (JPanel)new InsuranceCompanyGUI().getContentPane();
         jButton1 = new javax.swing.JButton();
 
@@ -98,7 +98,7 @@ public class MainGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addContainerGap())

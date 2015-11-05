@@ -82,50 +82,66 @@ public class ClientImpl implements ClientInterface {
 
     @Override
     public List<Insurance> searchInsurance(String searchPattern) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Object> result = new ArrayList<>();
+        List<Insurance> insurance = new ArrayList<>();
+
+        result = insuranceDAO.get(searchPattern);
+
+        for (Object o : result) {
+            insurance.add((Insurance) o);
+        }
+        
+        
+        
+        return insurance;
     }
 
     @Override
     public List<Insurance> getInsurances(String searchPattern) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Insurance> insurances = new ArrayList<>();
+        
+        for (Object o : insuranceDAO.get(searchPattern)){
+            insurances.add((Insurance) o);
+        }
+        return insurances;
     }
 
     @Override
     public List<Insurance> getInsurance(String value) throws RemoteException {
-        
+
         List<Insurance> insurance = new ArrayList<>();
-        insuranceDAO.get(value).stream().forEach(i -> insurance.add((Insurance)i));
+        insuranceDAO.get(value).stream().forEach(i -> insurance.add((Insurance) i));
         return insurance.stream().filter(i -> i.getID().equals(value)).collect(Collectors.toList());
-        
-//        for (Object o : insuranceDAO.get(value)) {
-//            insurance.add((Insurance) o);
-//        }
-//
-//        for (Insurance i : insurance) {
-//            if (!i.getID().equals(value)) {
-//                insurance.remove(i);
-//            }
-//        }
-//        return insurance;
     }
 
     @Override
     public boolean addInsurance(Insurance insurance) throws RemoteException {
-        if (getInsurance(insurance.getID()).size() == 0) {
+        if (getInsurance(insurance.getID()).size() == 1) {
             return insuranceDAO.add(insurance);
         } else {
-            return false;              
+            System.out.println("meerdere resultaten verkregen?");
+            return false;
         }
     }
 
     @Override
-    public boolean deleteInsurance(Insurance insurance) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean deleteInsurance(String id) throws RemoteException {
+        return insuranceDAO.delete(id);
     }
 
     @Override
     public boolean changeInsurance(Insurance oldInsurance, Insurance newInsurance) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public List<TreatmentCode> getTreatmentCodes(String searchPattern) throws RemoteException{
+        List<TreatmentCode> treatmentCodes = new ArrayList<>();
+        
+        for(Object o : treatmentCodeDAO.get(searchPattern)){
+            treatmentCodes.add((TreatmentCode) o);
+        }
+        return treatmentCodes;
     }
 
     @Override

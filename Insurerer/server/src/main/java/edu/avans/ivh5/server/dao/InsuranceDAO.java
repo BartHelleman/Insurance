@@ -21,7 +21,7 @@ public class InsuranceDAO implements DAOInterface {
 
     @Override
     public boolean add(Object item) {
-
+        
         if (item instanceof Insurance) {
             Insurance insurance = (Insurance) item;
             Element newClientNode = this.XMLParser.createElement("insurance");
@@ -40,20 +40,15 @@ public class InsuranceDAO implements DAOInterface {
             Text priceText = this.XMLParser.createTextNode(insurance.getPrice().toString());
             price.appendChild(priceText);
             newClientNode.appendChild(price);
-           
+
             Element treatments = this.XMLParser.createElement("treatments");
-            //newClientNode.appendChild(treatments);
-            
+
             for (String s : insurance.getTreatments()) {
                 Element treatment = this.XMLParser.createElement("treatment");
                 Text treatmentText = this.XMLParser.createTextNode(s);
                 treatment.appendChild(treatmentText);
                 treatments.appendChild(treatment);
-//                treatments.appendChild(treatmentText);
-//                newClientNode.appendChild(treatment);
-//                
-//                treatments.appendChild(treatment);
-                
+
             }
             newClientNode.appendChild(treatments);
 

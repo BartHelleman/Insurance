@@ -45,7 +45,6 @@ public class InsuranceGUI extends javax.swing.JFrame {
         jPopupMenu2 = new javax.swing.JPopupMenu();
         jPopupMenu3 = new javax.swing.JPopupMenu();
         jPopupMenu4 = new javax.swing.JPopupMenu();
-        insuranceTabbedPane = new javax.swing.JTabbedPane();
         changeInsurancePanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         treatmentList = new javax.swing.JList(listModel);
@@ -263,20 +262,15 @@ public class InsuranceGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(insuranceTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(insurancePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(changeInsurancePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(insurancePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(changeInsurancePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(1096, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(insuranceTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(changeInsurancePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(insurancePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -297,7 +291,11 @@ public class InsuranceGUI extends javax.swing.JFrame {
             }
         }
 
-        insurances = insuranceManager.searchInsurance(searchTextField.getText());
+        try {
+            insurances = insuranceManager.searchInsurance(searchTextField.getText());
+        } catch (RemoteException e) {
+            System.out.println("geen verbinding met de server");
+        }
 
         for (Insurance i : insurances) {
             String id = i.getID();
@@ -353,11 +351,13 @@ public class InsuranceGUI extends javax.swing.JFrame {
             }
 
             Insurance insurance = new Insurance(ID, name, price, treatmentCodes);
-            
-            try{
-            insuranceManager.addInsurance(insurance);
-            } catch(RemoteException e){
-               JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
+
+            try {
+                if (insuranceManager.addInsurance(insurance)) {
+                    JOptionPane.showMessageDialog(null, "Verzekering toegevoegd", "Toegevoegd", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (RemoteException e) {
+                JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Er zijn velden leeg", "velden leeg", JOptionPane.ERROR_MESSAGE);
@@ -376,8 +376,13 @@ public class InsuranceGUI extends javax.swing.JFrame {
             int action = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze verzekering wilt verwijderen?", "Verwijderen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
             System.out.println("" + action);
             if (action == 0) {
-                insuranceManager.deleteInsurance((String) insuranceTable.getValueAt(insuranceTable.getSelectedRow(), 0));
-
+                try {
+                    if (insuranceManager.deleteInsurance((String) insuranceTable.getValueAt(insuranceTable.getSelectedRow(), 0))) {
+                        JOptionPane.showMessageDialog(null, "Verzekering verwijderd", "verwijderd", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (RemoteException e) {
+                    JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
+                }
                 tableModel.removeRow(insuranceTable.getSelectedRow());
                 changeInsurancePanel.setVisible(false);
             }
@@ -389,12 +394,17 @@ public class InsuranceGUI extends javax.swing.JFrame {
 
         if (insuranceTable.getSelectedRowCount() != 1) {
             changeInsurancePanel.setVisible(false);
-            System.out.println("selecteer 1 item");
+            JOptionPane.showMessageDialog(null, "Selecteer één item", "Fout", JOptionPane.INFORMATION_MESSAGE);
         } else {
             changeInsurancePanel.setVisible(true);
 
             //haal bijbehorende verzekering op
-            insurances = insuranceManager.searchInsurance((String) insuranceTable.getValueAt(insuranceTable.getSelectedRow(), 0));
+            try {
+                insurances = insuranceManager.searchInsurance((String) insuranceTable.getValueAt(insuranceTable.getSelectedRow(), 0));
+            } catch (RemoteException e) {
+                JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
+            }
+
             List<String> reimbursedTreatments = new ArrayList<>();
             for (Insurance i : insurances) {
                 if (insuranceTable.getValueAt(insuranceTable.getSelectedRow(), 0).equals(i.getID())) {
@@ -416,11 +426,14 @@ public class InsuranceGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_insuranceTableMouseClicked
 
     private void treatmentComboBoxPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_treatmentComboBoxPopupMenuWillBecomeVisible
-        treatmentCodes.clear();
         treatmentObjects.clear();
-
-        treatmentObjects = insuranceManager.getTreatmentCodes("");
-
+        treatmentCodes.clear();
+        
+        try {
+            treatmentObjects = insuranceManager.getTreatmentCodes("");
+        } catch (RemoteException e) {
+            JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
+        }
         for (TreatmentCode t : treatmentObjects) {
             treatmentCodes.add(t.getCode());
         }
@@ -433,7 +446,6 @@ public class InsuranceGUI extends javax.swing.JFrame {
     private javax.swing.JButton addInsuranceButton;
     private javax.swing.JPanel changeInsurancePanel;
     private javax.swing.JPanel insurancePanel;
-    private javax.swing.JTabbedPane insuranceTabbedPane;
     private javax.swing.JTable insuranceTable;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JMenu jMenu1;

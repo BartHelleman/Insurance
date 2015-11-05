@@ -23,7 +23,6 @@ public class InsuranceManager {
     private InsuranceDAO insuranceDAO;
     private TreatmentCodeDAO treatmentCodeDAO;
     private List<Insurance> insurances;
-    
 
     public InsuranceManager() {
         insurances = new ArrayList();
@@ -38,65 +37,47 @@ public class InsuranceManager {
      * @param searchPattern
      * @return
      */
-    public List<Insurance> searchInsurance(String searchPattern) {
-        insurances.clear();
-        List<Object> result = insuranceDAO.get(searchPattern);
+    public List<Insurance> searchInsurance(String searchPattern) throws RemoteException {
 
-        for (Object o : result) {
-            insurances.add((Insurance) o);
-        }
-        return insurances;
+        return RmiMain.getRmiInterface().searchInsurance(searchPattern);
+
     }
 
-    public List<Insurance> getInsurances(String searchPattern) {
-        List<Insurance> insurances = new ArrayList();
-        try {
-            insuranceDAO = new InsuranceDAO();
+    public List<Insurance> getInsurances(String searchPattern) throws RemoteException {
 
-            List<Object> insurance = insuranceDAO.get(searchPattern);
-            for(int i = 0; i < insurance.size(); i++) {
-                insurances.add((Insurance) insurance.get(i));
+        return RmiMain.getRmiInterface().getInsurances(searchPattern);
 
-            }
-        } catch (ParserConfigurationException | SAXException | IOException ex) {
-            Logger.getLogger(InsuranceManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //List<String> treatments = new ArrayList();
-        //treatments.add("123");
-        //Insurance test = new Insurance(1, "naam", new BigDecimal(100), treatments);
-        //insurances.add(test);
-
-        return insurances;
+//        try {
+//            insuranceDAO = new InsuranceDAO();
+//
+//            List<Object> insurance = insuranceDAO.get(searchPattern);
+//            for (Object i : insurance) {
+//                insurances.add((Insurance) i);
+//            }
+//        } catch (ParserConfigurationException | SAXException | IOException ex) {
+//            Logger.getLogger(InsuranceManager.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        //List<String> treatments = new ArrayList();
+//        //treatments.add("123");
+//        //Insurance test = new Insurance(1, "naam", new BigDecimal(100), treatments);
+//        //insurances.add(test);
+//
+//        return insurances;
     }
-    
-    public List<TreatmentCode> getTreatmentCodes(String searchPattern){
-        List<Object> result = new ArrayList<>();
-        List<TreatmentCode> treatmentCodes = new ArrayList<>();
-        
-        try {
-            treatmentCodeDAO = new TreatmentCodeDAO();
-                    } catch (ParserConfigurationException | SAXException | IOException ex) {
-            Logger.getLogger(InsuranceManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        result = treatmentCodeDAO.getTreatments(searchPattern);
-        for(Object o : result){
-            treatmentCodes.add((TreatmentCode) o);
-        }
-        return treatmentCodes;
+
+    public List<TreatmentCode> getTreatmentCodes(String searchPattern) throws RemoteException {
+
+        return RmiMain.getRmiInterface().getTreatmentCodes(searchPattern);
     }
 
     /**
      *
      * @param insurance
      */
-    public void addInsurance(Insurance insurance) throws RemoteException {
-        
-       
-        
-        RmiMain.getRmiInterface().addInsurance(insurance);
-        //insuranceDAO.add(insurance);
-        System.out.println();
+    public boolean addInsurance(Insurance insurance) throws RemoteException {
+
+        return RmiMain.getRmiInterface().addInsurance(insurance);
+
     }
 
     /**
@@ -104,8 +85,9 @@ public class InsuranceManager {
      * @param insurance
      * @return
      */
-    public void deleteInsurance(String id) {
-        insuranceDAO.delete(id);
+    public boolean deleteInsurance(String id) throws RemoteException {
+
+        return RmiMain.getRmiInterface().deleteInsurance(id);
     }
 
     /**

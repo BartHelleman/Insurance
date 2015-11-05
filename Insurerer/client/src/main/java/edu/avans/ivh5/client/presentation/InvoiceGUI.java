@@ -6,6 +6,7 @@ import edu.avans.ivh5.shared.models.Client;
 import edu.avans.ivh5.shared.models.Insurance;
 import edu.avans.ivh5.shared.models.InsuranceContract;
 import java.math.BigDecimal;
+import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -169,13 +170,18 @@ public class InvoiceGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public final void displayInvoice() {
-        List<Insurance> insurance;
+        List<Insurance> insurance = new ArrayList<>();
         InsuranceContract contract = invoiceManager.getInsuranceContract(client);
-        
+        try{
         insurance = insuranceManager.getInsurances("zorgverzekering");
+        } catch(RemoteException e){
+            JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+
+
         // If client exists display data
         // else display nothing
-
         if (contract.getBSN() == null) {
             // Add items to the combobox
             insurance.stream().forEach((insurance1) -> {
@@ -214,7 +220,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         ArrayList<InsuranceContract> insuranceContracts = new ArrayList<>();
-        List<Insurance> insurance;
+        List<Insurance> insurance = new ArrayList<>();
 
         // Define all Strings, int etc.
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -230,8 +236,11 @@ public class InvoiceGUI extends javax.swing.JFrame {
 
         
         // get values which should be saved
+        try{
         insurance = insuranceManager.getInsurances((String) insuranceIDComboBox.getSelectedItem());
-
+        } catch (RemoteException e){
+            JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
+        }
         int insuranceID = Integer.parseInt(insurance.get(0).getID());
 
         String name = client.getName();
