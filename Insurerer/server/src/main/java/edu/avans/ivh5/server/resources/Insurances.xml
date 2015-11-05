@@ -8,7 +8,7 @@
         <name>zorgverzekering Standaard</name>
         <price>60</price>
         <treatments>
-            <treatment>123456</treatment>
+            <treatment>002behandelcode002</treatment>
         </treatments>
     </insurance>
 	    
@@ -17,8 +17,8 @@
         <name>zorgverzekering Extra</name>
         <price>110</price>
         <treatments>
-            <treatment>123456</treatment>
-            <treatment>111111</treatment>
+            <treatment>002behandelcode002</treatment>
+            <treatment>003behandelcode003</treatment>
         </treatments>
     </insurance>
 
@@ -27,11 +27,7 @@
         <name>zorgverzekering Royaal</name>
         <price>170</price>
         <treatments>
-            <treatment>123456</treatment>
-            <treatment>111111</treatment>
-            <treatment>222222</treatment>
-            <treatment>444444</treatment>
-            <treatment>914315</treatment>
+            <treatment>002behandelcode002</treatment>
         </treatments>
     </insurance>
 </insurances>

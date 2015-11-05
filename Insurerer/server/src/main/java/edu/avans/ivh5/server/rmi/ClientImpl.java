@@ -139,8 +139,13 @@ public class ClientImpl implements ClientInterface {
 
     @Override
     public boolean addInsurance(Insurance insurance) throws RemoteException {
-        if (getInsurance(insurance.getID()).size() == 1) {
+        int i = getInsurance(insurance.getID()).size();
+        
+        System.out.println("" + i);
+        if (getInsurance(insurance.getID()).isEmpty()) {
+            System.out.println("clientImpl geeft true");
             return insuranceDAO.add(insurance);
+            
         } else {
             System.out.println("meerdere resultaten verkregen?");
             return false;

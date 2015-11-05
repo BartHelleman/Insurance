@@ -58,6 +58,7 @@ public class InsuranceDAO implements DAOInterface {
             return true;
 
         }
+        System.out.println("in dao fout");
         return false;
     }
 
