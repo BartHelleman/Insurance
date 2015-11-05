@@ -56,7 +56,11 @@ public class InsuranceManagerTest {
     
     @Test
     public void testSearchInsurance() {
-        manager.searchInsurance(null); 
+        try { 
+            manager.searchInsurance(null);
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
             manager.addInsurance(insurance);
             
@@ -64,7 +68,12 @@ public class InsuranceManagerTest {
             Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        List<Insurance> foundInsurances = manager.searchInsurance("Behandeling");
+        List<Insurance> foundInsurances = null;
+        try {
+            foundInsurances = manager.searchInsurance("Behandeling");
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         assert(foundInsurances.size() > 0);
         
         boolean hasFound = false;
@@ -79,38 +88,71 @@ public class InsuranceManagerTest {
     
     @Test
     public void testAddInsurance() {
-        List<Insurance> beforeAdding = manager.searchInsurance("Behandeling");
+        List<Insurance> beforeAdding = null;
+        try {
+            beforeAdding = manager.searchInsurance("Behandeling");
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
             manager.addInsurance(insurance);
         } catch (RemoteException ex) {
             Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        List<Insurance> afterAdding = manager.searchInsurance("Behandeling");
+        List<Insurance> afterAdding = null;
+        try {
+            afterAdding = manager.searchInsurance("Behandeling");
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         assert(afterAdding.size() == beforeAdding.size() + 1);
-        manager.deleteInsurance(insurance.getID());
+        try {
+            manager.deleteInsurance(insurance.getID());
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Test
     public void testChangeInsurance() {
         List<String> treatments = new ArrayList();
         treatments.add("123456");
-        List<Insurance> beforeAdding = manager.searchInsurance("Behandeling");
+        List<Insurance> beforeAdding = null;
+        try {
+            beforeAdding = manager.searchInsurance("Behandeling");
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
             manager.addInsurance(insurance);
         } catch (RemoteException ex) {
             Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        List<Insurance> afterAdding = manager.searchInsurance("Behandeling");
+        List<Insurance> afterAdding = null;
+        try {
+            afterAdding = manager.searchInsurance("Behandeling");
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         assert(afterAdding.size() == beforeAdding.size() + 1);
         
         Insurance newInsurance = new Insurance("", "", new BigDecimal("100"), treatments);
         manager.changeInsurance(insurance, newInsurance);
         
-        List<Insurance> result = manager.searchInsurance("Een behandeling");
+        List<Insurance> result = null;
+        try {
+            result = manager.searchInsurance("Een behandeling");
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         assert(result.size() > 0);
         
-        manager.deleteInsurance(newInsurance.getID());
+        try {
+            manager.deleteInsurance(newInsurance.getID());
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:

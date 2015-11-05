@@ -73,11 +73,10 @@ public class ClientGUI extends javax.swing.JFrame {
                     clientPolisLabel.setVisible(true);
                     addInsuranceContractButton.setVisible(true);
                     polisCheckBox.setVisible(true);
-                    
-                    if(clientManager.hasInsuranceContract(client)){
+
+                    if (clientManager.hasInsuranceContract(client)) {
                         setCheckBox(true);
-                    }
-                    else {
+                    } else {
                         setCheckBox(false);
                     }
                 }
@@ -497,6 +496,8 @@ public class ClientGUI extends javax.swing.JFrame {
             clientTelTextField.setText("");
             clientEmailTextField.setText("");
             clientIBANTextField.setText("");
+            selectedClient = null;
+         
         }
         clientPanel.setVisible(true);
         jScrollPane2.setVisible(false);
@@ -513,13 +514,17 @@ public class ClientGUI extends javax.swing.JFrame {
 
         if (clientsTable.getSelectedRowCount() != 1) {
             System.out.println("Selecteer één persoon");
+        } else if (false) {
+
+            JOptionPane.showMessageDialog(null, "Verwijderen niet mogelijk. De client heeft nog openstaande betalingen", "Openstaande betalingen", JOptionPane.ERROR_MESSAGE);
         } else {
+
             int action = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze client wilt verwijderen?", "Verwijderen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
             System.out.println("" + action);
-            if (action == 0) {
+            if (action == JOptionPane.YES_OPTION) {
                 clientManager.deleteClient((String) clientsTable.getValueAt(clientsTable.getSelectedRow(), 2));
                 tableModel.removeRow(clientsTable.getSelectedRow());
-            
+
             }
         }
     }//GEN-LAST:event_deleteClientButtonActionPerformed
@@ -560,9 +565,9 @@ public class ClientGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_declineButtonActionPerformed
 
-    private void getInvoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+    private void getInvoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }                                                
+    }
 
     private void saveClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveClientButtonActionPerformed
         String BSN = clientBSNTextField.getText();
@@ -667,11 +672,13 @@ public class ClientGUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "De client is succesvol toegevoegd.", "Toevoegen", JOptionPane.INFORMATION_MESSAGE);
                 clientPanel.setVisible(false);
                 emptyTextFields();
+                searchClientButton.doClick();
 
             } else {
                 JOptionPane.showMessageDialog(null, "Dit BSN nummer is al bekend in het systeem.", "Klant bestaat al", JOptionPane.ERROR_MESSAGE);
             }
         }
+        
     }//GEN-LAST:event_saveClientButtonActionPerformed
 
     private void addInsuranceContractButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInsuranceContractButtonActionPerformed

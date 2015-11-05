@@ -39,7 +39,9 @@ public class ClientManagerTest {
     @Before
     public void setUp() {
         manager = new ClientManager();
+
         burakClient = new Client("201938157", "Helleman", "Bart", "Lekkerkerk", "9876KO", "Schuwacht 01", "NL00INGB000000", false, "bart_helleman@hotmail.com", "0656789012");
+
     }
 
     @After
@@ -50,13 +52,14 @@ public class ClientManagerTest {
     public void testSearchClients() {
         manager.addClient(burakClient);
         try {
+
             List<Client> searchResult = manager.searchClient("Bart");
             assert (searchResult.size() > 0);
 
             boolean hasFound = false;
 
             for (Client client : searchResult) {
-                if(client.getName().equals("Helleman") && client.getBSN().equals("201938157")) {
+                if (client.getName().equals("Helleman") && client.getBSN().equals("201938157")) {
                     hasFound = true;
                 }
             }
@@ -72,9 +75,9 @@ public class ClientManagerTest {
         List<Client> beforeAdding = manager.searchClient("201938157"); // 5 personen
         int listSize = beforeAdding.size();
         manager.addClient(burakClient);
-        
+
         List<Client> afterAdding = manager.searchClient("201938157"); // 5 + 1 personen
-        
+
         assert (afterAdding.size() == listSize + 1);
 
         manager.deleteClient(burakClient.getBSN());
@@ -83,7 +86,7 @@ public class ClientManagerTest {
         System.out.println("Found3: " + manager.searchClient("201938157") + " Size: " + afterDelete.size());
 
         assert (beforeAdding.size() == afterDelete.size());
-        
+
     }
 
     @Test
@@ -118,9 +121,4 @@ public class ClientManagerTest {
         }
 
     }
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
 }

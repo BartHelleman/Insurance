@@ -1,5 +1,6 @@
 package edu.avans.ivh5.client.businesslogic;
 
+import edu.avans.ivh5.server.dao.ClientDAO;
 import edu.avans.ivh5.server.dao.InsuranceContractDAO;
 import edu.avans.ivh5.shared.models.Client;
 import edu.avans.ivh5.shared.models.InsuranceContract;
@@ -13,8 +14,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xml.sax.SAXException;
@@ -25,6 +29,11 @@ public class InvoiceManager {
     //relaties
     private ClientManager clientManager;
     private InsuranceContractDAO InsuranceContractDAO;
+
+    private Treatment treatment;
+    private ClientDAO clientDAO;
+
+    private static final String COMMA_DELIMITER = ",";
 
     private static final String NEW_LINE_SEPARATOR = "\n";
 
@@ -103,7 +112,7 @@ public class InvoiceManager {
 
             //Create new students objects
           
-            Invoice invoice1 = new Invoice(1, date, date, iets2, treatment);
+            Invoice invoice1 = new Invoice(1, date, date, iets2, "");
 
             //Create a new list of student objects
             List<Invoice> invoice = new ArrayList();
@@ -158,8 +167,59 @@ public class InvoiceManager {
         }
         return null;
     }
-
+    
     public void printInvoice(InsuranceContract contract) {
 
     }
+
+    public void generateInvoices() {
+        System.out.println("generating invoices");
+
+        System.out.println("Time now is -> " + new Date());
+
+        //Creating timer which executes once after five seconds
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    clientDAO = new ClientDAO();
+                } catch (ParserConfigurationException | SAXException | IOException ex) {}
+                Treatment treatment = new Treatment(null, null, null, 0, null, null, null);
+                List<Treatment> treatments = treatment.treatments();
+                for (Treatment t : treatments) {
+                    System.out.println(t.getStatus());
+                    if (t.getStatus().equals("closed")) {
+                        System.out.println("found closed treatment with bsn " + t.getBSNClient());
+                        for (Object o : clientDAO.get(t.getBSNClient())) {
+                            Client client = (Client) o;
+                            generateInvoice(t, client);
+                        }
+                    }
+                }
+
+                System.out.println("Time now is -> " + new Date());
+            }
+        }, 10000, 5000);
+    }
+    
+    public void generateInvoice(Treatment t, Client c) {
+        InsuranceContractDAO dao = null;
+        try {
+            dao = new InsuranceContractDAO();
+        } catch (ParserConfigurationException | SAXException | IOException ex) {}
+        if (dao != null) {
+            List<Object> contracts = dao.getInsuranceContract(c.getBSN());
+            InsuranceContract contract = (InsuranceContract) contracts.get(0);
+            printValues(t, c, contract);
+        }
+    }
+    
+    private void printValues(Treatment t, Client c, InsuranceContract i) {
+        System.out.println(t.getAmountSessions());
+        System.out.println("Treatment bsn = " + t.getBSNClient());
+        System.out.println("Client bsn = " + c.getBSN());
+        System.out.println("Contract bsn = " + i.getBSN() + "\n");
+    }
+
 }
