@@ -112,7 +112,7 @@ public class InvoiceManager {
 
             //Create new students objects
           
-            Invoice invoice1 = new Invoice(1, date, date, iets2, "");
+            Invoice invoice1 = new Invoice(1, date, date, iets2, "", treatment);
 
             //Create a new list of student objects
             List<Invoice> invoice = new ArrayList();

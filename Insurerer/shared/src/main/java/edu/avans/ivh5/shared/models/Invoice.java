@@ -15,7 +15,7 @@ public class Invoice implements Serializable {
     private Treatment treatment;
     private InsuranceCompany company;
 
-    public Invoice(int invoiceNumber, Date date, Date expirationDate, BigDecimal VAT, String treatmentStatus) {
+    public Invoice(int invoiceNumber, Date date, Date expirationDate, BigDecimal VAT, String treatmentStatus, Treatment treatment) {
         this.invoiceNumber = invoiceNumber;
         this.date = date;
         this.expirationDate = expirationDate;

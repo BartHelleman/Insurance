@@ -46,17 +46,31 @@ public class InsuranceCompanyManagerTest {
     
     @Test
     public void testGetInsuranceCompany() {
-        manager.getInsuranceCompany();
+        try {
+            manager.getInsuranceCompany();
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceCompanyManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Test
     public void testChange() {
-        Object beforeChange = manager.getInsuranceCompany();
+        Object beforeChange = null;
+        try {
+            beforeChange = manager.getInsuranceCompany();
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceCompanyManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Object newObject = new InsuranceCompany("Zorg4U", "Breda", "1234AB", "Breda", "0123456789");
         
         manager.change(beforeChange, newObject);
         
-        Object afterChange = manager.getInsuranceCompany();
+        Object afterChange = null;
+        try {
+            afterChange = manager.getInsuranceCompany();
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceCompanyManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         assert(beforeChange != null && afterChange != null);
     }
 }
