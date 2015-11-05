@@ -1,5 +1,6 @@
 package edu.avans.ivh5.client.businesslogic;
 
+import edu.avans.ivh5.client.main.RmiMain;
 import edu.avans.ivh5.server.dao.InsuranceDAO;
 import edu.avans.ivh5.server.dao.LoginDAO;
 import edu.avans.ivh5.server.dao.TreatmentCodeDAO;
@@ -8,6 +9,7 @@ import edu.avans.ivh5.shared.models.TreatmentCode;
 import edu.avans.ivh5.shared.models.User;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,6 +23,7 @@ public class InsuranceManager {
     private InsuranceDAO insuranceDAO;
     private TreatmentCodeDAO treatmentCodeDAO;
     private List<Insurance> insurances;
+    
 
     public InsuranceManager() {
         insurances = new ArrayList();
@@ -87,8 +90,13 @@ public class InsuranceManager {
      *
      * @param insurance
      */
-    public void addInsurance(Insurance insurance) {
-
+    public void addInsurance(Insurance insurance) throws RemoteException {
+        
+       
+        
+        RmiMain.getRmiInterface().addInsurance(insurance);
+        //insuranceDAO.add(insurance);
+        System.out.println();
     }
 
     /**

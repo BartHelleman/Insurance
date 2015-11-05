@@ -49,6 +49,7 @@ public interface ClientInterface extends Remote {
     // <editor-fold defaultstate="collapsed" desc="#InsuranceManager methods">
     
     List<Insurance> searchInsurance(String searchPattern) throws RemoteException;
+    List<Insurance> getInsurance(String value) throws RemoteException;
     List<Insurance> getInsurances(String searchPattern) throws RemoteException;
     boolean addInsurance(Insurance insurance) throws RemoteException;
     boolean deleteInsurance(Insurance insurance) throws RemoteException;

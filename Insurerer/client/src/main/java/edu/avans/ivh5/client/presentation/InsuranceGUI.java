@@ -5,6 +5,7 @@ import edu.avans.ivh5.server.dao.TreatmentCodeDAO;
 import edu.avans.ivh5.shared.models.Insurance;
 import edu.avans.ivh5.shared.models.TreatmentCode;
 import java.math.BigDecimal;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -351,8 +352,13 @@ public class InsuranceGUI extends javax.swing.JFrame {
                 treatmentCodes.add((String) listModel.getElementAt(i));
             }
 
-            Insurance insurance = new Insurance(name, ID, price, treatmentCodes);
+            Insurance insurance = new Insurance(ID, name, price, treatmentCodes);
+            
+            try{
             insuranceManager.addInsurance(insurance);
+            } catch(RemoteException e){
+               JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Er zijn velden leeg", "velden leeg", JOptionPane.ERROR_MESSAGE);
 

@@ -6,7 +6,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 public class InsuranceDAO implements DAOInterface {
@@ -19,7 +21,49 @@ public class InsuranceDAO implements DAOInterface {
 
     @Override
     public boolean add(Object item) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (item instanceof Insurance) {
+            Insurance insurance = (Insurance) item;
+            Element newClientNode = this.XMLParser.createElement("insurance");
+
+            Element ID = this.XMLParser.createElement("ID");
+            Text IDText = this.XMLParser.createTextNode(insurance.getID());
+            ID.appendChild(IDText);
+            newClientNode.appendChild(ID);
+
+            Element name = this.XMLParser.createElement("name");
+            Text nameText = this.XMLParser.createTextNode(insurance.getName());
+            name.appendChild(nameText);
+            newClientNode.appendChild(name);
+
+            Element price = this.XMLParser.createElement("price");
+            Text priceText = this.XMLParser.createTextNode(insurance.getPrice().toString());
+            price.appendChild(priceText);
+            newClientNode.appendChild(price);
+           
+            Element treatments = this.XMLParser.createElement("treatments");
+            //newClientNode.appendChild(treatments);
+            
+            for (String s : insurance.getTreatments()) {
+                Element treatment = this.XMLParser.createElement("treatment");
+                Text treatmentText = this.XMLParser.createTextNode(s);
+                treatment.appendChild(treatmentText);
+                treatments.appendChild(treatment);
+//                treatments.appendChild(treatmentText);
+//                newClientNode.appendChild(treatment);
+//                
+//                treatments.appendChild(treatment);
+                
+            }
+            newClientNode.appendChild(treatments);
+
+            this.XMLParser.addNode(newClientNode);
+
+            DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
+            return true;
+
+        }
+        return false;
     }
 
     @Override
@@ -41,19 +85,19 @@ public class InsuranceDAO implements DAOInterface {
         List<Insurance> insurances = new ArrayList<>();
         List<Object> result = get(searchPattern);
         insurances.clear();
-        
+
         for (Object o : result) {
             insurances.add((Insurance) o);
         }
-        for (Insurance i : insurances){
-            if(searchPattern.equals(i.getID())){
-                
-            List<Node> nodes = this.XMLParser.findElementsByName("insurance", i.getID());
-            for (Node node : nodes) {
-                this.XMLParser.deleteNode(node);
-            }
-            DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
-            return true;    
+        for (Insurance i : insurances) {
+            if (searchPattern.equals(i.getID())) {
+
+                List<Node> nodes = this.XMLParser.findElementsByName("insurance", i.getID());
+                for (Node node : nodes) {
+                    this.XMLParser.deleteNode(node);
+                }
+                DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
+                return true;
             }
         }
         return false;
@@ -74,6 +118,6 @@ public class InsuranceDAO implements DAOInterface {
         });
 
         return insurances;
-        
+
     }
 }
