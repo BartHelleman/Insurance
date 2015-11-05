@@ -26,11 +26,6 @@ public class InsuranceManager {
 
     public InsuranceManager() {
         insurances = new ArrayList();
-        try {
-            insuranceDAO = new InsuranceDAO();
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     /**

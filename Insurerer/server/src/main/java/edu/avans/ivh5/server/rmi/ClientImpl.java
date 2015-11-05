@@ -126,6 +126,9 @@ public class ClientImpl implements ClientInterface {
             System.out.println("meerdere resultaten verkregen?");
             return false;
         }
+        
+            
+        
     }
 
     @Override

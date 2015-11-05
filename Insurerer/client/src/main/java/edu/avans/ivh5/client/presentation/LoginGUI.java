@@ -121,8 +121,8 @@ public class LoginGUI extends javax.swing.JFrame {
             } else if (loginManager.login(gebruikersnaamField.getText(), wachtwoord)) {
                 System.out.println("Je bent succesvol ingelogt");
                 this.dispose();
-                MainGUI mainGUI = new MainGUI();
-                mainGUI.setVisible(true);
+                MainGUI2 mainGUI2 = new MainGUI2();
+                mainGUI2.setVisible(true);
             } else {
                 errorLabel.setText("inloggegevens zijn onjuist");
                 errorLabel.setVisible(true);
