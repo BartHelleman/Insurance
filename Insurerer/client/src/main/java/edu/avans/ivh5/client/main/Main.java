@@ -23,6 +23,7 @@ import javax.swing.UIManager;
 public class Main {
 
     public static void main(String[] args) {
+
         InsuranceManager insuranceManager = new InsuranceManager();
         InsuranceGUI insuranceGUI = new InsuranceGUI();
         insuranceGUI.setVisible(true);
@@ -34,8 +35,13 @@ public class Main {
 
       //  build();
 
+        //InsuranceManager insuranceManager = new InsuranceManager();
+      //  InsuranceGUI insuranceGUI = new InsuranceGUI();
+        //insuranceGUI.setVisible(true);
+
      //   Client client = new Client("12345678", "Burak", "Niels", "Krimpen", "2922CD", "Blomsingel 31", "NL00 INGB 012345", false, "nskerdel", "0612345678");
      InvoiceManager invoiceManager = new InvoiceManager();
+     invoiceManager.generateInvoices();
      //   InvoiceGUI invoiceGUI = new InvoiceGUI(client);
      //   invoiceGUI.setVisible(true);
        
@@ -110,6 +116,7 @@ public class Main {
         //build();
     //}
 
+
 //    private static void build() {
 //        try {
 //            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -120,5 +127,17 @@ public class Main {
 ////ClientGUI GUI = new ClientGUI();
 //        GUI.generateInvoices(null, null);
 //    }
+
+    private static void build() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+     InvoiceManager GUI = new InvoiceManager();
+//ClientGUI GUI = new ClientGUI();
+        GUI.generateInvoices();
+    }
+
 
 }

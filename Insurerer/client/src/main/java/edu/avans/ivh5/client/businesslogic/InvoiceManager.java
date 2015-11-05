@@ -163,6 +163,7 @@ public class InvoiceManager {
     }
 
     public void generateInvoices() {
+        System.out.println("generating invoices");
 
         System.out.println("Time now is -> " + new Date());
 
@@ -171,11 +172,15 @@ public class InvoiceManager {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                String firstName;
-                
+                try {
+                    clientDAO = new ClientDAO();
+                } catch (ParserConfigurationException | SAXException | IOException ex) {}
+                Treatment treatment = new Treatment(null, null, null, 0, null, null, null);
                 List<Treatment> treatments = treatment.treatments();
                 for (Treatment t : treatments) {
+                    System.out.println(t.getStatus());
                     if (t.getStatus().equals("closed")) {
+                        System.out.println("found closed treatment with bsn " + t.getBSNClient());
                         for (Object o : clientDAO.get(t.getBSNClient())) {
                             Client client = (Client) o;
                             generateInvoice(t, client);
@@ -196,7 +201,15 @@ public class InvoiceManager {
         if (dao != null) {
             List<Object> contracts = dao.getInsuranceContract(c.getBSN());
             InsuranceContract contract = (InsuranceContract) contracts.get(0);
+            printValues(t, c, contract);
         }
+    }
+    
+    private void printValues(Treatment t, Client c, InsuranceContract i) {
+        System.out.println(t.getAmountSessions());
+        System.out.println("Treatment bsn = " + t.getBSNClient());
+        System.out.println("Client bsn = " + c.getBSN());
+        System.out.println("Contract bsn = " + i.getBSN() + "\n");
     }
 
 }
