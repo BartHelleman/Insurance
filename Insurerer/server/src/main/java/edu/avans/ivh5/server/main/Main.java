@@ -5,13 +5,13 @@ package edu.avans.ivh5.server.main;
 import edu.avans.ivh5.shared.api.ClientInterface;
 import edu.avans.ivh5.shared.util.Settings;
 import edu.avans.ivh5.server.rmi.ClientImpl;
-import java.io.IOException;
-import java.rmi.Naming;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.Scanner;
+import edu.avans.ivh5.shared.models.SharedTreatment;
+import java.io.*;
+import java.rmi.*;
+import java.rmi.registry.*;
+import java.rmi.server.*;
+import java.util.*;
+import edu.avans.ivh5.shared.rmi.PhysioServerInterface;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -30,7 +30,8 @@ public class Main {
     // static public String daofactoryclassname;
     // Access to remote manager
     static private ClientInterface stub;
-
+    static private PhysioServerInterface physioInterface;
+    static final bolean RMI = false;
     // Get a logger instance for the current class
     static Logger logger = Logger.getLogger(Main.class);
 
@@ -60,14 +61,8 @@ public class Main {
 
 		// Get the properties file name from the command line, and load the
         // properties.
-        if (args.length == 0) {
-            String propertiesfile = "C:\\xampp\\htdocs\\classes\\standard.properties";
-            Settings.loadProperties(propertiesfile);
-        } else {
-            System.out.println("No properties file was found. Provide a properties file name.");
-            System.out.println("Program is exiting.");
-            return;
-        }
+        String propertiesfile = "C:\\xampp\\htdocs\\classes\\standard.properties";
+        System.setProperty("java.security.policy", "file://C:/xampp/htdocs/classes/standard.policy");
 
         /**
          * Install the security manager. The SecurityManager looks for the
@@ -111,7 +106,36 @@ public class Main {
         } catch (Exception e) {
             System.out.println(e.toString());
         }
+        
+        if(RMI) {
+            try {
+                // Connect to other system
+                String hostname = "145.102.67.74";
+                String service = "Library/Breda";
+
+                Registry registry = LocateRegistry.getRegistry(hostname);
+                String[] list = registry.list();
+                physioInterface = (PhysioServerInterface) registry.lookup(service);
+                //Remote r = registry.lookup(service);
+                ArrayList<SharedTreatment> result = physioInterface.getAllFinishedTreatments();
+                System.out.println("Done");
+            }
+            catch(RemoteException e)
+            {
+                System.out.println("RemoteException: " + e.getMessage());
+            }
+            catch(NotBoundException e)
+            {
+                System.out.println("NotBoundException: " + e.getMessage());
+            }
+        }
     }
+
+    public static PhysioServerInterface getPhysioInterface() {
+        return physioInterface;
+    }
+    
+    
 
     /**
      * When the server is stopped, by Ctrl-C or closing the window that it is
