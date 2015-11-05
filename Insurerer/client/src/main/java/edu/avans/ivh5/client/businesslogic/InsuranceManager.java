@@ -1,27 +1,14 @@
 package edu.avans.ivh5.client.businesslogic;
 
 import edu.avans.ivh5.client.main.RmiMain;
-import edu.avans.ivh5.server.dao.InsuranceDAO;
-import edu.avans.ivh5.server.dao.LoginDAO;
-import edu.avans.ivh5.server.dao.TreatmentCodeDAO;
 import edu.avans.ivh5.shared.models.Insurance;
 import edu.avans.ivh5.shared.models.TreatmentCode;
-import edu.avans.ivh5.shared.models.User;
-import java.io.IOException;
-import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.parsers.ParserConfigurationException;
-import org.xml.sax.SAXException;
 
 public class InsuranceManager {
 
-    LoginDAO loginDAO;
-    private InsuranceDAO insuranceDAO;
-    private TreatmentCodeDAO treatmentCodeDAO;
     private List<Insurance> insurances;
 
     public InsuranceManager() {

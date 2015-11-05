@@ -11,6 +11,7 @@ import edu.avans.ivh5.shared.models.Client;
 import edu.avans.ivh5.shared.models.Invoice;
 import java.awt.Frame;
 import java.awt.LayoutManager;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
@@ -43,41 +44,47 @@ public class ClientGUI extends javax.swing.JFrame {
             public void valueChanged(ListSelectionEvent event) {
                 if (clientsTable.getSelectedRow() != -1) {
                     String BSN = clientsTable.getValueAt(clientsTable.getSelectedRow(), 2).toString();
-                    List<Client> result = clientManager.searchClient(BSN);
-                    if (result.isEmpty()) {
-                        return;
-                    }
-                    Client client = result.get(0);
 
-                    clientFirstNameTextField.setText(client.getFirstName());
-                    clientLastNameTextField.setText(client.getName());
-                    clientBSNTextField.setText(client.getBSN());
-                    clientAddressTextField.setText(client.getAddress());
-                    clientPostCodeTextField.setText(client.getPostcode());
-                    clientCityTextField.setText(client.getCity());
-                    clientTelTextField.setText(client.getTel());
-                    clientEmailTextField.setText(client.getEmail());
-                    clientIBANTextField.setText(client.getIBAN());
-                    int index;
-                    if (client.isIncasso()) {
-                        index = 0;
-                    } else {
-                        index = 1;
-                    }
+                    try {
+                        List<Client> result = clientManager.searchClient(BSN);
 
-                    clientIncassoCombobox.setSelectedIndex(index);
-                    selectedClient = client;
-                    clientPanel.setVisible(true);
-                    jScrollPane2.setVisible(true);
-                    getInvoiceButton.setVisible(true);
-                    clientPolisLabel.setVisible(true);
-                    addInsuranceContractButton.setVisible(true);
-                    polisCheckBox.setVisible(true);
+                        if (result.isEmpty()) {
+                            return;
+                        }
+                        Client client = result.get(0);
 
-                    if (clientManager.hasInsuranceContract(client)) {
-                        setCheckBox(true);
-                    } else {
-                        setCheckBox(false);
+                        clientFirstNameTextField.setText(client.getFirstName());
+                        clientLastNameTextField.setText(client.getName());
+                        clientBSNTextField.setText(client.getBSN());
+                        clientAddressTextField.setText(client.getAddress());
+                        clientPostCodeTextField.setText(client.getPostcode());
+                        clientCityTextField.setText(client.getCity());
+                        clientTelTextField.setText(client.getTel());
+                        clientEmailTextField.setText(client.getEmail());
+                        clientIBANTextField.setText(client.getIBAN());
+                        int index;
+                        if (client.isIncasso()) {
+                            index = 0;
+                        } else {
+                            index = 1;
+                        }
+
+                        clientIncassoCombobox.setSelectedIndex(index);
+                        selectedClient = client;
+                        clientPanel.setVisible(true);
+                        jScrollPane2.setVisible(true);
+                        getInvoiceButton.setVisible(true);
+                        clientPolisLabel.setVisible(true);
+                        addInsuranceContractButton.setVisible(true);
+                        polisCheckBox.setVisible(true);
+
+                        if (clientManager.hasInsuranceContract(client)) {
+                            setCheckBox(true);
+                        } else {
+                            setCheckBox(false);
+                        }
+                    } catch (RemoteException e) {
+                        JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
 
@@ -521,10 +528,14 @@ public class ClientGUI extends javax.swing.JFrame {
 
             int action = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze client wilt verwijderen?", "Verwijderen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
             System.out.println("" + action);
-            if (action == JOptionPane.YES_OPTION) {
-                clientManager.deleteClient((String) clientsTable.getValueAt(clientsTable.getSelectedRow(), 2));
-                tableModel.removeRow(clientsTable.getSelectedRow());
 
+            if (action == 0) {
+                try {
+                    clientManager.deleteClient((String) clientsTable.getValueAt(clientsTable.getSelectedRow(), 2));
+                    tableModel.removeRow(clientsTable.getSelectedRow());
+                } catch (RemoteException e) {
+                    JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }//GEN-LAST:event_deleteClientButtonActionPerformed
@@ -539,9 +550,12 @@ public class ClientGUI extends javax.swing.JFrame {
                 tableModel.removeRow(i);
             }
         }
+        try {
+            clienten = clientManager.searchClient(searchClientTextField.getText());
+        } catch (RemoteException e) {
+            JOptionPane.showMessageDialog(null, "Startdatum is incorrect", "", JOptionPane.ERROR_MESSAGE);
 
-        clienten = clientManager.searchClient(searchClientTextField.getText());
-
+        }
         //clientsTable
         for (Client c : clienten) {
 
@@ -663,19 +677,29 @@ public class ClientGUI extends javax.swing.JFrame {
          * client succesfully added message
          */
         if (selectedClient != null) {
-            clientManager.changeClient(selectedClient, client);
-            JOptionPane.showMessageDialog(null, "De client is succesvol gewijzigd.", "Gewijzigd", JOptionPane.INFORMATION_MESSAGE);
+            try {
+                if (clientManager.changeClient(selectedClient, client)) {
+                    JOptionPane.showMessageDialog(null, "De client is succesvol gewijzigd.", "Gewijzigd", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (RemoteException e) {
+                JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
+            try {
+                boolean result = clientManager.addClient(client);
 
-            boolean result = clientManager.addClient(client);
             if (result == true) {
                 JOptionPane.showMessageDialog(null, "De client is succesvol toegevoegd.", "Toevoegen", JOptionPane.INFORMATION_MESSAGE);
                 clientPanel.setVisible(false);
                 emptyTextFields();
                 searchClientButton.doClick();
 
-            } else {
-                JOptionPane.showMessageDialog(null, "Dit BSN nummer is al bekend in het systeem.", "Klant bestaat al", JOptionPane.ERROR_MESSAGE);
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Dit BSN nummer is al bekend in het systeem.", "Klant bestaat al", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (RemoteException e) {
+                JOptionPane.showMessageDialog(null, "Startdatum is incorrect", "", JOptionPane.ERROR_MESSAGE);
             }
         }
         
