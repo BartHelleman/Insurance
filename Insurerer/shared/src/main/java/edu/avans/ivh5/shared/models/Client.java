@@ -12,12 +12,12 @@ public class Client implements Serializable {
     private String BSN, tel;
     private String name, firstName, city, postcode, address, IBAN, email;
     private boolean incasso;
-    
+
     //relaties
     private ArrayList<Invoice> invoice;
     private InsuranceContract contract;
-    
-    public Client(String BSN, String name, String firstName, String city, String postcode, String address, String IBAN, Boolean incasso, String email, String tel){
+
+    public Client(String BSN, String name, String firstName, String city, String postcode, String address, String IBAN, Boolean incasso, String email, String tel) {
         this.BSN = BSN;
         this.name = name;
         this.firstName = firstName;
@@ -68,6 +68,6 @@ public class Client implements Serializable {
 
     public boolean isIncasso() {
         return incasso;
-    }  
-    
+    }
+
 }

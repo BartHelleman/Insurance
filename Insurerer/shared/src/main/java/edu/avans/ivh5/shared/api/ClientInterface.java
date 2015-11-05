@@ -43,7 +43,7 @@ public interface ClientInterface extends Remote {
      * @param insuranceCompany the new insurance company
      * @return if the change was succesful
      */
-    boolean changeInsuranceCompany(InsuranceCompany insuranceCompany) throws RemoteException;
+    boolean changeInsuranceCompany(Object oldObject, Object newObject) throws RemoteException;
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="#InsuranceManager methods">

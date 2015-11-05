@@ -1,8 +1,10 @@
 package edu.avans.ivh5.client.businesslogic;
 
+import edu.avans.ivh5.client.main.RmiMain;
 import edu.avans.ivh5.server.dao.InsuranceCompanyDAO;
 import edu.avans.ivh5.shared.models.InsuranceCompany;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
@@ -19,8 +21,10 @@ public class InsuranceCompanyManager {
      * Method to get the InsuranceCompany from the DAO class.
      *
      * @return InsuranceCompany
+     * @throws java.rmi.RemoteException
      */
-    public InsuranceCompany getInsuranceCompany() {
+    
+    /*public InsuranceCompany getInsuranceCompany() {
         InsuranceCompany insuranceCompany;
 
         try {
@@ -32,8 +36,15 @@ public class InsuranceCompanyManager {
         insuranceCompany = (InsuranceCompany) insuranceCompanyDAO.get("").get(0);
 
         return insuranceCompany;
+    }*/
+    public InsuranceCompany getInsuranceCompany() throws RemoteException {
+
+        return RmiMain.getRmiInterface().getInsuranceCompany();
     }
 
+    public boolean changeInsuranceCompany(Object oldObject, Object newObject) throws RemoteException {
+        return RmiMain.getRmiInterface().changeInsuranceCompany(oldObject, newObject);
+    }
     /**
      * Method to change the old values of insuranceCompany to the ones from the
      * textfields.
