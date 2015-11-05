@@ -2,6 +2,9 @@ package edu.avans.ivh5.client.presentation;
 
 import edu.avans.ivh5.client.businesslogic.InsuranceCompanyManager;
 import edu.avans.ivh5.shared.models.InsuranceCompany;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class InsuranceCompanyGUI extends javax.swing.JFrame {
@@ -18,14 +21,17 @@ public class InsuranceCompanyGUI extends javax.swing.JFrame {
      * Creates new form InsuranceCompanyGUI
      */
     public InsuranceCompanyGUI() {
-        initComponents();
-        InsuranceCompany insuranceCompany = insuranceCompanyManager.getInsuranceCompany();
-
-        companyNameTextField.setText(insuranceCompany.getName());
-        cityTextField.setText(insuranceCompany.getCity());
-        postcodeTextField.setText(insuranceCompany.getPostCode());
-        addressTextField.setText(insuranceCompany.getAddress());
-        KVKTextField.setText(insuranceCompany.getKVK());
+        try {
+            initComponents();
+            InsuranceCompany insuranceCompany = insuranceCompanyManager.getInsuranceCompany();
+            companyNameTextField.setText(insuranceCompany.getName());
+            cityTextField.setText(insuranceCompany.getCity());
+            postcodeTextField.setText(insuranceCompany.getPostCode());
+            addressTextField.setText(insuranceCompany.getAddress());
+            KVKTextField.setText(insuranceCompany.getKVK());
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceCompanyGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -206,8 +212,15 @@ public class InsuranceCompanyGUI extends javax.swing.JFrame {
          * Saves changes only when all input is valid
          */
         if (validName == true && validCity == true && validPostcode == true && validAddress == true && validKVK == true) {
-            insuranceCompanyManager.change(insuranceCompanyManager.getInsuranceCompany(), insuranceCompany);
-            JOptionPane.showMessageDialog(null, "Wijziging opgeslagen", "", JOptionPane.INFORMATION_MESSAGE);
+            try {
+                if(insuranceCompanyManager.changeInsuranceCompany(insuranceCompanyManager.getInsuranceCompany(), insuranceCompany)) {
+                    JOptionPane.showMessageDialog(null, "Wijziging opgeslagen", "", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Wijziging mislukt", "", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (RemoteException ex) {
+                Logger.getLogger(InsuranceCompanyGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }//GEN-LAST:event_saveCompanyButtonActionPerformed

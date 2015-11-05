@@ -72,12 +72,18 @@ public class ClientImpl implements ClientInterface {
 
     @Override
     public InsuranceCompany getInsuranceCompany() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<InsuranceCompany> insuranceCompany = new ArrayList();
+                
+        for(Object o : insuranceCompanyDAO.get("")){
+            insuranceCompany.add((InsuranceCompany) o);
+        }
+        return insuranceCompany.get(0);
     }
 
     @Override
-    public boolean changeInsuranceCompany(InsuranceCompany insuranceCompany) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean changeInsuranceCompany(Object oldObject, Object newObject) throws RemoteException {
+
+        return insuranceCompanyDAO.change(oldObject, newObject);
     }
 
     @Override
@@ -90,17 +96,15 @@ public class ClientImpl implements ClientInterface {
         for (Object o : result) {
             insurance.add((Insurance) o);
         }
-        
-        
-        
+
         return insurance;
     }
 
     @Override
     public List<Insurance> getInsurances(String searchPattern) throws RemoteException {
         List<Insurance> insurances = new ArrayList<>();
-        
-        for (Object o : insuranceDAO.get(searchPattern)){
+
+        for (Object o : insuranceDAO.get(searchPattern)) {
             insurances.add((Insurance) o);
         }
         return insurances;
@@ -133,12 +137,12 @@ public class ClientImpl implements ClientInterface {
     public boolean changeInsurance(Insurance oldInsurance, Insurance newInsurance) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
-    public List<TreatmentCode> getTreatmentCodes(String searchPattern) throws RemoteException{
+    public List<TreatmentCode> getTreatmentCodes(String searchPattern) throws RemoteException {
         List<TreatmentCode> treatmentCodes = new ArrayList<>();
-        
-        for(Object o : treatmentCodeDAO.get(searchPattern)){
+
+        for (Object o : treatmentCodeDAO.get(searchPattern)) {
             treatmentCodes.add((TreatmentCode) o);
         }
         return treatmentCodes;
