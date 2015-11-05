@@ -1,5 +1,6 @@
 package edu.avans.ivh5.shared.models;
 
+import com.itextpdf.text.pdf.PdfPTable;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -68,6 +69,10 @@ public class Client implements Serializable {
 
     public boolean isIncasso() {
         return incasso;
+    }
+
+    public void add(PdfPTable table) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

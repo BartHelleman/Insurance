@@ -8,6 +8,8 @@ package edu.avans.ivh5.client.presentation;
 import edu.avans.ivh5.client.businesslogic.LoginManager;
 import java.rmi.RemoteException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -118,6 +120,7 @@ public class LoginGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+
         errorLabel.setVisible(false);
         
         String wachtwoord = new String (wachtwoordField.getPassword());

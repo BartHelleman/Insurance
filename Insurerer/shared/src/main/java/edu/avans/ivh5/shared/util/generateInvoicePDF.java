@@ -37,6 +37,8 @@ import com.itextpdf.text.Section;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import edu.avans.ivh5.shared.models.InsuranceCompany;
+import edu.avans.ivh5.shared.models.Treatment;
 import java.text.DecimalFormat;
 
 /**
@@ -45,7 +47,7 @@ import java.text.DecimalFormat;
  */
 public class generateInvoicePDF {
 
-    private static void createTable(Paragraph preface) {
+   private static void createTable(Paragraph preface, Treatment treatment, Client client, InsuranceCompany insuranceCompany) {
         PdfPTable table = new PdfPTable(2);
         
         table.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
@@ -68,18 +70,18 @@ public class generateInvoicePDF {
         //table.addCell(c1);
         //table.setHeaderRows(1);
         
-        table.addCell("Naam Klant");
-        table.addCell("Naam bedrijf");
-        table.addCell("Adres Klant");
-        table.addCell("Adres Bedrijf");
-        table.addCell("Postcode + Plaats klant ");
-        table.addCell("Postcode + Plaats bv");
+        table.addCell("Naam Klant: " + client.getFirstName() + " " + client.getName());
+        table.addCell("Naam bedrijf: " + insuranceCompany.getName());
+        table.addCell("Adres Klant: " + client.getAddress());
+        table.addCell("Adres Bedrijf: " + insuranceCompany.getAddress());
+        table.addCell("Postcode + Plaats klant: " + client.getPostcode() + " " + client.getCity());
+        table.addCell("Postcode + Plaats bv: " + insuranceCompany.getPostCode()+ " " + insuranceCompany.getCity());
         table.addCell("");
-        table.addCell("telefoonnummer bedrijf");
-        table.addCell("");
-        table.addCell("Bankgegevens bedrijf");
-        table.addCell("");
-        table.addCell("BTW-nummer bedrijf");
+        table.addCell("KVK nummer: " + insuranceCompany.getKVK());
+        //table.addCell("");
+        //table.addCell("Bankgegevens bedrijf");
+        //table.addCell("");
+        //table.addCell("BTW-nummer bedrijf");
         table.addCell(" ");
         table.addCell(" ");
         table.addCell(" ");
@@ -93,7 +95,6 @@ public class generateInvoicePDF {
        // table.addCell(cellBlankRow);
 
         preface.add(table);
-        
     }
 
     private static void createTable2(Paragraph preface) {
@@ -105,9 +106,9 @@ public class generateInvoicePDF {
     
         //cell.setColspan(3);
    // table.addCell(cell);
-        table.addCell("Factuur nummer");
-        table.addCell("Factuuratum"); 
-        table.addCell("Vervaldatum");
+        table.addCell(" Factuur nummer ");
+        table.addCell(" Factuuratum "); 
+        table.addCell(" Vervaldatum ");
         table.addCell(" ");
         table.addCell(" ");
         table.addCell(" ");
@@ -125,14 +126,14 @@ public class generateInvoicePDF {
     
         //cell.setColspan(3);
    // table.addCell(cell);
-    table.addCell("Behandelcode");
-    table.addCell("Aantal sessies"); 
-   table.addCell("Prijs per sessie");
-   table.addCell("Totaal");
-   table.addCell("AAA01CS");
-        table.addCell("2");
-        table.addCell("€ 30");
-        table.addCell("€ 60");
+    table.addCell(" Behandelcode ");
+    table.addCell(" Aantal sessies "); 
+   table.addCell(" Prijs per sessie ");
+   table.addCell(" Totaal ");
+   table.addCell(" AAA01CS ");
+        table.addCell(" 2 ");
+        table.addCell(" € 30 ");
+        table.addCell(" € 60 ");
         table.addCell(" ");
         table.addCell(" ");
         table.addCell(" ");
@@ -205,16 +206,24 @@ public class generateInvoicePDF {
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12,
             Font.BOLD);
 
-    public static void main(String arg[]) throws Exception {
+    public generateInvoicePDF( Treatment treatment, Client client, InsuranceCompany insuranceCompany) throws Exception {
         try {
             Document document = new Document(PageSize.A4);
+            Document treatmentPage = new Document(PageSize.A4);
+            Document clientPage = new Document(PageSize.A4);
+            Document insuranceCompanyPage = new Document(PageSize.A4);
+            
             PdfWriter.getInstance(document, new FileOutputStream("Factuur.pdf"));
             document.open();
             //Chunk chunk=new Chunk("Factuur");
             //chunk.setUnderline(+1f,-2f);
             //document.add(chunk);
+            
+            
+    
             addMetaData(document);
-            addTitlePage(document);
+            addTitlePage(document,treatment,client,insuranceCompany);
+           
             //addContent(document);
             //document.add(new Paragraph("Factuur"));
             document.close();
@@ -232,59 +241,24 @@ public class generateInvoicePDF {
     }
 
 
-    private static void addTitlePage(Document document)
+    private static void addTitlePage(Document document, Treatment treatment, Client client, InsuranceCompany insuranceCompany)
             throws DocumentException {
-        Paragraph preface = new Paragraph();
+            Paragraph preface = new Paragraph();
         // We add one empty line
-        addEmptyLine(preface, (int) 0.5);
+      // addEmptyLine(preface, (int) 0.5);
         // Lets write a big header
         preface.add(new Paragraph("Factuur"));
-        
-
-        
-        //addEmptyLine(preface, 1);
-        
-        // Will create: Report generated by: _name, _date
-        //KLantgegevens
-//        preface.add(new Paragraph("naam klant"));
-//        addEmptyLine(preface, (int) 0.5);
-//        preface.add(new Paragraph("adres klant"));
-//        addEmptyLine(preface, (int) 0.5);
-//        preface.add(new Paragraph("Postcode en plaats klant"));
-//        
-//        //bedrijfsgegevens
-//        addEmptyLine(preface, (int) 1.0);
-//        preface.add(new Paragraph("naam bedrijf"));
-//        addEmptyLine(preface, (int) 0.5);
-//        preface.add(new Paragraph("Adres bedrijf"));
-//        addEmptyLine(preface, (int) 0.5);
-//        preface.add(new Paragraph("Postcode en plaats bedrijf"));
-//         addEmptyLine(preface, (int) 0.5);
-//        preface.add(new Paragraph("telefoonnummer bedrijf"));
-//         addEmptyLine(preface, (int) 0.5);
-//        preface.add(new Paragraph("Bankgegevens bedrijf"));
-//         addEmptyLine(preface, (int) 0.5);
-//        preface.add(new Paragraph("BTW-nummer bedrijf"));
-//        
-//        //factuur gegevens
-//        addEmptyLine(preface, (int) 1.0);
-//        preface.add(new Paragraph("Factuur nr."));
-//        addEmptyLine(preface, (int) 0.5);
-//        preface.add(new Paragraph("Factuuratum"));
-//        
-//        addEmptyLine(preface, (int) 0.5);
-//        preface.add(new Paragraph("Vervaldatum"));
-        
+       
         
          Paragraph paragraph = new Paragraph();
         addEmptyLine(paragraph, (int) 1);
         preface.add(paragraph);
         
-        createTable(preface);
+        createTable(preface, treatment, client, insuranceCompany );
      
         createTable2(preface);
         
-        createTable3(preface);
+       createTable3(preface);
         
         createTable4(preface);
         
@@ -384,7 +358,7 @@ public class generateInvoicePDF {
         //table.addCell(c1);
         //table.setHeaderRows(1);
         
-        table.addCell("Naam Klant");
+        table.addCell("Naam klant");
         table.addCell("Naam bedrijf");
         table.addCell("Adres Klant");
         table.addCell("Adres Bedrijf");
