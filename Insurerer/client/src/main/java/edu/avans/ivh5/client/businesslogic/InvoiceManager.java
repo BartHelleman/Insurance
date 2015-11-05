@@ -193,7 +193,10 @@ public class InvoiceManager {
         try {
             dao = new InsuranceContractDAO();
         } catch (ParserConfigurationException | SAXException | IOException ex) {}
-        dao.getInsuranceContract(c.getBSN());
+        if (dao != null) {
+            List<Object> contracts = dao.getInsuranceContract(c.getBSN());
+            InsuranceContract contract = (InsuranceContract) contracts.get(0);
+        }
     }
 
 }
