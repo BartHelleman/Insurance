@@ -71,8 +71,15 @@ public class Client implements Serializable {
         return incasso;
     }
 
+<<<<<<< 37b8eec74d5e7e851666b154b9dff86f2aeca676
     public void add(PdfPTable table) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+=======
+    public static class get {
+
+        public get() {
+        }
+>>>>>>> Invoice Manager aangepast. Invoices generen
     }
     
     

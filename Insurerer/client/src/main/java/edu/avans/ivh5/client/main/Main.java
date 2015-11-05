@@ -27,11 +27,20 @@ public class Main {
         InsuranceGUI insuranceGUI = new InsuranceGUI();
         insuranceGUI.setVisible(true);
 
+
         //InvoiceManager invoiceManager = new InvoiceManager();
         //InvoiceGUI invoiceGUI = new InvoiceGUI(client);
         //invoiceGUI.setVisible(true);
 
-        build();
+      //  build();
+
+     //   Client client = new Client("12345678", "Burak", "Niels", "Krimpen", "2922CD", "Blomsingel 31", "NL00 INGB 012345", false, "nskerdel", "0612345678");
+     InvoiceManager invoiceManager = new InvoiceManager();
+     //   InvoiceGUI invoiceGUI = new InvoiceGUI(client);
+     //   invoiceGUI.setVisible(true);
+       
+     //    build();
+
 
         LoginGUI loginGUI = new LoginGUI();
         loginGUI.setVisible(true);
@@ -54,7 +63,7 @@ public class Main {
             //   InvoiceGUI invoiceGUI = new InvoiceGUI(client);
             //   invoiceGUI.setVisible(true);
             
-            //    build();
+            //  build();
 
             
 //         Client client = new Client("004", "Burak", "Niels", "Krimpen", "2922CD", "Blomsingel 31", "NL00 INGB 012345", false, "nskerdel", "0612345678");
@@ -82,15 +91,34 @@ public class Main {
 //            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //    }
+        //InvoiceManager invoiceManager = new InvoiceManager();
+        //InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
+        //invoiceGUI.setVisible(true);
+        //build();
+        //InvoiceManager invoiceManager = new InvoiceManager();
+        //InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
+        //invoiceGUI.setVisible(true);
+        //LoginGUI loginGUI = new LoginGUI();
+        //loginGUI.setVisible(true);
+        //UserGUI userGUI = new UserGUI();
+        //userGUI.setVisible(true);
+        //InsuranceCompanyGUI insuranceCompanyGUI = new InsuranceCompanyGUI();
+        //insuranceCompanyGUI.setVisible(true);
+        //InvoiceManager invoiceManager = new InvoiceManager();
+        //InvoiceGUI invoiceGUI = new InvoiceGUI(invoiceManager);
+       // invoiceGUI.setVisible(true);
+        //build();
+    //}
 
-    private static void build() {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        ClientGUI GUI = new ClientGUI();
-        GUI.setVisible(true);
-    }
+//    private static void build() {
+//        try {
+//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
+//     InvoiceManager GUI = new InvoiceManager();
+////ClientGUI GUI = new ClientGUI();
+//        GUI.generateInvoices(null, null);
+//    }
 
 }

@@ -1,5 +1,6 @@
 package edu.avans.ivh5.client.businesslogic;
 
+import edu.avans.ivh5.server.dao.ClientDAO;
 import edu.avans.ivh5.server.dao.InsuranceContractDAO;
 import edu.avans.ivh5.shared.models.Client;
 import edu.avans.ivh5.shared.models.InsuranceContract;
@@ -13,8 +14,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xml.sax.SAXException;
@@ -25,7 +29,9 @@ public class InvoiceManager {
     //relaties
     private ClientManager clientManager;
     private InsuranceContractDAO InsuranceContractDAO;
-    
+    private Treatment treatment;
+    private ClientDAO clientDAO;
+
     private static final String COMMA_DELIMITER = ",";
     private static final String NEW_LINE_SEPARATOR = "\n";
 
@@ -92,67 +98,102 @@ public class InvoiceManager {
     }
 
     public Invoice getInvoice(Treatment treatment) {
-    /*    DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-        format.setLenient(false);
-        String iets = "2000-03-03";
-        Date date = null;
-        BigDecimal iets2 = new BigDecimal("1");
+        /*    DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+         format.setLenient(false);
+         String iets = "2000-03-03";
+         Date date = null;
+         BigDecimal iets2 = new BigDecimal("1");
        
-        try {
-            date = format.parse(iets);
-        } catch (ParseException ex) {
-            Logger.getLogger(InvoiceManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+         try {
+         date = format.parse(iets);
+         } catch (ParseException ex) {
+         Logger.getLogger(InvoiceManager.class.getName()).log(Level.SEVERE, null, ex);
+         }
         
-        //Create new students objects
-        Invoice invoice1 = new Invoice(1, date, date, iets2);
+         //Create new students objects
+         Invoice invoice1 = new Invoice(1, date, date, iets2);
 
-        //Create a new list of student objects
-        List<Invoice> invoice = new ArrayList();
-        invoice.add(invoice1);
+         //Create a new list of student objects
+         List<Invoice> invoice = new ArrayList();
+         invoice.add(invoice1);
 
 
-        FileWriter fileWriter = null;
+         FileWriter fileWriter = null;
 
-        try {
-            fileWriter = new FileWriter("ClieOp");
+         try {
+         fileWriter = new FileWriter("ClieOp");
 
-            //Write the CSV file header
-            fileWriter.append(FILE_HEADER.toString());
+         //Write the CSV file header
+         fileWriter.append(FILE_HEADER.toString());
 
-            //Add a new line separator after the header
-            fileWriter.append(NEW_LINE_SEPARATOR);
+         //Add a new line separator after the header
+         fileWriter.append(NEW_LINE_SEPARATOR);
 
-            //Write a new student object list to the CSV file
-            for (Invoice invoices : invoice) {
-                fileWriter.append(String.valueOf(invoices.getDate()));
-                fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(String.valueOf(invoices.getExpirationDate()));
-                fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(String.valueOf(invoices.getInvoiceNumber()));
-                fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(String.valueOf(invoices.getTotalAmount()));
-                fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(String.valueOf(invoices.getVAT()));
-                fileWriter.append(NEW_LINE_SEPARATOR);
-            }
-            System.out.println("CSV file was created successfully !!!");
-        } catch (Exception e) {
-            System.out.println("Error in CsvFileWriter !!!");
-            e.printStackTrace();
-        } finally {
-            try {
-                fileWriter.flush();
-                fileWriter.close();
-            } catch (IOException e) {
-                System.out.println("Error while flushing/closing fileWriter !!!");
-                e.printStackTrace();
-            }
-        } */
-    return null;     
+         //Write a new student object list to the CSV file
+         for (Invoice invoices : invoice) {
+         fileWriter.append(String.valueOf(invoices.getDate()));
+         fileWriter.append(COMMA_DELIMITER);
+         fileWriter.append(String.valueOf(invoices.getExpirationDate()));
+         fileWriter.append(COMMA_DELIMITER);
+         fileWriter.append(String.valueOf(invoices.getInvoiceNumber()));
+         fileWriter.append(COMMA_DELIMITER);
+         fileWriter.append(String.valueOf(invoices.getTotalAmount()));
+         fileWriter.append(COMMA_DELIMITER);
+         fileWriter.append(String.valueOf(invoices.getVAT()));
+         fileWriter.append(NEW_LINE_SEPARATOR);
+         }
+         System.out.println("CSV file was created successfully !!!");
+         } catch (Exception e) {
+         System.out.println("Error in CsvFileWriter !!!");
+         e.printStackTrace();
+         } finally {
+         try {
+         fileWriter.flush();
+         fileWriter.close();
+         } catch (IOException e) {
+         System.out.println("Error while flushing/closing fileWriter !!!");
+         e.printStackTrace();
+         }
+         } */
+        return null;
     }
 
     public void printInvoice(InsuranceContract contract) {
 
     }
+
+    public void generateInvoices() {
+
+        System.out.println("Time now is -> " + new Date());
+
+        //Creating timer which executes once after five seconds
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                String firstName;
+                
+                List<Treatment> treatments = treatment.treatments();
+                for (Treatment t : treatments) {
+                    if (t.getStatus().equals("closed")) {
+                        for (Object o : clientDAO.get(t.getBSNClient())) {
+                            Client client = (Client) o;
+                            generateInvoice(t, client);
+                        }
+                    }
+                }
+
+                System.out.println("Time now is -> " + new Date());
+            }
+        }, 10000, 5000);
+    }
+    
+    public void generateInvoice(Treatment t, Client c) {
+        InsuranceContractDAO dao = null;
+        try {
+            dao = new InsuranceContractDAO();
+        } catch (ParserConfigurationException | SAXException | IOException ex) {}
+        dao.getInsuranceContract(c.getBSN());
+    }
+
 }

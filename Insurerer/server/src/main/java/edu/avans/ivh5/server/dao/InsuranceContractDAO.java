@@ -102,7 +102,7 @@ public class InsuranceContractDAO implements DAOInterface {
         return false;
     }
 
-    private List<Object> getInsuranceContract(String searchPattern) {
+    public List<Object> getInsuranceContract(String searchPattern) {
         List<Object> insuranceContracts = new ArrayList();
         List<Node> insuranceContractNodes = this.XMLParser.findElementsByName("contract", searchPattern);
 

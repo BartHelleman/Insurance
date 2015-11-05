@@ -7,6 +7,7 @@ package edu.avans.ivh5.client.businesslogic;
 
 import edu.avans.ivh5.shared.models.Client;
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -38,35 +39,37 @@ public class ClientManagerTest {
     @Before
     public void setUp() {
         manager = new ClientManager();
-        //burakClient = new Client("123456", "Karatas", "Burak", "Utrecht", "1234AB", "blabla", "blabla", false, "", "12345");
+        burakClient = new Client("123456", "Karatas", "Burak", "Utrecht", "1234AB", "blabla", "blabla", false, "", "12345");
     }
 
     @After
     public void tearDown() {
     }
 
-    /*@Test
+    @Test
     public void testSearchClients() {
         manager.addClient(burakClient);
         try {
-            ArrayList<Client> searchResult = manager.searchClient("Burak");
+            List<Client> searchResult = manager.searchClient("Burak");
             assert (searchResult.size() > 0);
 
             boolean hasFound = false;
 
             for (Client client : searchResult) {
-                //if(client.getName().equals("Karatas") && client.getBSN().equals("123456")) {
-                //    hasFound = true;
-                //}
+                if (client.getName().equals("Karatas") && client.getBSN().equals("123456")) {
+                    hasFound = true;
+
+                }
             }
             assert (hasFound);
         } finally {
-            manager.deleteClient(burakClient);
+            manager.deleteClient(burakClient.getBSN());
         }
     }
+}
 
-    @Test
-    public void testDeleteClient() {
+@Test
+        public void testDeleteClient() {
 
         ArrayList<Client> beforeAdding = manager.searchClient("123456"); // 5 personen
         manager.addClient(burakClient);
@@ -82,7 +85,7 @@ public class ClientManagerTest {
     }
 
     @Test
-    public void testAddClient() {
+        public void testAddClient() {
         ArrayList<Client> beforeAdding = manager.searchClient("123456");
         manager.addClient(burakClient);
         try {
@@ -94,7 +97,7 @@ public class ClientManagerTest {
     }
 
     @Test
-    public void testChangeClient() {
+        public void testChangeClient() {
 
         Client newBurak = null;//= new Client("0987654", "Karatas", "Burak", "Utrecht", "1234AB", "blabla", "blabla", false, "", "12345");
 
@@ -111,7 +114,10 @@ public class ClientManagerTest {
             manager.deleteClient(newBurak);
         }
 
-    }*/
+    }
+
+
+*/
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
