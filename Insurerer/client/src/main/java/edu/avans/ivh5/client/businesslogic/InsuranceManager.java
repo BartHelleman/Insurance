@@ -79,6 +79,12 @@ public class InsuranceManager {
      * @return
      */
     public boolean changeInsurance(Insurance oldInsurance, Insurance newInsurance) {
-        return false;
+        try {
+            return RmiMain.getRmiInterface().changeInsurance(oldInsurance, newInsurance);
+        }
+        catch(RemoteException e)
+        {
+            return false;
+        }
     }
 }

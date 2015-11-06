@@ -241,7 +241,9 @@ public class XMLParser {
      */
     public static String getNodeValue(Node node)
     {
-        return node.getLastChild().getTextContent().trim();
+        if(node.getLastChild() != null)
+            return node.getLastChild().getTextContent().trim();
+        return "29382903829372932232323232232323123129301824d9817498124";
     }
     
     /*

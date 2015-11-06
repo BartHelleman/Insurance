@@ -522,7 +522,7 @@ private ClientManager clientManager;
     private void declineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_declineButtonActionPerformed
         Object[] options = {"Ja", "Nee"};
 
-        int result = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze invoer wilt unnuleren?", "Annuleren", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+        int result = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze invoer wilt annuleren?", "Annuleren", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
         if(result == JOptionPane.YES_OPTION) {
             clientPanel.setVisible(false);
             emptyTextFields();

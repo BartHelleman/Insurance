@@ -31,7 +31,7 @@ public class Main {
     // Access to remote manager
     static private ClientInterface stub;
     static private PhysioServerInterface physioInterface;
-    static final boolean RMI = false;
+    public static final boolean RMI = false;
     // Get a logger instance for the current class
     static Logger logger = Logger.getLogger(Main.class);
 
@@ -77,9 +77,11 @@ public class Main {
         System.out.println("Starting application");
 
         try {
-            String service = Settings.props.getProperty(Settings.propRmiServiceGroup)
-                    + Settings.props.getProperty(Settings.propRmiServiceName);
-            String hostname = Settings.props.getProperty(Settings.propRmiHostName);
+            //String service = Settings.props.getProperty(Settings.propRmiServiceGroup)
+                    //+ Settings.props.getProperty(Settings.propRmiServiceName);
+            //String hostname = Settings.props.getProperty(Settings.propRmiHostName);
+            String service = "/standard";
+            String hostname = "localhost";
 
 			// ShutdownHook handles cleaning up the registry when this
             // application exits.
@@ -106,6 +108,8 @@ public class Main {
         } catch (Exception e) {
             System.out.println(e.toString());
         }
+        
+        InvoiceGeneratorTask task = new InvoiceGeneratorTask();
         
         if(RMI) {
             try {

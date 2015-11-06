@@ -6,10 +6,12 @@
 package edu.avans.ivh5.server.rmi;
 
 import edu.avans.ivh5.server.dao.*;
+import edu.avans.ivh5.server.main.Main;
 import edu.avans.ivh5.shared.api.ClientInterface;
 import edu.avans.ivh5.shared.models.*;
 import edu.avans.ivh5.shared.util.BCrypt;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.rmi.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,17 +28,20 @@ import org.xml.sax.SAXException;
 public class ClientImpl implements ClientInterface {
 
     private Logger logger;
-    private DAOInterface clientDAO;
-    private DAOInterface insuranceCompanyDAO;
-    private DAOInterface insuranceContractDAO;
-    private DAOInterface insuranceDAO;
-    private DAOInterface invoiceDAO;
-    private DAOInterface loginDAO;
-    private DAOInterface treatmentCodeDAO;
-    private DAOInterface treatmentDAO;
+    private static DAOInterface clientDAO;
+    private static DAOInterface insuranceCompanyDAO;
+    private static DAOInterface insuranceContractDAO;
+    private static DAOInterface insuranceDAO;
+    private static DAOInterface invoiceDAO;
+    private static DAOInterface loginDAO;
+    private static DAOInterface treatmentCodeDAO;
+    private static DAOInterface treatmentDAO;
 
     public ClientImpl() {
         logger = Logger.getLogger(ClientImpl.class);
+    }
+    
+    static {
         try {
             clientDAO = new ClientDAO();
             insuranceCompanyDAO = new InsuranceCompanyDAO();
@@ -229,9 +234,96 @@ public class ClientImpl implements ClientInterface {
 
     }
 
+
+    public static BigDecimal[] subtractDeductible(Client client, BigDecimal amountToReduce) {
+        List<Object> insuranceContract = insuranceContractDAO.get(client.getBSN());
+        
+        if(insuranceContract.size() > 0)
+        {
+            InsuranceContract contract = (InsuranceContract)insuranceContract.get(0);
+            contract.setOwnRisk(contract.getOwnRisk().subtract(amountToReduce));
+            
+            BigDecimal retVal = contract.getOwnRisk();
+            if(contract.getOwnRisk().compareTo(BigDecimal.ZERO) == -1)
+            {
+                retVal = contract.getOwnRisk().abs();
+                contract.setOwnRisk(BigDecimal.ZERO);
+            }
+            insuranceContractDAO.change(contract, contract);
+            BigDecimal[] d = new BigDecimal[2];
+            d[0] = retVal;
+            d[1] = contract.getOwnRisk();
+            return d;
+        }
+        
+        return null;
+    }
+    
+    
+
     @Override
     public boolean addUser(User user) throws RemoteException {
         return loginDAO.add(user);
     }
 
+    @Override
+    public ArrayList<SharedTreatment> getTreatmentsThatNeedToBeBilled() throws RemoteException {
+        if(Main.RMI)
+        {
+            return Main.getPhysioInterface().getAllFinishedTreatments();
+        }
+        else {
+            ArrayList<SharedTreatment> treatments = new ArrayList<>();
+            treatments.add(new SharedTreatment("209000454", "002behandelcode002", 5));
+            return treatments;
+        }
+    }
+
+    @Override
+    public List<Invoice> getInvoices(Client client) throws RemoteException {
+        List<Object> invoicesObjects = invoiceDAO.get(client.getBSN());
+        List<Invoice> invoices = new ArrayList<>();
+        invoicesObjects.forEach(i -> {
+            Invoice invoice = (Invoice)i;
+            if(invoice.getBSN().equals(client.getBSN()))
+                invoices.add(invoice);
+        });
+        return invoices;
+    }
+    
+    
+
+    public static DAOInterface getClientDAO() {
+        return clientDAO;
+    }
+
+    public static DAOInterface getInsuranceCompanyDAO() {
+        return insuranceCompanyDAO;
+    }
+
+    public static DAOInterface getInsuranceContractDAO() {
+        return insuranceContractDAO;
+    }
+
+    public static DAOInterface getInsuranceDAO() {
+        return insuranceDAO;
+    }
+
+    public static DAOInterface getInvoiceDAO() {
+        return invoiceDAO;
+    }
+
+    public static DAOInterface getLoginDAO() {
+        return loginDAO;
+    }
+
+    public static DAOInterface getTreatmentCodeDAO() {
+        return treatmentCodeDAO;
+    }
+
+    public static DAOInterface getTreatmentDAO() {
+        return treatmentDAO;
+    }
+
+    
 }

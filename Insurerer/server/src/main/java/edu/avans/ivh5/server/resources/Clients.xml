@@ -17,8 +17,8 @@
     </client>
     <client>
         <BSN>98765423</BSN>
-        <name>Karatas</name>
-        <firstName>Burak</firstName>
+        <name>Donders</name>
+        <firstName>Bart</firstName>
         <city>Utrecht</city>
         <postcode>1234AB</postcode>
         <address>Blabla</address>
@@ -29,8 +29,8 @@
     </client>
     <client>
         <BSN>209000454</BSN>
-        <name>Karatas</name>
-        <firstName>Burasdasak</firstName>
+        <name>Kerdel</name>
+        <firstName>Niels</firstName>
         <city>Utrecht</city>
         <postcode>1234AB</postcode>
         <address>Blabla</address>

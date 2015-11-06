@@ -75,7 +75,10 @@ public class InsuranceContractDAO implements DAOInterface {
 
     @Override
     public boolean change(Object oldObject, Object newObject) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(delete(((InsuranceContract)oldObject).getBSN()))
+            return add((InsuranceContract)newObject);
+        return false;
     }
 
     @Override

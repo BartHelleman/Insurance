@@ -5,6 +5,7 @@
  */
 package edu.avans.ivh5.client.businesslogic;
 
+import edu.avans.ivh5.client.main.RmiMain;
 import edu.avans.ivh5.shared.models.Client;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class ClientManagerTest {
 
     @BeforeClass
     public static void setUpClass() {
+        RmiMain m = new RmiMain("localhost");
 
     }
 
@@ -55,7 +57,7 @@ public class ClientManagerTest {
     public void testSearchClients() {
         try {
             manager.addClient(burakClient);
-        } catch (RemoteException ex) {
+        } catch (RemoteException ex) { 
             Logger.getLogger(ClientManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {

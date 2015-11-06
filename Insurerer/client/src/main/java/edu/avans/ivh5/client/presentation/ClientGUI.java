@@ -7,19 +7,29 @@ package edu.avans.ivh5.client.presentation;
 
 import edu.avans.ivh5.client.businesslogic.ClientManager;
 import edu.avans.ivh5.client.businesslogic.InvoiceManager;
+import edu.avans.ivh5.client.main.RmiMain;
 import edu.avans.ivh5.shared.models.Client;
 import edu.avans.ivh5.shared.models.Invoice;
+import edu.avans.ivh5.shared.util.DateFormatter;
+import edu.avans.ivh5.shared.util.generateInvoicePDF;
+import java.awt.Desktop;
 import java.awt.Frame;
 import java.awt.LayoutManager;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -31,6 +41,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private ClientManager clientManager;
     private List<Client> clienten;
     private Client selectedClient;
+    private List<Invoice> invoices;
 
     /**
      * Creates new form ClientGUI
@@ -83,6 +94,24 @@ public class ClientGUI extends javax.swing.JFrame {
                         } else {
                             setCheckBox(false);
                         }
+
+                        DefaultTableModel tableModel = (DefaultTableModel) treatmentsTable.getModel();
+                        try {
+                            invoices = RmiMain.getRmiInterface().getInvoices(selectedClient);
+                        }
+                        catch(RemoteException e)
+                        {
+                            invoices = new ArrayList<>();
+                        }
+                        
+                        for(int i = tableModel.getRowCount() - 1; i >= 0; i--)
+                            tableModel.removeRow(i);
+                        
+                        for (int i = 0; i < invoices.size(); i++) {
+                            Invoice invoice = invoices.get(i);
+                            tableModel.addRow(new Object[] {invoice.getTreatmentCode(), DateFormatter.dateToString(invoice.getDate())});
+                        }
+
                     } catch (RemoteException e) {
                         JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
                     }
@@ -90,6 +119,22 @@ public class ClientGUI extends javax.swing.JFrame {
 
             }
 
+        });
+        
+        this.treatmentsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+                ListSelectionModel lsm = (ListSelectionModel) event.getSource();
+                int index = lsm.getMinSelectionIndex();
+                File f = new File(generateInvoicePDF.getInvoicePDF(invoices.get(index)) + ".pdf");
+                try {
+                    Desktop.getDesktop().open(f);
+                }
+                catch(IOException e)
+                {
+                    System.out.println(e.getMessage());
+                }
+            }
         });
 
         this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
@@ -504,7 +549,7 @@ public class ClientGUI extends javax.swing.JFrame {
             clientEmailTextField.setText("");
             clientIBANTextField.setText("");
             selectedClient = null;
-         
+
         }
         clientPanel.setVisible(true);
         jScrollPane2.setVisible(false);
@@ -572,7 +617,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private void declineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_declineButtonActionPerformed
         Object[] options = {"Ja", "Nee"};
 
-        int result = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze invoer wilt unnuleren?", "Annuleren", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+        int result = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze invoer wilt annuleren?", "Annuleren", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
         if (result == JOptionPane.YES_OPTION) {
             clientPanel.setVisible(false);
             emptyTextFields();
@@ -686,22 +731,19 @@ public class ClientGUI extends javax.swing.JFrame {
             } catch (RemoteException e) {
                 JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
             }
-            
-            
-            
+
             emptyTextFields();
             clientPanel.setVisible(false);
-            
+
         } else {
             try {
                 boolean result = clientManager.addClient(client);
 
-            if (result == true) {
-                JOptionPane.showMessageDialog(null, "De client is succesvol toegevoegd.", "Toevoegen", JOptionPane.INFORMATION_MESSAGE);
-                clientPanel.setVisible(false);
-                emptyTextFields();
-                searchClientButton.doClick();
-
+                if (result == true) {
+                    JOptionPane.showMessageDialog(null, "De client is succesvol toegevoegd.", "Toevoegen", JOptionPane.INFORMATION_MESSAGE);
+                    clientPanel.setVisible(false);
+                    emptyTextFields();
+                    searchClientButton.doClick();
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Dit BSN nummer is al bekend in het systeem.", "Klant bestaat al", JOptionPane.ERROR_MESSAGE);
@@ -710,7 +752,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Startdatum is incorrect", "", JOptionPane.ERROR_MESSAGE);
             }
         }
-        
+
     }//GEN-LAST:event_saveClientButtonActionPerformed
 
     private void addInsuranceContractButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInsuranceContractButtonActionPerformed
@@ -942,6 +984,18 @@ public class ClientGUI extends javax.swing.JFrame {
     public void setCheckBox(boolean value) {
         polisCheckBox.setSelected(value);
     }
+    
+    private int getRowByValue(TableModel model, Object value) {
+        for (int i = model.getRowCount() - 1; i >= 0; --i) {
+            for (int j = model.getColumnCount() - 1; j >= 0; --j) {
+                if (model.getValueAt(i, j).equals(value)) {
+                    // what if value is not unique?
+                    return i;
+                }
+            }
+        }
+        return -1;
+     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addClientButton;
@@ -983,4 +1037,6 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JTextField searchClientTextField;
     private javax.swing.JTable treatmentsTable;
     // End of variables declaration//GEN-END:variables
+
+
 }

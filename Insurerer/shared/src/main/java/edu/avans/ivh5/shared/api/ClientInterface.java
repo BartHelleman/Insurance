@@ -1,6 +1,7 @@
 package edu.avans.ivh5.shared.api;
 
 import edu.avans.ivh5.shared.models.*;
+import java.math.BigDecimal;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.*;
@@ -32,6 +33,9 @@ public interface ClientInterface extends Remote {
     boolean deleteClient(String client) throws RemoteException;
     
     boolean hadInsuranceContract(Client client) throws RemoteException;
+    
+    List<Invoice> getInvoices(Client client) throws RemoteException;
+    
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="#InsuranceCompany methods">
@@ -78,9 +82,11 @@ public interface ClientInterface extends Remote {
     boolean addUser(User user) throws RemoteException;
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="#LoginManager methods">
+    // <editor-fold defaultstate="collapsed" desc="#Other methods">
     
-    
+    ArrayList<SharedTreatment> getTreatmentsThatNeedToBeBilled() throws RemoteException;
     
     // </editor-fold>
+    
+    
 }

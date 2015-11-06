@@ -4,24 +4,24 @@
     xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
     xsi:noNamespaceSchemaLocation='Invoices.xsd'>
     <invoice>
-        <invoiceNumber>100</invoiceNumber>
+        <invoiceNumber>10000</invoiceNumber>
         <date>2015-10-19</date>
-        <expirationDate>2016-10-19</expirationDate>
+        <expirationDate>2015-11-19</expirationDate>
         <VAT>21</VAT>
+        <treatmentStatus>done</treatmentStatus>
+        <BSN>209000454</BSN>
+        <clientName>Burak Karatas</clientName>
+        <clientAddress>Straaaaat 2</clientAddress>
+        <clientPostcodeCity>1234AB Utrecht</clientPostcodeCity>
+        <companyName>Zorg4U</companyName>
+        <companyAddress>Lovensdijkstraat 100</companyAddress>
+        <companyPostcodeCity>4800AB Breda</companyPostcodeCity>
+        <companyKVK>123232322</companyKVK>
+        <amountSessions>4</amountSessions>
+        <pricePerSession>50</pricePerSession>
+        <treatmentCode>001behandelcode001</treatmentCode>
+        <deductible>100</deductible>
+        <amountToPay>50</amountToPay>
     </invoice>
     
-    <invoice>
-        <invoiceNumber>200</invoiceNumber>
-        <date>2015-09-11</date>
-        <expirationDate>2016-12-05</expirationDate>
-        <VAT>21</VAT>
-    </invoice>
-    
-    <invoice>
-        <invoiceNumber>300</invoiceNumber>
-        <date>2015-02-11</date>
-        <expirationDate>2016-08-28</expirationDate>
-        <VAT>21</VAT>
-    </invoice>
-
 </invoices>

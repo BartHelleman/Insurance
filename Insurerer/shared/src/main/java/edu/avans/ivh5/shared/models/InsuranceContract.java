@@ -35,6 +35,11 @@ public class InsuranceContract implements Serializable {
     public BigDecimal getOwnRisk() {
         return ownRisk;
     }
+    
+    public void setOwnRisk(BigDecimal newValue)
+    {
+        this.ownRisk = newValue;
+    }
 
     public String getClientName() {
         return clientName;

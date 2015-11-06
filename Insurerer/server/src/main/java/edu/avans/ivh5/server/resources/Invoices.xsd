@@ -11,6 +11,20 @@
                             <xs:element type="xs:date" name="date"/>
                             <xs:element type="xs:date" name="expirationDate"/>
                             <xs:element type="xs:decimal" name="VAT"/>
+                            <xs:element type="xs:string" name="treatmentStatus"/>
+                            <xs:element type="xs:string" name="BSN"/>
+                            <xs:element type="xs:string" name="clientName"/>
+                            <xs:element type="xs:string" name="clientAddress"/>
+                            <xs:element type="xs:string" name="clientPostcodeCity"/>
+                            <xs:element type="xs:string" name="companyName"/>
+                            <xs:element type="xs:string" name="companyAddress"/>
+                            <xs:element type="xs:string" name="companyPostcodeCity"/>
+                            <xs:element type="xs:string" name="companyKVK"/>
+                            <xs:element type="xs:string" name="amountSessions"/>
+                            <xs:element type="xs:string" name="pricePerSession"/>
+                            <xs:element type="xs:string" name="treatmentCode"/>
+                            <xs:element type="xs:string" name="deductible"/>
+                            <xs:element type="xs:string" name="amountToPay"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>

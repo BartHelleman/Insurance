@@ -1,29 +1,15 @@
 package edu.avans.ivh5.client.businesslogic;
 
 import edu.avans.ivh5.client.main.RmiMain;
-import edu.avans.ivh5.server.dao.ClientDAO;
-import edu.avans.ivh5.server.dao.InsuranceContractDAO;
-import edu.avans.ivh5.server.dao.InvoiceDAO;
-import edu.avans.ivh5.shared.models.Client;
-import edu.avans.ivh5.shared.models.InsuranceContract;
-import edu.avans.ivh5.shared.models.Invoice;
-import edu.avans.ivh5.shared.models.Treatment;
+import edu.avans.ivh5.shared.models.*;
 import java.io.FileWriter;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.rmi.RemoteException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.text.*;
+import java.util.*;
+import java.util.logging.*;
 import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -31,10 +17,6 @@ public class InvoiceManager {
 
     //relaties
     private ClientManager clientManager;
-    private InsuranceContractDAO insuranceContractDAO;
-    private Treatment treatment;
-    private ClientDAO clientDAO;
-    private InvoiceDAO invoiceDAO;
 
     private static final String COMMA_DELIMITER = ",";
 
@@ -116,7 +98,7 @@ public class InvoiceManager {
                     fileWriter.append(NEW_LINE_SEPARATOR);
                     fileWriter.append("Valuta: EUR");
                     fileWriter.append(NEW_LINE_SEPARATOR);
-                    fileWriter.append("Totaalbedrag: " + invoices.getTotalAmount());
+                    fileWriter.append("Totaalbedrag: " + invoices.getTotalPrice());
                 }
                
                 System.out.println("CSV file was created successfully");
@@ -139,42 +121,13 @@ public class InvoiceManager {
 
     }
 
-    public void generateInvoices() {
-        System.out.println("generating invoices");
-
-        System.out.println("Time now is -> " + new Date());
-
-        //Creating timer which executes once after five seconds
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-
-                Treatment treatment = new Treatment(null, null, null, 0, null, null, null);
-                List<Treatment> treatments = treatment.treatments();
-                for (Treatment t : treatments) {
-                    System.out.println(t.getStatus());
-                    if (t.getStatus().equals("closed")) {
-                        System.out.println("found closed treatment with bsn " + t.getBSNClient());
-                        for (Object o : clientDAO.get(t.getBSNClient())) {
-                            Client client = (Client) o;
-                            generateInvoice(t, client);
-                        }
-                    }
-                }
-
-                System.out.println("Time now is -> " + new Date());
-            }
-        }, 10000, 5000);
-    }
-
     public void generateInvoice(Treatment t, Client c) {
-        if (insuranceContractDAO != null) {
+        /*if (insuranceContractDAO != null) {
             List<Object> contracts = insuranceContractDAO.getInsuranceContract(c.getBSN());
             InsuranceContract contract = (InsuranceContract) contracts.get(0);
             printValues(t, c, contract);
             
-        }
+        }*/
     }
 
     private void printValues(Treatment t, Client c, InsuranceContract i) {

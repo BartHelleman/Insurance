@@ -69,6 +69,7 @@ public class InvoiceManagerTest {
     
     @Test
     public void testGetInsuranceContract() {
+        try {
         InsuranceContract beforeAdding = manager.getInsuranceContract(client);
         
         manager.addInsuranceContract(insuranceContract);
@@ -83,10 +84,16 @@ public class InvoiceManagerTest {
         System.out.println(afterDelete);
         
         assert(afterDelete.getBSN() == null);
+        }
+        catch(RemoteException e)
+        {
+            fail();
+        }
     }
     
     @Test
     public void testAddInsuranceContract() {
+        try {
         InsuranceContract beforeAdding = manager.getInsuranceContract(client);
         manager.addInsuranceContract(insuranceContract);
         try {
@@ -95,10 +102,16 @@ public class InvoiceManagerTest {
         } finally{
             manager.deleteInsuranceContract(client);
         }
+        }
+        catch(RemoteException e)
+        {
+            fail();
+        }
     }
 
     @Test
     public void testDeleteInsuranceContract() {
+        try {
         InsuranceContract beforeAdding = manager.getInsuranceContract(client);
         
         manager.addInsuranceContract(insuranceContract);
@@ -113,5 +126,9 @@ public class InvoiceManagerTest {
         System.out.println(afterDelete);
         
         assert(afterDelete.getBSN() == null);
+        }catch(RemoteException e)
+        {
+            fail();
+        }
     }
 }

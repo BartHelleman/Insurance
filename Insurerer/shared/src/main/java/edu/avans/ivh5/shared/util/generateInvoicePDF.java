@@ -6,40 +6,14 @@
 package edu.avans.ivh5.shared.util;
 
 import java.io.*;
-import java.awt.*;
+
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import edu.avans.ivh5.shared.models.Client;
-import java.util.Date;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfWriter;
-
 import java.io.FileOutputStream;
-import java.util.Date;
-
-import com.itextpdf.text.Anchor;
-import com.itextpdf.text.BadElementException;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chapter;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.List;
-import com.itextpdf.text.ListItem;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Section;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-import edu.avans.ivh5.shared.models.InsuranceCompany;
-import edu.avans.ivh5.shared.models.Treatment;
-import java.text.DecimalFormat;
+import edu.avans.ivh5.shared.models.*;
+import java.nio.file.Files;
+import java.util.UUID;
 
 /**
  *
@@ -47,21 +21,46 @@ import java.text.DecimalFormat;
  */
 public class generateInvoicePDF {
 
-    private static void createTable(Paragraph preface, Treatment treatment, Client client, InsuranceCompany insuranceCompany) {
+    public static String getInvoicePDF(Invoice invoice)
+    {
+        try {
+            Document document = new Document(PageSize.A4);
+            Document treatmentPage = new Document(PageSize.A4);
+            Document clientPage = new Document(PageSize.A4);
+            Document insuranceCompanyPage = new Document(PageSize.A4);
+            String fileName = UUID.randomUUID().toString();
+            FileOutputStream stream = new FileOutputStream(fileName + ".pdf");
+            PdfWriter.getInstance(document, stream);
+            document.open();
+
+            addMetaData(document);
+            addTitlePage(document, invoice);
+
+            document.close();
+            return fileName;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+    
+    private static void createTable(Paragraph preface, Invoice invoice) {
         PdfPTable table = new PdfPTable(2);
 
         table.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
 
         table.addCell("Klantgegevens");
-        table.addCell(client.getFirstName() + " " + client.getName());
         table.addCell("Bedrijfsgegevens");
-        table.addCell(insuranceCompany.getName());
-        table.addCell(client.getAddress());
-        table.addCell(insuranceCompany.getAddress());
-        table.addCell(client.getPostcode() + " " + client.getCity());
-        table.addCell(insuranceCompany.getPostCode() + " " + insuranceCompany.getCity());
+        table.addCell(invoice.getClientName());
+        table.addCell(invoice.getCompanyName());
+        table.addCell(invoice.getClientAddress());
+        table.addCell(invoice.getCompanyAddress());
+        table.addCell(invoice.getClientPostcodeCity());
+        table.addCell(invoice.getCompanyPostcodeCity());
         table.addCell("");
-        table.addCell("KVK nummer: " + insuranceCompany.getKVK());
+        table.addCell("KVK nummer: " + invoice.getCompanyKVK());
         //table.addCell("");
         //table.addCell("Bankgegevens bedrijf");
         //table.addCell("");
@@ -74,14 +73,14 @@ public class generateInvoicePDF {
         preface.add(table);
     }
 
-    private static void createTable2(Paragraph preface) {
+    private static void createTable2(Paragraph preface, Invoice invoice) {
         PdfPTable table = new PdfPTable(1);
 
         table.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
 
-        table.addCell(" Factuur nummer ");
-        table.addCell(" Factuuratum ");
-        table.addCell(" Vervaldatum ");
+        table.addCell(" Factuur nummer: " + invoice.getInvoiceNumber());
+        table.addCell(" Factuuratum: " + DateFormatter.dateToString(invoice.getDate()));
+        table.addCell(" Vervaldatum: " + DateFormatter.dateToString(invoice.getExpirationDate()));
         table.addCell(" ");
         table.addCell(" ");
         table.addCell(" ");
@@ -90,7 +89,7 @@ public class generateInvoicePDF {
         preface.add(table);
     }
 
-    private static void createTable3(Paragraph preface) {
+    private static void createTable3(Paragraph preface, Invoice invoice) {
         PdfPTable table = new PdfPTable(4);
 
         //PdfPCell cell = new PdfPCell(new Paragraph("header with colspan 3"));
@@ -102,10 +101,10 @@ public class generateInvoicePDF {
         table.addCell(" Aantal sessies ");
         table.addCell(" Prijs per sessie ");
         table.addCell(" Totaal ");
-        table.addCell(" AAA01CS ");
-        table.addCell(" 2 ");
-        table.addCell(" € 30 ");
-        table.addCell(" € 60 ");
+        table.addCell(invoice.getTreatmentCode());
+        table.addCell(invoice.getAmountSessions());
+        table.addCell(" € " + invoice.getPricePerSession());
+        table.addCell(" € " + invoice.getTotalPrice().toString());
         table.addCell(" ");
         table.addCell(" ");
         table.addCell(" ");
@@ -118,7 +117,7 @@ public class generateInvoicePDF {
         preface.add(table);
     }
 
-    private static void createTable4(Paragraph preface) {
+    private static void createTable4(Paragraph preface, Invoice invoice) {
         PdfPTable table = new PdfPTable(2);
 
         //PdfPCell cell = new PdfPCell(new Paragraph("header with colspan 3"));
@@ -128,8 +127,8 @@ public class generateInvoicePDF {
         // table.addCell(cell);
         table.addCell("Eigenrisco");
         table.addCell("Te betalen");
-        table.addCell("€ 140");
-        table.addCell("€ 0");
+        table.addCell("€ " + invoice.getDeductible().toString());
+        table.addCell("€ " + invoice.getAmountToPay().toString());
         table.addCell(" ");
         table.addCell(" ");
         table.addCell(" ");
@@ -171,7 +170,7 @@ public class generateInvoicePDF {
             Font.BOLD);
 
     public generateInvoicePDF(Treatment treatment, Client client, InsuranceCompany insuranceCompany) throws Exception {
-        try {
+        /*try {
             Document document = new Document(PageSize.A4);
             Document treatmentPage = new Document(PageSize.A4);
             Document clientPage = new Document(PageSize.A4);
@@ -186,7 +185,7 @@ public class generateInvoicePDF {
             document.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     private static void addMetaData(Document document) {
@@ -197,7 +196,7 @@ public class generateInvoicePDF {
         document.addCreator("Oguzhan Babaarslan");
     }
 
-    private static void addTitlePage(Document document, Treatment treatment, Client client, InsuranceCompany insuranceCompany)
+    private static void addTitlePage(Document document, Invoice invoice)
             throws DocumentException {
         Paragraph preface = new Paragraph();
         // We add one empty line
@@ -209,13 +208,13 @@ public class generateInvoicePDF {
         addEmptyLine(paragraph, (int) 1);
         preface.add(paragraph);
 
-        createTable(preface, treatment, client, insuranceCompany);
+        createTable(preface, invoice);
 
-        createTable2(preface);
+        createTable2(preface, invoice);
 
-        createTable3(preface);
+        createTable3(preface, invoice);
 
-        createTable4(preface);
+        createTable4(preface, invoice);
 
         createTable5(preface);
 
