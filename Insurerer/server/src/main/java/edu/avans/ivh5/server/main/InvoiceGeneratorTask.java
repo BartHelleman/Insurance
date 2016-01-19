@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class InvoiceGeneratorTask {
 
     public InvoiceGeneratorTask() {
-        //start();
+        start();
     }
 
     private void start() {
@@ -75,7 +75,7 @@ public class InvoiceGeneratorTask {
                     
                     int invoiceNumber = ((InvoiceDAO)ClientImpl.getInvoiceDAO()).generateInvoiceNumber();
                     
-                    Invoice invoice = new Invoice(invoiceNumber, beginDate, endDate, new BigDecimal("19"), "done", client.getBSN(), client.getFirstName() + " " + client.getName(), client.getAddress(), client.getPostcode() + " " +  client.getCity(), company.getName(), company.getAddress(), company.getPostCode() + " " + company.getCity(), company.getKVK(), Integer.toString(treatment.getSessionAmount()), treatmentCode.getPrice().toString(), treatmentCode.getCode(), remaining, amountToPay);
+                    Invoice invoice = new Invoice(invoiceNumber, beginDate, endDate, new BigDecimal("19"), "done", client.getBSN(), client.getFirstName() + " " + client.getName(), client.getAddress(), client.getPostcode() + " " +  client.getCity(), company.getName(), company.getAddress(), company.getPostCode() + " " + company.getCity(), company.getKVK(), Integer.toString(treatment.getSessionAmount()), treatmentCode.getPrice().toString(), treatmentCode.getCode(), remaining, amountToPay, false);
                     
                     
                     ClientImpl.getInvoiceDAO().add(invoice);
