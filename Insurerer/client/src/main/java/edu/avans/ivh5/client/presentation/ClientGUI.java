@@ -121,21 +121,7 @@ public class ClientGUI extends javax.swing.JFrame {
 
         });
         
-        this.treatmentsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent event) {
-                ListSelectionModel lsm = (ListSelectionModel) event.getSource();
-                int index = lsm.getMinSelectionIndex();
-                File f = new File(generateInvoicePDF.getInvoicePDF(invoices.get(index)) + ".pdf");
-                try {
-                    Desktop.getDesktop().open(f);
-                }
-                catch(IOException e)
-                {
-                    System.out.println(e.getMessage());
-                }
-            }
-        });
+       
 
         this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
@@ -322,21 +308,46 @@ public class ClientGUI extends javax.swing.JFrame {
 
         treatmentsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Behandelcode", "Einddatum behandeling"
+                "Behandelcode", "Einddatum behandeling", "Betaald?"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         treatmentsTable.getTableHeader().setResizingAllowed(false);
         treatmentsTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(treatmentsTable);
+        if (treatmentsTable.getColumnModel().getColumnCount() > 0) {
+            treatmentsTable.getColumnModel().getColumn(0).setResizable(false);
+            treatmentsTable.getColumnModel().getColumn(1).setResizable(false);
+            treatmentsTable.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         getInvoiceButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         getInvoiceButton.setText("Toon factuur");
         getInvoiceButton.setActionCommand("");
+        getInvoiceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                getInvoiceButtonActionPerformed(evt);
+            }
+        });
 
         clientIBANTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
@@ -624,9 +635,6 @@ public class ClientGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_declineButtonActionPerformed
 
-    private void getInvoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
 
     private void saveClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveClientButtonActionPerformed
         String BSN = clientBSNTextField.getText();
@@ -806,6 +814,22 @@ public class ClientGUI extends javax.swing.JFrame {
     private void clientsTablePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_clientsTablePropertyChange
         // TODO add your handling code here:
     }//GEN-LAST:event_clientsTablePropertyChange
+
+    private void getInvoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getInvoiceButtonActionPerformed
+
+        ListSelectionModel lsm = treatmentsTable.getSelectionModel();
+        int index = lsm.getMinSelectionIndex();
+        File f = new File(generateInvoicePDF.getInvoicePDF(invoices.get(index)) + ".pdf");
+        try {
+            Desktop.getDesktop().open(f);
+        }
+        catch(IOException e)
+        {
+            System.out.println(e.getMessage());
+
+        }
+
+    }//GEN-LAST:event_getInvoiceButtonActionPerformed
 
     /**
      * @param args the command line arguments
