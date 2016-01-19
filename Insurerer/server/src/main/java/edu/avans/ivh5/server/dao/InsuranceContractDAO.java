@@ -1,6 +1,7 @@
 package edu.avans.ivh5.server.dao;
 
 import edu.avans.ivh5.shared.models.InsuranceContract;
+import edu.avans.ivh5.shared.models.TreatmentCode;
 import edu.avans.ivh5.shared.util.DateFormatter;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -56,7 +57,16 @@ public class InsuranceContractDAO implements DAOInterface {
             Text insuranceContractEndDate = this.XMLParser.createTextNode(DateFormatter.dateToString(insuranceContract.getEndDate()));
             endDate.appendChild(insuranceContractEndDate);
             insuranceContractNode.appendChild(endDate);
-
+            
+            Element coveredTreatments = this.XMLParser.createElement("coveredTreatments");
+            for(String code : insuranceContract.getCoveredTreatments())
+            {
+                Element coveredTreatment = this.XMLParser.createElement("coveredTreatment");
+                Text coveredTreatmentText = this.XMLParser.createTextNode(code);
+                coveredTreatment.appendChild(coveredTreatmentText);
+                coveredTreatments.appendChild(coveredTreatment);
+            }
+            
             this.XMLParser.addNode(insuranceContractNode);
             DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
             return true;
@@ -115,9 +125,10 @@ public class InsuranceContractDAO implements DAOInterface {
                     int insuranceID = Integer.parseInt(this.XMLParser.getValueByNodeName(insuranceContractNode, "insuranceID"));
                     Date startDate = DateFormatter.stringToDate(this.XMLParser.getValueByNodeName(insuranceContractNode, "startDate"));
                     Date endDate = DateFormatter.stringToDate(this.XMLParser.getValueByNodeName(insuranceContractNode, "endDate"));
+                    List<String> treatmentCodesString = this.XMLParser.getSubnodeValuesByName(insuranceContractNode, "coveredTreatment");
 
                     if (searchPattern.equals(BSN)) {
-                        insuranceContracts.add(new InsuranceContract(BSN, ownRisk, clientName, insuranceID, startDate, endDate));
+                        insuranceContracts.add(new InsuranceContract(BSN, ownRisk, clientName, insuranceID, startDate, endDate, treatmentCodesString));
                     }
                 }
             }

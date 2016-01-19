@@ -109,7 +109,6 @@ public class Main {
             System.out.println(e.toString());
         }
         
-        InvoiceGeneratorTask task = new InvoiceGeneratorTask();
         
         if(RMI) {
             try {
@@ -133,6 +132,8 @@ public class Main {
                 System.out.println("NotBoundException: " + e.getMessage());
             }
         }
+        
+        InvoiceGeneratorTask task = new InvoiceGeneratorTask();
     }
 
     public static PhysioServerInterface getPhysioInterface() {

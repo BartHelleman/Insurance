@@ -288,7 +288,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
 
         // If everything is correct, add member
         if (startDate != null && endDate != null && startDate.before(endDate) && ownRisk != null) {
-            insuranceContracts.add(new InsuranceContract(client.getBSN(), ownRisk, name, insuranceID, startDate, endDate));
+            insuranceContracts.add(new InsuranceContract(client.getBSN(), ownRisk, name, insuranceID, startDate, endDate, null));
             insuranceContracts.stream().forEach(p -> {
                 try {
                     invoiceManager.addInsuranceContract(p);

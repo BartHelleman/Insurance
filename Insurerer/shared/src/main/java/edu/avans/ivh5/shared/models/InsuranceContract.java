@@ -3,6 +3,7 @@ package edu.avans.ivh5.shared.models;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class InsuranceContract implements Serializable {
 
@@ -12,14 +13,16 @@ public class InsuranceContract implements Serializable {
     private int insuranceID;
     private Date startDate;
     private Date endDate;
+    private List<String> coveredTreatments;
 
-    public InsuranceContract(String BSN, BigDecimal ownRisk, String clientName, int insuranceID, Date startDate, Date endDate) {
+    public InsuranceContract(String BSN, BigDecimal ownRisk, String clientName, int insuranceID, Date startDate, Date endDate, List<String> coveredTreatments) {
         this.BSN = BSN;
         this.ownRisk = ownRisk;
         this.clientName = clientName;
         this.insuranceID = insuranceID;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.coveredTreatments = coveredTreatments;
     }
     
     public String getBSN() {
@@ -55,6 +58,10 @@ public class InsuranceContract implements Serializable {
 
     public Date getEndDate() {
         return endDate;
+    }
+
+    public List<String> getCoveredTreatments() {
+        return coveredTreatments;
     }
     
 }

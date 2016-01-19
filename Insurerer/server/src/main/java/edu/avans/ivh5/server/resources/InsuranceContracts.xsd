@@ -11,6 +11,13 @@
               <xs:element type="xs:integer" name="insuranceID"/>
               <xs:element type="xs:date" name="startDate"/>
               <xs:element type="xs:date" name="endDate"/>
+              <xs:element name="coveredTreatments">
+                  <xs:complexType>
+                      <xs:sequence>
+                          <xs:element type="xs:string" name="coveredTreatment" maxOccurs="unbounded" minOccurs="0"/>
+                      </xs:sequence>
+                  </xs:complexType>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
