@@ -28,6 +28,8 @@ public class Invoice implements Serializable {
     
     private BigDecimal deductible;
     private BigDecimal amountToPay;
+    
+    private boolean paid;
 
     public Invoice(int invoiceNumber, Date date, Date expirationDate, BigDecimal VAT, String treatmentStatus, Treatment treatment) {
         this.invoiceNumber = invoiceNumber;
@@ -37,7 +39,7 @@ public class Invoice implements Serializable {
         this.treatmentStatus = treatmentStatus;
     }
 
-    public Invoice(int invoiceNumber, Date date, Date expirationDate, BigDecimal VAT, String treatmentStatus, String BSN, String clientName, String clientAddress, String clientPostcodeCity, String companyName, String companyAddress, String companyPostcodeCity, String companyKVK, String amountSessions, String pricePerSession, String treatmentCode, BigDecimal deductible, BigDecimal amountToPay) {
+    public Invoice(int invoiceNumber, Date date, Date expirationDate, BigDecimal VAT, String treatmentStatus, String BSN, String clientName, String clientAddress, String clientPostcodeCity, String companyName, String companyAddress, String companyPostcodeCity, String companyKVK, String amountSessions, String pricePerSession, String treatmentCode, BigDecimal deductible, BigDecimal amountToPay, boolean paid) {
         this.invoiceNumber = invoiceNumber;
         this.date = date;
         this.expirationDate = expirationDate;
@@ -56,6 +58,7 @@ public class Invoice implements Serializable {
         this.treatmentCode = treatmentCode;
         this.deductible = deductible;
         this.amountToPay = amountToPay;
+        this.paid = paid;
         
         BigDecimal vatPercentage = VAT.divide(new BigDecimal("100"));
         vatPercentage = vatPercentage.add(new BigDecimal("1"));
@@ -149,6 +152,10 @@ public class Invoice implements Serializable {
 
     public BigDecimal getAmountToPay() {
         return amountToPay;
+    }
+    
+    public boolean getPaid() {
+        return paid;
     }
     
     
