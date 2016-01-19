@@ -115,10 +115,6 @@ public class InvoiceDAO implements DAOInterface {
             amountToPay.appendChild(amountToPayText);
             invoiceNode.appendChild(amountToPay);
             
-            Element paid = this.XMLParser.createElement("paid");
-            Text paidText = this.XMLParser.createTextNode(Boolean.toString(invoice.getPaid()));
-            paid.appendChild(paidText);
-            invoiceNode.appendChild(paid);
             
             this.XMLParser.addNode(invoiceNode);
             DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
@@ -171,10 +167,9 @@ public class InvoiceDAO implements DAOInterface {
             String treatmentCode = this.XMLParser.getValueByNodeName(invoiceNode, "treatmentCode");
             BigDecimal deductible = new BigDecimal(this.XMLParser.getValueByNodeName(invoiceNode, "deductible"));
             BigDecimal amountToPay = new BigDecimal(this.XMLParser.getValueByNodeName(invoiceNode, "amountToPay"));
-            boolean paid = Boolean.getBoolean(this.XMLParser.getValueByNodeName(invoiceNode, "paid"));
             
             //invoices.add(new Invoice(invoiceNumber, date, expirationDate, VAT,treatmentStatus, null));
-            invoices.add(new Invoice(invoiceNumber, date, expirationDate, VAT, treatmentStatus, BSN, clientName, clientAddress, clientPostcodeCity, companyName, companyAddress, companyPostcodeCity, companyKVK, amountSessions, pricePerSession, treatmentCode, deductible, amountToPay, paid));
+            invoices.add(new Invoice(invoiceNumber, date, expirationDate, VAT, treatmentStatus, BSN, clientName, clientAddress, clientPostcodeCity, companyName, companyAddress, companyPostcodeCity, companyKVK, amountSessions, pricePerSession, treatmentCode, deductible, amountToPay));
         }
         
         return invoices;

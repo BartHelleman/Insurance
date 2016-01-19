@@ -10,9 +10,6 @@
         <insuranceID>001</insuranceID>
         <startDate>2015-10-10</startDate>
         <endDate>2016-12-10</endDate>
-        <coveredTreatments>
-            <coveredTreatment>002behandelcode002</coveredTreatment>
-        </coveredTreatments>
     </contract>    
 
     <contract>
@@ -22,9 +19,6 @@
         <insuranceID>002</insuranceID>
         <startDate>2015-09-15</startDate>
         <endDate>2016-11-18</endDate>
-        <coveredTreatments>
-            <coveredTreatment>003behandelcode003</coveredTreatment>
-        </coveredTreatments>
     </contract> 
     
     <contract>
@@ -34,9 +28,5 @@
         <insuranceID>003</insuranceID>
         <startDate>2015-08-05</startDate>
         <endDate>2016-12-28</endDate>
-        <coveredTreatments>
-            <coveredTreatment>001behandelcode001</coveredTreatment>
-            <coveredTreatment>002behandelcode002</coveredTreatment>
-        </coveredTreatments>
     </contract>           
 </contracts>

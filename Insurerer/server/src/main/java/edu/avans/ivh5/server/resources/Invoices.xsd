@@ -25,7 +25,6 @@
                             <xs:element type="xs:string" name="treatmentCode"/>
                             <xs:element type="xs:string" name="deductible"/>
                             <xs:element type="xs:string" name="amountToPay"/>
-                            <xs:element type="xs:boolean" name="paid"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>

@@ -188,7 +188,7 @@ public class ClientImpl implements ClientInterface {
         if (insuranceContractDAO.get(client.getBSN()).size() == 1) {
             insuranceContract = (InsuranceContract) insuranceContractDAO.get(client.getBSN()).get(0);
         } else {
-            insuranceContract = new InsuranceContract(null, null, client.getBSN(), 0, null, null, null);
+            insuranceContract = new InsuranceContract(null, null, client.getBSN(), 0, null, null);
         }
 
         return insuranceContract;
