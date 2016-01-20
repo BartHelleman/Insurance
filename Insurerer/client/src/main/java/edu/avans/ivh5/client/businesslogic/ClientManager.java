@@ -4,6 +4,7 @@ import edu.avans.ivh5.client.main.RmiMain;
 import edu.avans.ivh5.server.dao.ClientDAO;
 import edu.avans.ivh5.server.dao.InsuranceContractDAO;
 import edu.avans.ivh5.shared.models.Client;
+import edu.avans.ivh5.shared.models.Invoice;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class ClientManager {
 
 
 
-public boolean deleteClient(String clientBSN) throws RemoteException {
+    public boolean deleteClient(String clientBSN) throws RemoteException {
         return RmiMain.getRmiInterface().deleteClient(clientBSN);
     }
 
@@ -49,6 +50,11 @@ public boolean deleteClient(String clientBSN) throws RemoteException {
        
         return RmiMain.getRmiInterface().hadInsuranceContract(client);
         
+    }
+    
+    public List<Invoice> getInvoices(Client client) throws RemoteException {
+
+        return RmiMain.getRmiInterface().getInvoices(client);
     }
 
 }

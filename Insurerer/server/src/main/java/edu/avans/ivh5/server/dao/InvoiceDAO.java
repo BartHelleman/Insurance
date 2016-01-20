@@ -15,110 +15,110 @@ public class InvoiceDAO implements DAOInterface {
 
     private XMLParser XMLParser;
 
-    public InvoiceDAO() throws ParserConfigurationException, SAXException, IOException{
-            this.XMLParser = new XMLParser("Invoices.xml", "Invoices.xsd");
+    public InvoiceDAO() throws ParserConfigurationException, SAXException, IOException {
+        this.XMLParser = new XMLParser("Invoices.xml", "Invoices.xsd");
     }
-    
+
     @Override
     public boolean add(Object item) {
-        if(item instanceof Invoice) {
-            Invoice invoice = (Invoice)item;
+        if (item instanceof Invoice) {
+            Invoice invoice = (Invoice) item;
             Element invoiceNode = this.XMLParser.createElement("invoice");
-            
+
             Element invoiceNumber = this.XMLParser.createElement("invoiceNumber");
             Text invoiceNumberText = this.XMLParser.createTextNode(Integer.toString(invoice.getInvoiceNumber()));
             invoiceNumber.appendChild(invoiceNumberText);
             invoiceNode.appendChild(invoiceNumber);
-            
+
             Element invoiceDate = this.XMLParser.createElement("date");
             Text invoiceDateText = this.XMLParser.createTextNode(DateFormatter.dateToString(invoice.getDate()));
             invoiceDate.appendChild(invoiceDateText);
             invoiceNode.appendChild(invoiceDate);
-            
+
             Element expirationDate = this.XMLParser.createElement("expirationDate");
             Text expirationDateText = this.XMLParser.createTextNode(DateFormatter.dateToString(invoice.getExpirationDate()));
             expirationDate.appendChild(expirationDateText);
             invoiceNode.appendChild(expirationDate);
-            
+
             Element VAT = this.XMLParser.createElement("VAT");
             Text VATText = this.XMLParser.createTextNode(invoice.getVAT().toString());
             VAT.appendChild(VATText);
             invoiceNode.appendChild(VAT);
-            
+
             Element treatmentStatus = this.XMLParser.createElement("treatmentStatus");
             Text treatmentStatusText = this.XMLParser.createTextNode(invoice.getTreatmentStatus());
             treatmentStatus.appendChild(treatmentStatusText);
             invoiceNode.appendChild(treatmentStatus);
-            
+
             Element BSN = this.XMLParser.createElement("BSN");
             Text BSNText = this.XMLParser.createTextNode(invoice.getBSN());
             BSN.appendChild(BSNText);
             invoiceNode.appendChild(BSN);
-            
+
             Element clientName = this.XMLParser.createElement("clientName");
             Text clientNameText = this.XMLParser.createTextNode(invoice.getClientName());
             clientName.appendChild(clientNameText);
             invoiceNode.appendChild(clientName);
-            
+
             Element clientAddress = this.XMLParser.createElement("clientAddress");
             Text clientAddressText = this.XMLParser.createTextNode(invoice.getClientAddress());
             clientAddress.appendChild(clientAddressText);
             invoiceNode.appendChild(clientAddress);
-            
+
             Element clientPostcodeCity = this.XMLParser.createElement("clientPostcodeCity");
             Text clientPostcodeCityText = this.XMLParser.createTextNode(invoice.getClientPostcodeCity());
             clientPostcodeCity.appendChild(clientPostcodeCityText);
             invoiceNode.appendChild(clientPostcodeCity);
-            
+
             Element companyName = this.XMLParser.createElement("companyName");
             Text companyNameText = this.XMLParser.createTextNode(invoice.getCompanyName());
             companyName.appendChild(companyNameText);
             invoiceNode.appendChild(companyName);
-            
+
             Element companyAddress = this.XMLParser.createElement("companyAddress");
             Text companyAddressText = this.XMLParser.createTextNode(invoice.getCompanyAddress());
             companyAddress.appendChild(companyAddressText);
             invoiceNode.appendChild(companyAddress);
-            
+
             Element companyPostcodeCity = this.XMLParser.createElement("companyPostcodeCity");
             Text companyPostcodeCityText = this.XMLParser.createTextNode(invoice.getCompanyPostcodeCity());
             companyPostcodeCity.appendChild(companyPostcodeCityText);
             invoiceNode.appendChild(companyPostcodeCity);
-            
+
             Element companyKVK = this.XMLParser.createElement("companyKVK");
             Text companyKVKText = this.XMLParser.createTextNode(invoice.getCompanyKVK());
             companyKVK.appendChild(companyKVKText);
             invoiceNode.appendChild(companyKVK);
-            
+
             Element amountSessions = this.XMLParser.createElement("amountSessions");
             Text amountSessionsText = this.XMLParser.createTextNode(invoice.getAmountSessions());
             amountSessions.appendChild(amountSessionsText);
             invoiceNode.appendChild(amountSessions);
-            
+
             Element pricePerSession = this.XMLParser.createElement("pricePerSession");
             Text pricePerSessionText = this.XMLParser.createTextNode(invoice.getPricePerSession());
             pricePerSession.appendChild(pricePerSessionText);
             invoiceNode.appendChild(pricePerSession);
-            
+
             Element treatmentCode = this.XMLParser.createElement("treatmentCode");
             Text treatmentCodeText = this.XMLParser.createTextNode(invoice.getTreatmentCode());
             treatmentCode.appendChild(treatmentCodeText);
             invoiceNode.appendChild(treatmentCode);
-            
+
             Element deductible = this.XMLParser.createElement("deductible");
             Text deductibleText = this.XMLParser.createTextNode(invoice.getDeductible().toString());
             deductible.appendChild(deductibleText);
             invoiceNode.appendChild(deductible);
-            
+
             Element amountToPay = this.XMLParser.createElement("amountToPay");
             Text amountToPayText = this.XMLParser.createTextNode(invoice.getAmountToPay().toString());
             amountToPay.appendChild(amountToPayText);
             invoiceNode.appendChild(amountToPay);
-            
-            Element paid = this.XMLParser.createElement("paid");
-            Text paidText = this.XMLParser.createTextNode(Boolean.toString(invoice.isPaid()));
+
+            Element paid = this.XMLParser.createElement("paid");   
+            Text paidText = this.XMLParser.createTextNode(invoice.isPaid() ? "true" : "false");
             paid.appendChild(paidText);
-            invoiceNode.appendChild(paid);         
+            invoiceNode.appendChild(paid);
             
             this.XMLParser.addNode(invoiceNode);
             DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
@@ -130,28 +130,58 @@ public class InvoiceDAO implements DAOInterface {
 
     @Override
     public List<Object> get(Object value) {
-        if(value instanceof String) {
-            return getInvoices((String)value);
-        }
-        else
+        if (value instanceof String) {
+            return getInvoices((String) value);
+        } else {
             throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Override
     public boolean change(Object oldObject, Object newObject) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        //if(delete(((Insurance)oldObject)))
+        if (!(newObject instanceof Invoice) || !(oldObject instanceof Invoice)) {
+            throw new RuntimeException("Old and new Invoices must be Invoice objects");
+        }
+        Invoice oldInvoice = (Invoice) oldObject;
+        Invoice newInvoice = (Invoice) newObject;
+
+        // First chek if it could be deleted. If it can, check if it could be added
+        if (delete(oldInvoice.getInvoiceNumber())) {
+            return add(newInvoice);
+        }
+        return false;
     }
 
     @Override
     public boolean delete(Object value) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Object> result;
+
+        if (value instanceof String) {
+          result = get(value.toString());
+        } else if (value instanceof Invoice) {
+            Invoice invoice = (Invoice) value;
+            result = get(invoice.getInvoiceNumber());
+        } else {
+            return false;
+        }
+        // check
+        if (result == null || result.size() != 1) {
+            return false;
+        }
+
+        Invoice invoiceToDelete = (Invoice) result.get(0);
+        List<Node> nodes = this.XMLParser.findElementsByName("invoice", Integer.toString(invoiceToDelete.getInvoiceNumber()));
+        nodes.stream().forEach((node) -> {
+            this.XMLParser.deleteNode(node);
+        });
+        DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
+        return true;
     }
-    
+
     private List<Object> getInvoices(String searchPattern) {
         List<Object> invoices = new ArrayList<>();
         List<Node> invoiceNodes = this.XMLParser.findElementsByName("invoice", searchPattern);
-        
+
         for (Node invoiceNode : invoiceNodes) {
             int invoiceNumber = Integer.parseInt(this.XMLParser.getValueByNodeName(invoiceNode, "invoiceNumber"));
             Date date = DateFormatter.stringToDate(this.XMLParser.getValueByNodeName(invoiceNode, "date"));
@@ -171,18 +201,17 @@ public class InvoiceDAO implements DAOInterface {
             String treatmentCode = this.XMLParser.getValueByNodeName(invoiceNode, "treatmentCode");
             BigDecimal deductible = new BigDecimal(this.XMLParser.getValueByNodeName(invoiceNode, "deductible"));
             BigDecimal amountToPay = new BigDecimal(this.XMLParser.getValueByNodeName(invoiceNode, "amountToPay"));
-            boolean paid = Boolean.getBoolean(this.XMLParser.getValueByNodeName(invoiceNode, "paid"));
-            
+            boolean paid = Boolean.valueOf(this.XMLParser.getValueByNodeName(invoiceNode, "paid"));
+
             //invoices.add(new Invoice(invoiceNumber, date, expirationDate, VAT,treatmentStatus, null));
             invoices.add(new Invoice(invoiceNumber, date, expirationDate, VAT, treatmentStatus, BSN, clientName, clientAddress, clientPostcodeCity, companyName, companyAddress, companyPostcodeCity, companyKVK, amountSessions, pricePerSession, treatmentCode, deductible, amountToPay, paid));
         }
-        
+
         return invoices;
     }
-    
-    public int generateInvoiceNumber()
-    {
+
+    public int generateInvoiceNumber() {
         return new Random().nextInt(1000000);
     }
-     
+
 }

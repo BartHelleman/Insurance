@@ -531,7 +531,7 @@
                   <Table columnCount="3" rowCount="3">
                     <Column editable="false" title="Behandelcode" type="java.lang.Object"/>
                     <Column editable="true" title="Einddatum behandeling" type="java.lang.Object"/>
-                    <Column editable="true" title="Betaald?" type="java.lang.Boolean"/>
+                    <Column editable="true" title="Betaald" type="java.lang.Boolean"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

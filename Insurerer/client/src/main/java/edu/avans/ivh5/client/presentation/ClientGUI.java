@@ -97,7 +97,7 @@ public class ClientGUI extends javax.swing.JFrame {
 
                         DefaultTableModel tableModel = (DefaultTableModel) treatmentsTable.getModel();
                         try {
-                            invoices = RmiMain.getRmiInterface().getInvoices(selectedClient);
+                            invoices = clientManager.getInvoices(selectedClient);
                         }
                         catch(RemoteException e)
                         {
@@ -109,7 +109,7 @@ public class ClientGUI extends javax.swing.JFrame {
                         
                         for (int i = 0; i < invoices.size(); i++) {
                             Invoice invoice = invoices.get(i);
-                            tableModel.addRow(new Object[] {invoice.getTreatmentCode(), DateFormatter.dateToString(invoice.getDate())});
+                            tableModel.addRow(new Object[] {invoice.getTreatmentCode(), DateFormatter.dateToString(invoice.getDate()), invoice.isPaid()});
                         }
 
                     } catch (RemoteException e) {
@@ -313,7 +313,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 {null, null, null}
             },
             new String [] {
-                "Behandelcode", "Einddatum behandeling", "Betaald?"
+                "Behandelcode", "Einddatum behandeling", "Betaald"
             }
         ) {
             Class[] types = new Class [] {
@@ -653,7 +653,7 @@ public class ClientGUI extends javax.swing.JFrame {
         String email = clientEmailTextField.getText();
         String tel = clientTelTextField.getText();
         Client client = new Client(BSN, name, firstName, city, postcode, address, IBAN, incasso, email, tel);
-
+                
         boolean validBSN = isValidBSN(BSN);
         boolean validPostCode = isValidPostCode(postcode);
         boolean validAddress = isValidAddress(address);
@@ -727,11 +727,16 @@ public class ClientGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Het ingevoerde IBAN nummer is onjuist. Controleer uw invoer.", "Onjuist IBAN nummer", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        
+        
         /**
          * client succesfully added message
          */
         if (selectedClient != null) {
             try {
+
+                
                 if (clientManager.changeClient(selectedClient, client)) {
                     JOptionPane.showMessageDialog(null, "De client is succesvol gewijzigd.", "Gewijzigd", JOptionPane.INFORMATION_MESSAGE);
                     searchClientButton.doClick();
@@ -739,6 +744,8 @@ public class ClientGUI extends javax.swing.JFrame {
             } catch (RemoteException e) {
                 JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
             }
+            
+            
 
             emptyTextFields();
             clientPanel.setVisible(false);
