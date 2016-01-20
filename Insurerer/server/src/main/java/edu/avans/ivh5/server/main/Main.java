@@ -109,7 +109,7 @@ public class Main {
             System.out.println(e.toString());
         }
         
-        InvoiceGeneratorTask task = new InvoiceGeneratorTask();
+        //InvoiceGeneratorTask task = new InvoiceGeneratorTask();
         
         if(RMI) {
             try {
