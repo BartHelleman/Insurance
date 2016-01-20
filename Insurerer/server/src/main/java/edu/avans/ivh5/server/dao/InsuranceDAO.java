@@ -67,6 +67,10 @@ public class InsuranceDAO implements DAOInterface {
         if (value instanceof String) {
             return getInsurances((String) value);
         }
+        else if(value instanceof Insurance)
+        {
+            return getInsurances(((Insurance)value).getID());
+        }
 
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -79,7 +83,7 @@ public class InsuranceDAO implements DAOInterface {
         Insurance oldInsurance = (Insurance)oldObject;
         Insurance newInsurance = (Insurance)newObject;
         
-        if(delete(oldInsurance.getName()))
+        if(delete(oldInsurance.getID()))
             return add(newInsurance);
         return false;
     }
@@ -88,7 +92,6 @@ public class InsuranceDAO implements DAOInterface {
     public boolean delete(Object searchPattern) {
         List<Insurance> insurances = new ArrayList<>();
         List<Object> result = get(searchPattern);
-        insurances.clear();
 
         for (Object o : result) {
             insurances.add((Insurance) o);

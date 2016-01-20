@@ -116,7 +116,7 @@ public class InvoiceDAO implements DAOInterface {
             invoiceNode.appendChild(amountToPay);
             
             Element paid = this.XMLParser.createElement("paid");
-            Text paidText = this.XMLParser.createTextNode(Boolean.toString(invoice.getPaid()));
+            Text paidText = this.XMLParser.createTextNode(Boolean.toString(invoice.isPaid()));
             paid.appendChild(paidText);
             invoiceNode.appendChild(paid);         
             
