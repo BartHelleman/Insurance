@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.avans.ivh5.client.businesslogic;
 
+import edu.avans.ivh5.client.main.RmiMain;
 import edu.avans.ivh5.shared.models.InsuranceCompany;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
@@ -15,10 +11,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-/**
- *
- * @author Burak
- */
 public class InsuranceCompanyManagerTest {
 
     private InsuranceCompanyManager manager;
@@ -36,6 +28,7 @@ public class InsuranceCompanyManagerTest {
 
     @Before
     public void setUp() {
+        RmiMain.main(new String[0]);
         manager = new InsuranceCompanyManager();
     }
 

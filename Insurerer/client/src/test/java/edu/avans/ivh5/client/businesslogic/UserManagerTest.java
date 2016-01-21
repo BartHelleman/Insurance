@@ -1,27 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.avans.ivh5.client.businesslogic;
 
+import edu.avans.ivh5.client.main.RmiMain;
 import edu.avans.ivh5.client.presentation.UserGUI;
+import edu.avans.ivh5.shared.models.User;
+import edu.avans.ivh5.shared.util.BCrypt;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-/**
- *
- * @author Burak
- */
 public class UserManagerTest {
 
-    private UserManager manager;
-    private UserGUI userGUI;
     private UserManager userManager;
     private LoginManager loginManager;
+    private User user;
+    String password;
+    String username;
 
     public UserManagerTest() {
     }
@@ -36,8 +34,13 @@ public class UserManagerTest {
 
     @Before
     public void setUp() {
-        userGUI = new UserGUI();
+        RmiMain.main(new String[0]);
+        loginManager = new LoginManager();
         userManager = new UserManager();
+
+        username = "testPersoon2";
+        password = "testWachtwoord2";
+        user = new User(username, BCrypt.hashpw(password, BCrypt.gensalt()));
     }
 
     @After
@@ -45,10 +48,20 @@ public class UserManagerTest {
     }
 
     @Test
-    public void testPasswordValid() {
-        String password = "Bakels";
+    public void testCreateAccount() {
+        try {
+         
+            userManager.createAccount(user);
+        } catch (RemoteException ex) {
+            Logger.getLogger(UserManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        assert (userGUI.passwordValid(password) == true);
+        try {
+            assert (loginManager.login(username, password) == true);
+            
+        } catch (RemoteException ex) {
+            Logger.getLogger(UserManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
