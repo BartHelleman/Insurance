@@ -59,6 +59,10 @@ public class InvoiceManagerTest {
     public void tearDown() {
     }
 
+    /*
+    Making sure the get function works by making sure a new insurancecontract can not by found the first time, but it can after adding it.
+    Deleting it after and testing the get function again.
+    */
     @Test
     public void testGetInsuranceContract() {
         try {
@@ -80,6 +84,10 @@ public class InvoiceManagerTest {
         }
     }
 
+    /*
+    Making sure insuranceContract does not exists and checking if the add function does what we want.
+    Deleting the insuranceContract afterwards.
+    */
     @Test
     public void testAddInsuranceContract() {
         try {
@@ -96,6 +104,10 @@ public class InvoiceManagerTest {
         }
     }
 
+    /*
+    Making sure insuranceContract does not exists and adding one after it to be able to test the delete function.
+    Testing the delete function by searching for the contract afterwards again.
+    */
     @Test
     public void testDeleteInsuranceContract() {
         try {

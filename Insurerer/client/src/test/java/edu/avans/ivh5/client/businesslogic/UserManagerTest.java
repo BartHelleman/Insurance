@@ -47,10 +47,14 @@ public class UserManagerTest {
     public void tearDown() {
     }
 
+    /*
+     Trying to create a new account with an username and an encrypted password (encrypting happens in the GUI, but we are not testing that one)
+     Checking if it succeeded by trying to log in with the new account.
+     */
     @Test
     public void testCreateAccount() {
         try {
-         
+
             userManager.createAccount(user);
         } catch (RemoteException ex) {
             Logger.getLogger(UserManagerTest.class.getName()).log(Level.SEVERE, null, ex);
@@ -58,7 +62,7 @@ public class UserManagerTest {
 
         try {
             assert (loginManager.login(username, password) == true);
-            
+
         } catch (RemoteException ex) {
             Logger.getLogger(UserManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }

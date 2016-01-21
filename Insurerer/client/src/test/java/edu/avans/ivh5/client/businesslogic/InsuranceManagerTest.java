@@ -40,13 +40,16 @@ public class InsuranceManagerTest {
         treatments.add("123456");
         insurance = new Insurance("015", "Zorgverzekering BartHelleman", new BigDecimal("300"), treatments);
         insurance3 = new Insurance("017", "Zorgverzekering IETS", new BigDecimal("50"), treatments);
-        insurance2 = new Insurance("023", "Zorgverzekering Kat", new BigDecimal("150"), treatments);
+        insurance2 = new Insurance("024", "Zorgverzekering Poes", new BigDecimal("150"), treatments);
     }
 
     @After
     public void tearDown() {
     }
 
+    /*
+     Testing if the search function keeps on working even after adding and deleteing Insurances. 
+     */
     @Test
     public void testSearchInsurance() {
         try {
@@ -95,6 +98,11 @@ public class InsuranceManagerTest {
         assert (foundInsurances2.isEmpty());
     }
 
+    /*
+     Checking if insurance already exists.
+     Adding a new insurance and searching for it again to see if it succeeded.
+     Deleting it afterwards.
+     */
     @Test
     public void testAddInsurance() {
         List<Insurance> beforeAdding = null;
@@ -124,6 +132,12 @@ public class InsuranceManagerTest {
         }
     }
 
+    /*
+     Making sure insurance does not already exists.
+     Adding it and making sure it worked.
+     Making a new insurance which we use to change the old insurance with.
+     Making sure the change worked and deleting it afterwards.
+     */
     @Test
     public void testChangeInsurance() {
         List<String> treatments = new ArrayList();
@@ -158,7 +172,7 @@ public class InsuranceManagerTest {
             Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        assert (result.size() > 0);
+        assert (result.size() > 0 && !afterAdding.get(0).getID().equals(result.get(0).getID()));
 
         try {
             manager.deleteInsurance(newInsurance.getID());
@@ -168,6 +182,10 @@ public class InsuranceManagerTest {
 
     }
 
+    /*
+     Checking if insurance exists and adding it.
+     Checking if the delete works by searching it afterwards again.
+     */
     @Test
     public void testDeleteInsurance() {
         try {

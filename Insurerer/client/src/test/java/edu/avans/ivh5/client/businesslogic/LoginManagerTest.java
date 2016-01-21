@@ -35,6 +35,10 @@ public class LoginManagerTest {
     public void tearDown() {
     }
 
+    /*
+     Testing login function by giving the method the data from an existing account.
+     Checking if login succeeded.
+     */
     @Test
     public void testLogin() {
         String username = "Rico";
@@ -47,6 +51,9 @@ public class LoginManagerTest {
         }
     }
 
+    /*
+     Logging out, no way to really check if it succeeded because of a void type
+     */
     @Test
     public void testLogout() {
         manager.logout();

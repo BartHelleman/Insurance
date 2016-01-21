@@ -36,24 +36,37 @@ public class InsuranceCompanyManagerTest {
     public void tearDown() {
     }
 
+    /*
+     Getting insuranceCompany data and making sure it actually returned something
+     */
     @Test
     public void testGetInsuranceCompany() {
+        InsuranceCompany insuranceCompany = null;
         try {
-            manager.getInsuranceCompany();
+            insuranceCompany = manager.getInsuranceCompany();
         } catch (RemoteException ex) {
             Logger.getLogger(InsuranceCompanyManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
+        assert (insuranceCompany.getName() != null);
     }
 
+    /*
+     Creating a new InsuranceCompany which will be used later.
+     Checking old data and changing the data after it.
+     Checking if the data got changed.
+     */
     @Test
     public void testChange() {
         Object beforeChange = null;
+        InsuranceCompany beforeIC = null;
         try {
             beforeChange = manager.getInsuranceCompany();
         } catch (RemoteException ex) {
             Logger.getLogger(InsuranceCompanyManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Object newObject = new InsuranceCompany("Zorg4U", "Breda", "1234AB", "Breda", "0123456789");
+        beforeIC = (InsuranceCompany) beforeChange;
+
+        Object newObject = new InsuranceCompany("Arfer", "Eindhoven", "1234AB", "Eindhoven", "0123456789");
 
         try {
             manager.changeInsuranceCompany(beforeChange, newObject);
@@ -62,11 +75,14 @@ public class InsuranceCompanyManagerTest {
         }
 
         Object afterChange = null;
+        InsuranceCompany afterIC = null;
         try {
             afterChange = manager.getInsuranceCompany();
         } catch (RemoteException ex) {
             Logger.getLogger(InsuranceCompanyManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        assert (beforeChange != null && afterChange != null);
+        afterIC = (InsuranceCompany) afterChange;
+
+        assert (beforeChange != null && afterChange != null && !afterIC.getName().equals(beforeIC.getName()));
     }
 }
