@@ -27,12 +27,7 @@ public class InsuranceGUI extends javax.swing.JFrame {
      * @param insuranceManager
      */
     public InsuranceGUI() {
-//treatmentCodes.add("5");
-//treatmentCodes.add("6");
         initComponents();
-        this.setVisible(true);
-        this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-
     }
 
     @SuppressWarnings("unchecked")
