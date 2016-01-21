@@ -231,20 +231,29 @@ public class ClientImpl implements ClientInterface {
 
     }
 
-
+    /**
+     * Subtracts deductible of a client by a certain amount
+     * @param client Client whose deductible needs to decrease
+     * @param amountToReduce Amount of money that needs to be taken off
+     * @return An array where the first value says how much money doesn't fit in the deductible anymore, and second value is the current deductible (that's left)
+     */
     public static BigDecimal[] subtractDeductible(Client client, BigDecimal amountToReduce) {
         List<Object> insuranceContract = insuranceContractDAO.get(client.getBSN());
         
         if(insuranceContract.size() > 0)
         {
             InsuranceContract contract = (InsuranceContract)insuranceContract.get(0);
-            contract.setOwnRisk(contract.getOwnRisk().subtract(amountToReduce));
+            contract.setOwnRisk(contract.getOwnRisk().subtract(amountToReduce)); // own risk = own risk - cost
             
             BigDecimal retVal = contract.getOwnRisk();
-            if(contract.getOwnRisk().compareTo(BigDecimal.ZERO) == -1)
+            if(contract.getOwnRisk().compareTo(BigDecimal.ZERO) == -1) // if less than 0
             {
-                retVal = contract.getOwnRisk().abs();
+                retVal = contract.getOwnRisk().abs(); // The value in the negative is what goes beyond your deductible, aka the reimbursed amount
                 contract.setOwnRisk(BigDecimal.ZERO);
+            }
+            else
+            {
+                retVal = BigDecimal.ZERO;
             }
             insuranceContractDAO.change(contract, contract);
             BigDecimal[] d = new BigDecimal[2];

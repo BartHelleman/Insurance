@@ -27,7 +27,9 @@ public class Invoice implements Serializable {
     private BigDecimal totalPrice;
     
     private BigDecimal deductible;
+    private BigDecimal oldDeductible;
     private BigDecimal amountToPay;
+    private BigDecimal amountReimbursed;
     
     private boolean paid;
 
@@ -39,7 +41,7 @@ public class Invoice implements Serializable {
         this.treatmentStatus = treatmentStatus;
     }
 
-    public Invoice(int invoiceNumber, Date date, Date expirationDate, BigDecimal VAT, String treatmentStatus, String BSN, String clientName, String clientAddress, String clientPostcodeCity, String companyName, String companyAddress, String companyPostcodeCity, String companyKVK, String amountSessions, String pricePerSession, String treatmentCode, BigDecimal deductible, BigDecimal amountToPay, boolean paid) {
+    public Invoice(int invoiceNumber, Date date, Date expirationDate, BigDecimal VAT, String treatmentStatus, String BSN, String clientName, String clientAddress, String clientPostcodeCity, String companyName, String companyAddress, String companyPostcodeCity, String companyKVK, String amountSessions, String pricePerSession, String treatmentCode, BigDecimal deductible, BigDecimal amountToPay, boolean paid, BigDecimal oldDeductible, BigDecimal amountReimbursed) {
         this.invoiceNumber = invoiceNumber;
         this.date = date;
         this.expirationDate = expirationDate;
@@ -59,6 +61,8 @@ public class Invoice implements Serializable {
         this.deductible = deductible;
         this.amountToPay = amountToPay;
         this.paid = paid;
+        this.oldDeductible = oldDeductible;
+        this.amountReimbursed = amountReimbursed;
         
         BigDecimal vatPercentage = VAT.divide(new BigDecimal("100"));
         vatPercentage = vatPercentage.add(new BigDecimal("1"));
@@ -156,6 +160,14 @@ public class Invoice implements Serializable {
 
     public boolean isPaid() {
         return paid;
+    }
+
+    public BigDecimal getOldDeductible() {
+        return oldDeductible;
+    }
+
+    public BigDecimal getAmountReimbursed() {
+        return amountReimbursed;
     }
     
 }

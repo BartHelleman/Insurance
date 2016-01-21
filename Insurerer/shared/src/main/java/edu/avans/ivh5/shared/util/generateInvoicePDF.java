@@ -12,6 +12,7 @@ import com.itextpdf.text.pdf.*;
 import edu.avans.ivh5.shared.models.Client;
 import java.io.FileOutputStream;
 import edu.avans.ivh5.shared.models.*;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.util.UUID;
 
@@ -125,14 +126,15 @@ public class generateInvoicePDF {
 
         //cell.setColspan(3);
         // table.addCell(cell);
-        table.addCell("Eigenrisco");
+        
+        table.addCell("Oude eigenrisico");
+        table.addCell("Vergoede bedrag");
+        table.addCell("€ " + invoice.getOldDeductible().toString());
+        table.addCell("€ " + invoice.getAmountReimbursed());
+        table.addCell("Huidige eigenrisco");
         table.addCell("Te betalen");
         table.addCell("€ " + invoice.getDeductible().toString());
         table.addCell("€ " + invoice.getAmountToPay().toString());
-        table.addCell(" ");
-        table.addCell(" ");
-        table.addCell(" ");
-        table.addCell(" ");
         table.addCell(" ");
         table.addCell(" ");
         table.addCell(" ");

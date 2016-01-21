@@ -14,6 +14,8 @@ public class LoginGUI extends javax.swing.JFrame {
         this.setVisible(true);
         loginManager = new LoginManager();
         initComponents();
+        gebruikersnaamField.setText("Rico");
+        wachtwoordField.setText("Bakels");
     }
 
     /**

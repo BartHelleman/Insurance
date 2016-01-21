@@ -23,6 +23,8 @@
         <deductible>100</deductible>
         <amountToPay>50</amountToPay>
         <paid>false</paid>
+        <oldDeductible>100</oldDeductible>
+        <amountReimbursed>0</amountReimbursed>
     </invoice>
     
 </invoices>

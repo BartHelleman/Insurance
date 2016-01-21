@@ -119,6 +119,16 @@ public class InvoiceDAO implements DAOInterface {
             Text paidText = this.XMLParser.createTextNode(invoice.isPaid() ? "true" : "false");
             paid.appendChild(paidText);
             invoiceNode.appendChild(paid);
+
+            Element oldDeductible = this.XMLParser.createElement("oldDeductible");
+            Text oldDeductibleText = this.XMLParser.createTextNode(invoice.getOldDeductible().toString());
+            oldDeductible.appendChild(oldDeductibleText);
+            invoiceNode.appendChild(oldDeductible);
+            
+            Element amountReimbursed = this.XMLParser.createElement("amountReimbursed");
+            Text amountReimbursedText = this.XMLParser.createTextNode(invoice.getAmountReimbursed().toString());
+            amountReimbursed.appendChild(amountReimbursedText);
+            invoiceNode.appendChild(amountReimbursed);
             
             this.XMLParser.addNode(invoiceNode);
             DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
@@ -202,9 +212,11 @@ public class InvoiceDAO implements DAOInterface {
             BigDecimal deductible = new BigDecimal(this.XMLParser.getValueByNodeName(invoiceNode, "deductible"));
             BigDecimal amountToPay = new BigDecimal(this.XMLParser.getValueByNodeName(invoiceNode, "amountToPay"));
             boolean paid = Boolean.valueOf(this.XMLParser.getValueByNodeName(invoiceNode, "paid"));
-
+            BigDecimal oldDeductible = new BigDecimal(this.XMLParser.getValueByNodeName(invoiceNode, "oldDeductible"));
+            BigDecimal amountReimbursed = new BigDecimal(this.XMLParser.getValueByNodeName(invoiceNode, "amountReimbursed"));
+            
             //invoices.add(new Invoice(invoiceNumber, date, expirationDate, VAT,treatmentStatus, null));
-            invoices.add(new Invoice(invoiceNumber, date, expirationDate, VAT, treatmentStatus, BSN, clientName, clientAddress, clientPostcodeCity, companyName, companyAddress, companyPostcodeCity, companyKVK, amountSessions, pricePerSession, treatmentCode, deductible, amountToPay, paid));
+            invoices.add(new Invoice(invoiceNumber, date, expirationDate, VAT, treatmentStatus, BSN, clientName, clientAddress, clientPostcodeCity, companyName, companyAddress, companyPostcodeCity, companyKVK, amountSessions, pricePerSession, treatmentCode, deductible, amountToPay, paid, oldDeductible, amountReimbursed));
         }
 
         return invoices;

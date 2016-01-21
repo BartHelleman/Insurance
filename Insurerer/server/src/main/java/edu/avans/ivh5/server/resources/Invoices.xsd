@@ -26,6 +26,8 @@
                             <xs:element type="xs:string" name="deductible"/>
                             <xs:element type="xs:string" name="amountToPay"/>
                             <xs:element type="xs:boolean" name="paid"/>
+                            <xs:element type="xs:string" name="oldDeductible"/>
+                            <xs:element type="xs:string" name="amountReimbursed"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
