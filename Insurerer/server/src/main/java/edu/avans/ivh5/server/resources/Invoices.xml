@@ -22,7 +22,7 @@
         <treatmentCode>001behandelcode001</treatmentCode>
         <deductible>100</deductible>
         <amountToPay>50</amountToPay>
-        <paid>false</paid>
+        <paid>true</paid>
         <oldDeductible>100</oldDeductible>
         <amountReimbursed>0</amountReimbursed>
     </invoice>

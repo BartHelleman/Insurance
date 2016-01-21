@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -98,18 +100,17 @@ public class ClientGUI extends javax.swing.JFrame {
                         DefaultTableModel tableModel = (DefaultTableModel) treatmentsTable.getModel();
                         try {
                             invoices = clientManager.getInvoices(selectedClient);
-                        }
-                        catch(RemoteException e)
-                        {
+                        } catch (RemoteException e) {
                             invoices = new ArrayList<>();
                         }
-                        
-                        for(int i = tableModel.getRowCount() - 1; i >= 0; i--)
+
+                        for (int i = tableModel.getRowCount() - 1; i >= 0; i--) {
                             tableModel.removeRow(i);
-                        
+                        }
+
                         for (int i = 0; i < invoices.size(); i++) {
                             Invoice invoice = invoices.get(i);
-                            tableModel.addRow(new Object[] {invoice.getTreatmentCode(), DateFormatter.dateToString(invoice.getDate()), invoice.isPaid()});
+                            tableModel.addRow(new Object[]{invoice.getTreatmentCode(), DateFormatter.dateToString(invoice.getDate()), invoice.isPaid()});
                         }
 
                     } catch (RemoteException e) {
@@ -120,8 +121,6 @@ public class ClientGUI extends javax.swing.JFrame {
             }
 
         });
-        
-       
 
         this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
@@ -269,6 +268,11 @@ public class ClientGUI extends javax.swing.JFrame {
         clientFirstNameTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         clientFirstNameTextField.setToolTipText("Voornaam");
         clientFirstNameTextField.setName(""); // NOI18N
+        clientFirstNameTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clientFirstNameTextFieldActionPerformed(evt);
+            }
+        });
 
         clientLastNameTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
@@ -574,13 +578,32 @@ public class ClientGUI extends javax.swing.JFrame {
     private void deleteClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteClientButtonActionPerformed
         DefaultTableModel tableModel = (DefaultTableModel) clientsTable.getModel();
         Object[] options = {"Ja", "Nee"};
-
+        List<Invoice> invoices = null;
+        
         if (clientsTable.getSelectedRowCount() != 1) {
             System.out.println("Selecteer één persoon");
-        } else if (false) {
-
-            JOptionPane.showMessageDialog(null, "Verwijderen niet mogelijk. De client heeft nog openstaande betalingen", "Openstaande betalingen", JOptionPane.ERROR_MESSAGE);
-        } else {
+            return;
+        }
+        
+        try {
+            invoices = clientManager.getInvoices(clientManager.searchClient((String) clientsTable.getValueAt(clientsTable.getSelectedRow(), 2)).get(0));
+        } catch (RemoteException ex) {
+            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        if(!invoices.isEmpty()){            
+            
+             for(Invoice in : invoices){
+                 if(!in.isPaid()){
+                     JOptionPane.showMessageDialog(null, "Verwijderen niet mogelijk. De client heeft nog openstaande betalingen", "Openstaande betalingen", JOptionPane.ERROR_MESSAGE);
+                 return;
+                 }
+                       
+             }
+        }
+        
+        else {
 
             int action = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze client wilt verwijderen?", "Verwijderen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
             System.out.println("" + action);
@@ -653,7 +676,7 @@ public class ClientGUI extends javax.swing.JFrame {
         String email = clientEmailTextField.getText();
         String tel = clientTelTextField.getText();
         Client client = new Client(BSN, name, firstName, city, postcode, address, IBAN, incasso, email, tel);
-                
+
         boolean validBSN = isValidBSN(BSN);
         boolean validPostCode = isValidPostCode(postcode);
         boolean validAddress = isValidAddress(address);
@@ -727,16 +750,13 @@ public class ClientGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Het ingevoerde IBAN nummer is onjuist. Controleer uw invoer.", "Onjuist IBAN nummer", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        
-        
+
         /**
          * client succesfully added message
          */
         if (selectedClient != null) {
             try {
 
-                
                 if (clientManager.changeClient(selectedClient, client)) {
                     JOptionPane.showMessageDialog(null, "De client is succesvol gewijzigd.", "Gewijzigd", JOptionPane.INFORMATION_MESSAGE);
                     searchClientButton.doClick();
@@ -744,8 +764,6 @@ public class ClientGUI extends javax.swing.JFrame {
             } catch (RemoteException e) {
                 JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
             }
-            
-            
 
             emptyTextFields();
             clientPanel.setVisible(false);
@@ -829,9 +847,7 @@ public class ClientGUI extends javax.swing.JFrame {
         File f = new File(generateInvoicePDF.getInvoicePDF(invoices.get(index)) + ".pdf");
         try {
             Desktop.getDesktop().open(f);
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             System.out.println(e.getMessage());
 
         }
@@ -1015,7 +1031,7 @@ public class ClientGUI extends javax.swing.JFrame {
     public void setCheckBox(boolean value) {
         polisCheckBox.setSelected(value);
     }
-    
+
     private int getRowByValue(TableModel model, Object value) {
         for (int i = model.getRowCount() - 1; i >= 0; --i) {
             for (int j = model.getColumnCount() - 1; j >= 0; --j) {
@@ -1026,7 +1042,7 @@ public class ClientGUI extends javax.swing.JFrame {
             }
         }
         return -1;
-     }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addClientButton;
@@ -1068,6 +1084,5 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JTextField searchClientTextField;
     private javax.swing.JTable treatmentsTable;
     // End of variables declaration//GEN-END:variables
-
 
 }
