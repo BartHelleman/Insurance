@@ -376,6 +376,7 @@ public class InsuranceGUI extends javax.swing.JFrame {
                 try {
                     if (insuranceManager.deleteInsurance((String) insuranceTable.getValueAt(insuranceTable.getSelectedRow(), 0))) {
                         JOptionPane.showMessageDialog(null, "Verzekering verwijderd", "verwijderd", JOptionPane.INFORMATION_MESSAGE);
+                        tableModel.removeRow(insuranceTable.getSelectedRow());
                     }
                     else
                     {
@@ -384,7 +385,6 @@ public class InsuranceGUI extends javax.swing.JFrame {
                 } catch (RemoteException e) {
                     JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
                 }
-                tableModel.removeRow(insuranceTable.getSelectedRow());
                 changeInsurancePanel.setVisible(false);
             }
         }

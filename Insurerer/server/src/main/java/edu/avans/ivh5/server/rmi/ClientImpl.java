@@ -91,10 +91,10 @@ public class ClientImpl implements ClientInterface {
 
             for(Object contract : allContracts)
             {
-                InsuranceContract newContract = (InsuranceContract)contract;
+                InsuranceContract newContract = new InsuranceContract((InsuranceContract)contract);
                 newContract.setBSN(newClientObj.getBSN());
-                newContract.setClientName(newClientObj.getFirstName() + newClientObj.getName());
-                insuranceContractDAO.change(contract, newContract);
+                newContract.setClientName(newClientObj.getFirstName());
+                insuranceContractDAO.change((InsuranceContract)contract, newContract);
             }
         }
         return clientDAO.change(oldClient, newClient);
@@ -197,9 +197,9 @@ public class ClientImpl implements ClientInterface {
 
             for(Object contract : allContracts)
             {
-                InsuranceContract newContract = (InsuranceContract)contract;
+                InsuranceContract newContract = new InsuranceContract((InsuranceContract)contract);
                 newContract.setInsuranceID(Integer.parseInt(newInsurance.getID()));
-                insuranceContractDAO.change(contract, newContract);
+                insuranceContractDAO.change((InsuranceContract)contract, newContract);
             }
         }
         return insuranceDAO.change(oldInsurance, newInsurance);

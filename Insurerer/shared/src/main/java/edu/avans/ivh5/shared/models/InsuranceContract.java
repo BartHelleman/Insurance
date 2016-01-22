@@ -21,6 +21,17 @@ public class InsuranceContract implements Serializable {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+    public InsuranceContract(InsuranceContract contract) {
+        this.BSN = contract.BSN;
+        this.ownRisk = contract.ownRisk;
+        this.clientName = contract.clientName;
+        this.insuranceID = contract.insuranceID;
+        this.startDate = contract.startDate;
+        this.endDate = contract.endDate;
+    }
+    
+    
     
     public String getBSN() {
         return BSN;

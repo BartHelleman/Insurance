@@ -68,7 +68,11 @@ public class InsuranceContractDAO implements DAOInterface {
     public List<Object> get(Object value) {
         if (value instanceof String) {
             return getInsuranceContract((String) value);
-        } else {
+        } else if(value instanceof InsuranceContract) {
+            InsuranceContract contract = (InsuranceContract)value;
+            return getInsuranceContract(contract.getBSN());
+        }
+        else {
             throw new UnsupportedOperationException("Not supported yet.");
         }
     }
@@ -86,7 +90,7 @@ public class InsuranceContractDAO implements DAOInterface {
         List<Object> result = get(searchPattern);
 
         InsuranceContract contractToDelete;
-        if (searchPattern instanceof String) {
+        if (result.size() > 0 && searchPattern instanceof String) {
 
             contractToDelete = (InsuranceContract) result.get(0);
 
@@ -115,9 +119,13 @@ public class InsuranceContractDAO implements DAOInterface {
                     int insuranceID = Integer.parseInt(this.XMLParser.getValueByNodeName(insuranceContractNode, "insuranceID"));
                     Date startDate = DateFormatter.stringToDate(this.XMLParser.getValueByNodeName(insuranceContractNode, "startDate"));
                     Date endDate = DateFormatter.stringToDate(this.XMLParser.getValueByNodeName(insuranceContractNode, "endDate"));
-
-                    if (searchPattern.equals(BSN)) {
-                        insuranceContracts.add(new InsuranceContract(BSN, ownRisk, clientName, insuranceID, startDate, endDate));
+                    try {
+                        if (searchPattern.equals(BSN) || insuranceID == Integer.parseInt(searchPattern)) {
+                            insuranceContracts.add(new InsuranceContract(BSN, ownRisk, clientName, insuranceID, startDate, endDate));
+                        }
+                    } catch(NumberFormatException e)
+                    {
+                        
                     }
                 }
             }
