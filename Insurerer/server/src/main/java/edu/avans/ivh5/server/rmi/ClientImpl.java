@@ -243,8 +243,7 @@ public class ClientImpl implements ClientInterface {
 
     @Override
     public boolean deleteInsuranceContract(Client client) throws RemoteException {
-        List<Object> contracts = insuranceContractDAO.get(client.getBSN());
-        return contracts.isEmpty() && insuranceContractDAO.delete(client.getBSN());
+        return insuranceContractDAO.delete(client.getBSN());
     }
 
     @Override

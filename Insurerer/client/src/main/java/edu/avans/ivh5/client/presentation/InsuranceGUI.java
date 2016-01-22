@@ -377,6 +377,10 @@ public class InsuranceGUI extends javax.swing.JFrame {
                     if (insuranceManager.deleteInsurance((String) insuranceTable.getValueAt(insuranceTable.getSelectedRow(), 0))) {
                         JOptionPane.showMessageDialog(null, "Verzekering verwijderd", "verwijderd", JOptionPane.INFORMATION_MESSAGE);
                     }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Deze verzekering is gekoppeld aan sommige polissen, waardoor het niet verwijderd kan worden.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 } catch (RemoteException e) {
                     JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
                 }

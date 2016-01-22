@@ -218,8 +218,10 @@ public class InvoiceGUI extends javax.swing.JFrame {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         try {
-            // Call delete function
-            invoiceManager.deleteInsuranceContract(client);
+            if(!invoiceManager.deleteInsuranceContract(client))
+            {
+                JOptionPane.showMessageDialog(null, "Sommige klanten gebruiken deze polis nog. De polis kan niet verwijderd worden.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } catch (RemoteException e) {
 
         }
