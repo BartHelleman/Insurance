@@ -40,7 +40,7 @@ public class ClientImpl implements ClientInterface {
     public ClientImpl() {
         logger = Logger.getLogger(ClientImpl.class);
     }
-    
+
     static {
         try {
             clientDAO = new ClientDAO();
@@ -68,9 +68,11 @@ public class ClientImpl implements ClientInterface {
 
     @Override
     public boolean addClient(Client client) throws RemoteException {
-        List<Object> clients = clientDAO.get(client.getBSN()); /* Make list with Objects */
+        List<Object> clients = clientDAO.get(client.getBSN());
+        /* Make list with Objects */
 
-        if (clients.isEmpty()) { /* check if list is empty. When list is empty, then start add function from clientDAO. */
+        if (clients.isEmpty()) {
+            /* check if list is empty. When list is empty, then start add function from clientDAO. */
 
             return clientDAO.add(client);
         } else {
@@ -83,7 +85,7 @@ public class ClientImpl implements ClientInterface {
     public boolean changeClient(Object oldClient, Object newClient) throws RemoteException {
         return clientDAO.change(oldClient, newClient);
     }
-    
+
     @Override
     public boolean changeInvoice(Object oldInvoice, Object newInvoice) throws RemoteException {
         return invoiceDAO.change(oldInvoice, newInvoice);
@@ -198,10 +200,10 @@ public class ClientImpl implements ClientInterface {
 
     @Override
     public InsuranceContract addInsuranceContract(InsuranceContract contract) throws RemoteException {
-    
+
         ArrayList<InsuranceContract> insuranceContracts = new ArrayList<>();
         insuranceContracts.add(contract);
-        
+
         insuranceContracts.stream().forEach(p -> insuranceContractDAO.add(p));
 
         return null;
@@ -236,28 +238,40 @@ public class ClientImpl implements ClientInterface {
 
     }
 
-    /**
-     * Subtracts deductible of a client by a certain amount
-     * @param client Client whose deductible needs to decrease
-     * @param amountToReduce Amount of money that needs to be taken off
-     * @return An array where the first value says how much money doesn't fit in the deductible anymore, and second value is the current deductible (that's left)
-     */
+    @Override
+    public boolean isAdmin(String username) throws RemoteException {
+        List<Object> users = loginDAO.get(username);    
+        for (Object u : users) {
+            User user = (User)u;
+            if(user.getUsername().equals(username))
+            {
+                return user.getAccountType().equals("Admin");
+            }
+        }
+        return false;
+        }
+        /**
+         * Subtracts deductible of a client by a certain amount
+         *
+         * @param client Client whose deductible needs to decrease
+         * @param amountToReduce Amount of money that needs to be taken off
+         * @return An array where the first value says how much money doesn't
+         * fit in the deductible anymore, and second value is the current
+         * deductible (that's left)
+         */
     public static BigDecimal[] subtractDeductible(Client client, BigDecimal amountToReduce) {
         List<Object> insuranceContract = insuranceContractDAO.get(client.getBSN());
-        
-        if(insuranceContract.size() > 0)
-        {
-            InsuranceContract contract = (InsuranceContract)insuranceContract.get(0);
+
+        if (insuranceContract.size() > 0) {
+            InsuranceContract contract = (InsuranceContract) insuranceContract.get(0);
             contract.setOwnRisk(contract.getOwnRisk().subtract(amountToReduce)); // own risk = own risk - cost
-            
+
             BigDecimal retVal = contract.getOwnRisk();
-            if(contract.getOwnRisk().compareTo(BigDecimal.ZERO) == -1) // if less than 0
+            if (contract.getOwnRisk().compareTo(BigDecimal.ZERO) == -1) // if less than 0
             {
                 retVal = contract.getOwnRisk().abs(); // The value in the negative is what goes beyond your deductible, aka the reimbursed amount
                 contract.setOwnRisk(BigDecimal.ZERO);
-            }
-            else
-            {
+            } else {
                 retVal = BigDecimal.ZERO;
             }
             insuranceContractDAO.change(contract, contract);
@@ -266,11 +280,9 @@ public class ClientImpl implements ClientInterface {
             d[1] = contract.getOwnRisk();
             return d;
         }
-        
+
         return null;
     }
-    
-    
 
     @Override
     public boolean addUser(User user) throws RemoteException {
@@ -279,11 +291,9 @@ public class ClientImpl implements ClientInterface {
 
     @Override
     public ArrayList<SharedTreatment> getTreatmentsThatNeedToBeBilled() throws RemoteException {
-        if(Main.RMI)
-        {
+        if (Main.RMI) {
             return Main.getPhysioInterface().getAllFinishedTreatments();
-        }
-        else {
+        } else {
             ArrayList<SharedTreatment> treatments = new ArrayList<>();
             treatments.add(new SharedTreatment("209000454", "002behandelcode002", 5));
             return treatments;
@@ -295,14 +305,13 @@ public class ClientImpl implements ClientInterface {
         List<Object> invoicesObjects = invoiceDAO.get(client.getBSN());
         List<Invoice> invoices = new ArrayList<>();
         invoicesObjects.forEach(i -> {
-            Invoice invoice = (Invoice)i;
-            if(invoice.getBSN().equals(client.getBSN()))
+            Invoice invoice = (Invoice) i;
+            if (invoice.getBSN().equals(client.getBSN())) {
                 invoices.add(invoice);
+            }
         });
         return invoices;
     }
-    
-    
 
     public static DAOInterface getClientDAO() {
         return clientDAO;
@@ -336,5 +345,4 @@ public class ClientImpl implements ClientInterface {
         return treatmentDAO;
     }
 
-    
 }

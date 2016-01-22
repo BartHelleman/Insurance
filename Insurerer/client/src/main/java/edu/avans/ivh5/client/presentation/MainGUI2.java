@@ -9,28 +9,31 @@ public class MainGUI2 extends JFrame {
     private JPanel insuranceGUI;
     private JPanel insuranceCompanyGUI;
     private JPanel userGUI;
+    private boolean isAdmin;
 
-    public MainGUI2() {
+    public MainGUI2(boolean isAdmin) {
+        this.isAdmin = isAdmin;
         init();
     }
 
     private void init() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        this.setTitle(isAdmin ? "Admin menu" : "Menu" );
         tabsWindow = new JTabbedPane();
 
-        clientGUI = (JPanel) new ClientGUI().getContentPane();
-        tabsWindow.addTab("Cliëntbeheer", clientGUI);
+        if (!isAdmin) {
+            clientGUI = (JPanel) new ClientGUI().getContentPane();
+            tabsWindow.addTab("Cliëntbeheer", clientGUI);
 
-        insuranceGUI = (JPanel) new InsuranceGUI().getContentPane();
-        tabsWindow.addTab("Verzekeringbeheer", insuranceGUI);
+            insuranceGUI = (JPanel) new InsuranceGUI().getContentPane();
+            tabsWindow.addTab("Verzekeringbeheer", insuranceGUI);
+        } else {
+            insuranceCompanyGUI = (JPanel) new InsuranceCompanyGUI().getContentPane();
+            tabsWindow.addTab("Maatschappijbeheer", insuranceCompanyGUI);
 
-        insuranceCompanyGUI = (JPanel) new InsuranceCompanyGUI().getContentPane();
-        tabsWindow.addTab("Maatschappijbeheer", insuranceCompanyGUI);
-
-        userGUI = (JPanel) new UserGUI().getContentPane();
-        tabsWindow.addTab("Accounts beheer", userGUI);
-
+            userGUI = (JPanel) new UserGUI().getContentPane();
+            tabsWindow.addTab("Accounts beheer", userGUI);
+        }
         this.add(tabsWindow);
 
         this.pack();
@@ -38,6 +41,6 @@ public class MainGUI2 extends JFrame {
     }
 
     public static void main(String[] args) {
-        JFrame frame = new MainGUI2();
+        //JFrame frame = new MainGUI2();
     }
 }

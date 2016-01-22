@@ -81,6 +81,7 @@ public interface ClientInterface extends Remote {
     
     boolean checkLogin(String username, String password) throws RemoteException;
     boolean addUser(User user) throws RemoteException;
+    boolean isAdmin(String username) throws RemoteException;
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="#Other methods">

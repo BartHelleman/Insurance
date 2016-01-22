@@ -6,10 +6,12 @@ public class User implements Serializable {
 
     private String username;
     private String password;
+    public String accountType;
 
-    public User(String username, String password) {
+    public User(String username, String password, String accountType) {
         this.username = username;
         this.password = password;
+        this.accountType = accountType;
     }
 
     public String getUsername() {
@@ -19,4 +21,10 @@ public class User implements Serializable {
     public String getPassword() {
         return password;
     }
+    
+    public String getAccountType() {
+        return accountType;
+    }
+    
+    
 }

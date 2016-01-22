@@ -21,4 +21,9 @@ public class LoginManager {
             //mainGUI.dispose();
             loginGUI = new LoginGUI();
     }
+    
+    public boolean isAdmin(String username) throws RemoteException
+    {
+        return RmiMain.getRmiInterface().isAdmin(username);
+    }
 }

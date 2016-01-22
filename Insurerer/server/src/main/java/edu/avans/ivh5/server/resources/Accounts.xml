@@ -6,16 +6,18 @@
     <account>
         <username>Rico</username>
         <password>$2a$10$nuEFZz7ZxE2MWui6zcqYqOj5sL1rW309IVaIMNPCcsCrD9IeepGJe</password>
+        <accountType>Gebruiker</accountType>
     </account>
 
     <account>
         <username>Burak</username>
-        <password>Karatas</password>
+        <password>$2a$10$nuEFZz7ZxE2MWui6zcqYqOj5sL1rW309IVaIMNPCcsCrD9IeepGJe</password>
+        <accountType>Admin</accountType>
     </account>
     
     <account>
         <username>Bart</username>
-        <password>Donders</password>
-    </account>	    
-    
+        <password>$2a$10$nuEFZz7ZxE2MWui6zcqYqOj5sL1rW309IVaIMNPCcsCrD9IeepGJe</password>
+        <accountType>Gebruiker</accountType>
+    </account>
 </accounts>

@@ -123,7 +123,7 @@ public class LoginGUI extends javax.swing.JFrame {
                 errorLabel.setVisible(true);
             } else if (loginManager.login(gebruikersnaamField.getText(), wachtwoord)) {
                 this.dispose();
-                MainGUI2 mainGUI2 = new MainGUI2();
+                MainGUI2 mainGUI2 = new MainGUI2(loginManager.isAdmin(gebruikersnaamField.getText()));
                 mainGUI2.setVisible(true);
             } else {
                 errorLabel.setText("inloggegevens zijn onjuist");
@@ -133,6 +133,7 @@ public class LoginGUI extends javax.swing.JFrame {
             errorLabel.setText("Geen verbinding mogelijk met de server");
             errorLabel.setVisible(true);
         }
+        
     }
 
     private void gebruikersnaamFieldActionPerformed(java.awt.event.ActionEvent evt) {

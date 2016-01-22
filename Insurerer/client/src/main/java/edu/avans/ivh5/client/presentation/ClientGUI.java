@@ -45,7 +45,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private Client selectedClient;
     private List<Invoice> invoices;
     private InvoiceManager invoiceManager;
-    
+
     /**
      * Creates new form ClientGUI
      */
@@ -580,44 +580,41 @@ public class ClientGUI extends javax.swing.JFrame {
         DefaultTableModel tableModel = (DefaultTableModel) clientsTable.getModel();
         Object[] options = {"Ja", "Nee"};
         List<Invoice> invoices = null;
-        
+
         if (clientsTable.getSelectedRowCount() != 1) {
             System.out.println("Selecteer één persoon");
             return;
         }
-        
+
         try {
             invoices = clientManager.getInvoices(clientManager.searchClient((String) clientsTable.getValueAt(clientsTable.getSelectedRow(), 2)).get(0));
         } catch (RemoteException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        if(!invoices.isEmpty()){            
-            
-             for(Invoice in : invoices){
-                 if(!in.isPaid()){
-                     JOptionPane.showMessageDialog(null, "Verwijderen niet mogelijk. De client heeft nog openstaande betalingen", "Openstaande betalingen", JOptionPane.ERROR_MESSAGE);
-                 return;
-                 }
-                       
-             }
-        }
-        
-        else {
 
-            int action = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze client wilt verwijderen?", "Verwijderen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-            System.out.println("" + action);
 
-            if (action == 0) {
-                try {
-                    clientManager.deleteClient((String) clientsTable.getValueAt(clientsTable.getSelectedRow(), 2));
-                    tableModel.removeRow(clientsTable.getSelectedRow());
-                } catch (RemoteException e) {
-                    JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
-                }
+        for (Invoice in : invoices) {
+            if (!in.isPaid()) {
+                JOptionPane.showMessageDialog(null, "Verwijderen niet mogelijk. De client heeft nog openstaande betalingen", "Openstaande betalingen", JOptionPane.ERROR_MESSAGE);
+                return;
             }
         }
+
+
+        int action = JOptionPane.showOptionDialog(null, "Weet u zeker dat u deze client wilt verwijderen?", "Verwijderen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+        System.out.println("" + action);
+
+        if (action == 0) {
+            try {
+                clientManager.deleteClient((String) clientsTable.getValueAt(clientsTable.getSelectedRow(), 2));
+                tableModel.removeRow(clientsTable.getSelectedRow());
+            } catch (RemoteException e) {
+                JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
+            }
+            clientPanel.setVisible(false);
+            emptyTextFields();
+        }
+
     }//GEN-LAST:event_deleteClientButtonActionPerformed
 
     private void searchClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchClientButtonActionPerformed
@@ -760,21 +757,21 @@ public class ClientGUI extends javax.swing.JFrame {
             for (int i = 0; i < treatmentsTable.getRowCount(); i++) {
                 boolean isChecked = (Boolean) treatmentsTable.getValueAt(i, 2);
                 Invoice invoice = invoices.get(i);
-                
+
                 invoice.setPaid(isChecked);
                 try {
                     invoiceManager.changeInvoice(invoice, invoice);
                 } catch (RemoteException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                    
+
             }
 
             try {
                 if (clientManager.changeClient(selectedClient, client)) {
                     JOptionPane.showMessageDialog(null, "De client is succesvol gewijzigd.", "Gewijzigd", JOptionPane.INFORMATION_MESSAGE);
                     searchClientButton.doClick();
-                } 
+                }
             } catch (RemoteException e) {
                 JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
             }

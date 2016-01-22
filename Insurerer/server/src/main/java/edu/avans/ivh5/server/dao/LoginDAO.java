@@ -33,6 +33,11 @@ public class LoginDAO implements DAOInterface {
             Text passwordText = this.XMLParser.createTextNode(user.getPassword());
             password.appendChild(passwordText);
             userNode.appendChild(password);
+            
+            Element accountType = this.XMLParser.createElement("accountType");
+            Text accountTypeText = this.XMLParser.createTextNode(user.getAccountType());
+            accountType.appendChild(accountTypeText);
+            userNode.appendChild(accountType);
 
             this.XMLParser.addNode(userNode);
             DAOInterface.save(this.XMLParser.getXmlFile(), this.XMLParser.getDocument());
@@ -94,8 +99,9 @@ public class LoginDAO implements DAOInterface {
         userNodes.stream().forEach((userNode) -> {
             String username = this.XMLParser.getValueByNodeName(userNode, "username");
             String password = this.XMLParser.getValueByNodeName(userNode, "password");
+            String accountType = this.XMLParser.getValueByNodeName(userNode, "accountType");
 
-            users.add(new User(username, password));
+            users.add(new User(username, password, accountType));
         });
 
         return users;
