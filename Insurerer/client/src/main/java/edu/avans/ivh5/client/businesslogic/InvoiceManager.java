@@ -42,6 +42,10 @@ public class InvoiceManager {
        
         return RmiMain.getRmiInterface().deleteInsuranceContract(client);
     }
+    
+    public boolean changeInvoice(Invoice invoice, Invoice invoices) throws RemoteException {
+        return RmiMain.getRmiInterface().changeInvoice(invoice, invoices);
+    }
 
     public Invoice getInvoice(Treatment treatment, Client client) {
         if(client.isIncasso() == true) {

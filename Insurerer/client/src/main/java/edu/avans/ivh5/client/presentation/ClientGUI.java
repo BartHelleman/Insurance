@@ -44,7 +44,8 @@ public class ClientGUI extends javax.swing.JFrame {
     private List<Client> clienten;
     private Client selectedClient;
     private List<Invoice> invoices;
-
+    private InvoiceManager invoiceManager;
+    
     /**
      * Creates new form ClientGUI
      */
@@ -125,7 +126,7 @@ public class ClientGUI extends javax.swing.JFrame {
         this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
         this.clientManager = new ClientManager();
-
+        this.invoiceManager = new InvoiceManager();
     }
 
     /**
@@ -755,12 +756,25 @@ public class ClientGUI extends javax.swing.JFrame {
          * client succesfully added message
          */
         if (selectedClient != null) {
-            try {
 
+            for (int i = 0; i < treatmentsTable.getRowCount(); i++) {
+                boolean isChecked = (Boolean) treatmentsTable.getValueAt(i, 2);
+                Invoice invoice = invoices.get(i);
+                
+                invoice.setPaid(isChecked);
+                try {
+                    invoiceManager.changeInvoice(invoice, invoice);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                    
+            }
+
+            try {
                 if (clientManager.changeClient(selectedClient, client)) {
                     JOptionPane.showMessageDialog(null, "De client is succesvol gewijzigd.", "Gewijzigd", JOptionPane.INFORMATION_MESSAGE);
                     searchClientButton.doClick();
-                }
+                } 
             } catch (RemoteException e) {
                 JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
             }

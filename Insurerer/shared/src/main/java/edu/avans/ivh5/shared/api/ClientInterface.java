@@ -25,6 +25,7 @@ public interface ClientInterface extends Remote {
     
     boolean changeClient(Object oldvalue, Object newValue) throws RemoteException;
     
+    boolean changeInvoice(Object oldInvoice, Object newInvoice) throws RemoteException;
     /**
      * Deletes a client from the client list (stored in the XML list)
      * @param client

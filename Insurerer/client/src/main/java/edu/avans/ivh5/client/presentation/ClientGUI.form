@@ -425,9 +425,6 @@
             <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
             <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value=""/>
           </AccessibilityProperties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clientFirstNameTextFieldActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="clientLastNameTextField">
           <Properties>

@@ -83,6 +83,11 @@ public class ClientImpl implements ClientInterface {
     public boolean changeClient(Object oldClient, Object newClient) throws RemoteException {
         return clientDAO.change(oldClient, newClient);
     }
+    
+    @Override
+    public boolean changeInvoice(Object oldInvoice, Object newInvoice) throws RemoteException {
+        return invoiceDAO.change(oldInvoice, newInvoice);
+    }
 
     @Override
     public boolean deleteClient(String clientBSN) throws RemoteException {

@@ -156,7 +156,7 @@ public class InvoiceDAO implements DAOInterface {
         Invoice newInvoice = (Invoice) newObject;
 
         // First chek if it could be deleted. If it can, check if it could be added
-        if (delete(oldInvoice.getInvoiceNumber())) {
+        if (delete(Integer.toString(oldInvoice.getInvoiceNumber()))) {
             return add(newInvoice);
         }
         return false;
@@ -170,7 +170,7 @@ public class InvoiceDAO implements DAOInterface {
           result = get(value.toString());
         } else if (value instanceof Invoice) {
             Invoice invoice = (Invoice) value;
-            result = get(invoice.getInvoiceNumber());
+            result = get(Integer.toString(invoice.getInvoiceNumber()));
         } else {
             return false;
         }

@@ -169,5 +169,9 @@ public class Invoice implements Serializable {
     public BigDecimal getAmountReimbursed() {
         return amountReimbursed;
     }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
+    } 
     
 }
