@@ -8,8 +8,11 @@ package edu.avans.ivh5.server.main;
 import edu.avans.ivh5.server.dao.InvoiceDAO;
 import edu.avans.ivh5.server.rmi.ClientImpl;
 import edu.avans.ivh5.shared.models.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.rmi.RemoteException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -94,7 +97,10 @@ public class InvoiceGeneratorTask {
                  
                     ClientImpl.getInvoiceDAO().add(invoice);
                     
-                    //TreatmentCode treatmentCode = 
+                    if(client.isIncasso())
+                    {
+                        generateClieop(client, invoice, company);
+                    }
                     
                     System.out.println("Retreived invoice: " + invoice.getInvoiceNumber());
                 }
@@ -109,5 +115,57 @@ public class InvoiceGeneratorTask {
                 .stream()
                 .anyMatch(t -> t.equals(treatmentCode.getCode()));
     }
+    
+    public void generateClieop(Client client, Invoice invoice, InsuranceCompany company)
+    {
+        FileWriter fileWriter = null;
+        final String NEW_LINE_SEPARATOR = System.getProperty("line.separator");
+        try {
+            //Set title
+            fileWriter = new FileWriter(String.format("ClieOp - %s %s %s.csv", client.getFirstName(), client.getName(), getTimestamp()));
 
+            //Write the CSV file header
+            fileWriter.append(String.format("%s ClieOp bestand", company.getName()));
+            //Add a new line separator after the header
+            fileWriter.append(NEW_LINE_SEPARATOR);
+
+            //Write data to the CSV file
+
+            fileWriter.append("Aanmaakdatum: " + invoice.getDate());
+            fileWriter.append(NEW_LINE_SEPARATOR);
+            fileWriter.append("Betaaldatum: " + invoice.getExpirationDate());
+            fileWriter.append(NEW_LINE_SEPARATOR);
+            fileWriter.append("Naam: " + client.getFirstName() + " " + client.getName());
+            fileWriter.append(NEW_LINE_SEPARATOR);
+            fileWriter.append("Woonplaats: " + client.getCity());
+            fileWriter.append(NEW_LINE_SEPARATOR);
+            fileWriter.append("Rekeningnummer: " + client.getIBAN());
+            fileWriter.append(NEW_LINE_SEPARATOR);
+            fileWriter.append("Naam opdrachtgever:" + company.getName());
+            fileWriter.append(NEW_LINE_SEPARATOR);
+            fileWriter.append("Incasso_Zakelijk: I");
+            fileWriter.append(NEW_LINE_SEPARATOR);
+            fileWriter.append("Valuta: EUR");
+            fileWriter.append(NEW_LINE_SEPARATOR);
+            fileWriter.append("Totaalbedrag: " + invoice.getTotalPrice());
+
+
+            System.out.println("CSV file was created successfully");
+        } catch (Exception e) {
+            System.out.println("Error in CsvFileWriter: " + e.getMessage());
+        } finally {
+            try {
+                fileWriter.flush();
+                fileWriter.close();
+            } catch (IOException e) {
+                System.out.println("Error while flushing/closing fileWriter: " + e.getMessage());
+            }
+        }
+    }
+    
+    public static String getTimestamp()
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-SS");
+        return dateFormat.format(new Date());
+    }
 }

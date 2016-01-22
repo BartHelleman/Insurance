@@ -149,8 +149,11 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Eigen risicio"/>
+            <Property name="text" type="java.lang.String" value="Eigen risico"/>
           </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Eigen risico"/>
+          </AccessibilityProperties>
         </Component>
         <Component class="javax.swing.JTextField" name="ownRiskField">
         </Component>

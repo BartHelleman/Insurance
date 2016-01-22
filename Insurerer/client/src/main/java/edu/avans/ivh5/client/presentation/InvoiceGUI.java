@@ -75,7 +75,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
 
         jLabel3.setText("Einddatum");
 
-        jLabel4.setText("Eigen risicio");
+        jLabel4.setText("Eigen risico");
 
         saveButton.setText("Opslaan");
         saveButton.addActionListener(new java.awt.event.ActionListener() {
@@ -153,6 +153,8 @@ public class InvoiceGUI extends javax.swing.JFrame {
                     .addComponent(deleteButton))
                 .addContainerGap(94, Short.MAX_VALUE))
         );
+
+        jLabel4.getAccessibleContext().setAccessibleName("Eigen risico");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
