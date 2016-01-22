@@ -56,5 +56,19 @@ public class InsuranceContract implements Serializable {
     public Date getEndDate() {
         return endDate;
     }
+
+    public void setInsuranceID(int insuranceID) {
+        this.insuranceID = insuranceID;
+    }
+
+    public void setBSN(String BSN) {
+        this.BSN = BSN;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+    
+    
     
 }

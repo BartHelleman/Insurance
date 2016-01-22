@@ -83,6 +83,20 @@ public class ClientImpl implements ClientInterface {
 
     @Override
     public boolean changeClient(Object oldClient, Object newClient) throws RemoteException {
+        Client oldClientObj = (Client)oldClient;
+        Client newClientObj = (Client)newClient;
+        if(!oldClientObj.getBSN().equals(newClientObj.getBSN())) // Only change contracts if the PK changed
+        {
+            List<Object> allContracts = insuranceContractDAO.get(oldClientObj.getBSN());
+
+            for(Object contract : allContracts)
+            {
+                InsuranceContract newContract = (InsuranceContract)contract;
+                newContract.setBSN(newClientObj.getBSN());
+                newContract.setClientName(newClientObj.getFirstName() + newClientObj.getName());
+                insuranceContractDAO.change(contract, newContract);
+            }
+        }
         return clientDAO.change(oldClient, newClient);
     }
 
@@ -93,6 +107,9 @@ public class ClientImpl implements ClientInterface {
 
     @Override
     public boolean deleteClient(String clientBSN) throws RemoteException {
+        List<Object> insuranceContracts = insuranceContractDAO.get(clientBSN);
+        if(insuranceContracts.size() == 1)
+            insuranceContractDAO.delete(Integer.toString(((InsuranceContract)insuranceContracts.get(0)).getInsuranceID()));
         return clientDAO.delete(clientBSN);
     }
 
@@ -165,12 +182,26 @@ public class ClientImpl implements ClientInterface {
 
     @Override
     public boolean deleteInsurance(String id) throws RemoteException {
-        return insuranceDAO.delete(id);
+        // Check if anyone has this insurance in their insurance policy first
+        List<Object> allContracts = insuranceContractDAO.get(id);
+        return allContracts.isEmpty() && insuranceDAO.delete(id);
     }
 
     @Override
     public boolean changeInsurance(Insurance oldInsurance, Insurance newInsurance) throws RemoteException {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        // We only have to change the contracts if the insurance IDs have changed
+        if(!oldInsurance.getID().equals(newInsurance.getID()))
+        {
+            List<Object> allContracts = insuranceContractDAO.get(oldInsurance.getID());
+
+            for(Object contract : allContracts)
+            {
+                InsuranceContract newContract = (InsuranceContract)contract;
+                newContract.setInsuranceID(Integer.parseInt(newInsurance.getID()));
+                insuranceContractDAO.change(contract, newContract);
+            }
+        }
         return insuranceDAO.change(oldInsurance, newInsurance);
     }
 
@@ -212,7 +243,8 @@ public class ClientImpl implements ClientInterface {
 
     @Override
     public boolean deleteInsuranceContract(Client client) throws RemoteException {
-        return insuranceContractDAO.delete(client.getBSN());
+        List<Object> contracts = insuranceContractDAO.get(client.getBSN());
+        return contracts.isEmpty() && insuranceContractDAO.delete(client.getBSN());
     }
 
     @Override
