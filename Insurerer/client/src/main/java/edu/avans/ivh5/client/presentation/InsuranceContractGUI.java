@@ -300,6 +300,9 @@ public class InsuranceContractGUI extends javax.swing.JFrame {
             insuranceContracts.stream().forEach(p -> {
                 try {
                     insuranceContractManager.addInsuranceContract(p);
+                    JOptionPane.showMessageDialog(null, "De polis is toegevoegd.", "", JOptionPane.INFORMATION_MESSAGE);
+                    this.setVisible(false);
+                    this.dispose();
                 } catch (RemoteException ex) {
                     Logger.getLogger(InsuranceContractGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
