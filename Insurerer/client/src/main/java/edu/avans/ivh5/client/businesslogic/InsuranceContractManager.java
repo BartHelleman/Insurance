@@ -8,9 +8,6 @@ import java.rmi.RemoteException;
 
 public class InsuranceContractManager {
 
-    //relaties
-    private ClientManager clientManager;
-
     public InsuranceContract getInsuranceContract(Client client) throws RemoteException {
         return RmiMain.getRmiInterface().getInsuranceContract(client);
     }

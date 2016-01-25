@@ -12,22 +12,17 @@ public class ClientManager {
 
     //relaties
     private InsuranceContractManager insuranceContractManager;
-    private ClientDAO clientDAO;
     private List<Client> clienten;
 
     public ClientManager() {
-
         clienten = new ArrayList<>();
     }
 
     public List<Client> searchClient(String searchPattern) throws RemoteException {
-
         return RmiMain.getRmiInterface().searchClient(searchPattern);
-
     }
 
     public boolean addClient(Client client) throws RemoteException{
-
         return RmiMain.getRmiInterface().addClient(client);
     }
 
@@ -42,13 +37,10 @@ public class ClientManager {
     }
     
     public boolean hasInsuranceContract(Client client) throws RemoteException {
-       
         return RmiMain.getRmiInterface().hadInsuranceContract(client);
-        
     }
     
     public List<Invoice> getInvoices(Client client) throws RemoteException {
-
         return RmiMain.getRmiInterface().getInvoices(client);
     }
 

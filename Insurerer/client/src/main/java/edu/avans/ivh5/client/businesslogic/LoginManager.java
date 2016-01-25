@@ -18,7 +18,6 @@ public class LoginManager {
     }
 
     public void logout() {
-            //mainGUI.dispose();
             loginGUI = new LoginGUI();
     }
     
