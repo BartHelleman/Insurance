@@ -800,10 +800,10 @@ public class ClientGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_saveClientButtonActionPerformed
 
     private void addInsuranceContractButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInsuranceContractButtonActionPerformed
-        JFrame frame = new JFrame();
-        frame.add((JPanel) new InvoiceGUI(selectedClient, this).getContentPane());
+        JFrame frame = new InvoiceGUI(selectedClient, this);
         frame.pack();
         frame.setVisible(true);
+        
         //InvoiceGUI gui = new InvoiceGUI(new InvoiceManager());
     }//GEN-LAST:event_addInsuranceContractButtonActionPerformed
 
