@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 import org.xml.sax.SAXException;
 
 /**

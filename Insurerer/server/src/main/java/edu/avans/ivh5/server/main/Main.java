@@ -3,7 +3,6 @@
 package edu.avans.ivh5.server.main;
 
 import edu.avans.ivh5.shared.api.ClientInterface;
-import edu.avans.ivh5.shared.util.Settings;
 import edu.avans.ivh5.server.rmi.ClientImpl;
 import edu.avans.ivh5.shared.models.SharedTreatment;
 import java.io.*;
@@ -14,7 +13,6 @@ import java.util.*;
 import edu.avans.ivh5.shared.rmi.PhysioServerInterface;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 
 /**
@@ -26,7 +24,7 @@ import org.apache.log4j.PropertyConfigurator;
  */
 public class Main {
 
-	// Implements the specific DAO functionality (MySQL, XML).
+    // Implements the specific DAO functionality (MySQL, XML).
     // static public String daofactoryclassname;
     // Access to remote manager
     static private ClientInterface stub;

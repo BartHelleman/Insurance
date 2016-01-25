@@ -6,7 +6,7 @@
 package edu.avans.ivh5.client.presentation;
 
 import edu.avans.ivh5.client.businesslogic.ClientManager;
-import edu.avans.ivh5.client.businesslogic.InvoiceManager;
+import edu.avans.ivh5.client.businesslogic.InsuranceContractManager;
 import edu.avans.ivh5.client.main.RmiMain;
 import edu.avans.ivh5.shared.models.Client;
 import edu.avans.ivh5.shared.models.Invoice;
@@ -44,7 +44,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private List<Client> clienten;
     private Client selectedClient;
     private List<Invoice> invoices;
-    private InvoiceManager invoiceManager;
+    private InsuranceContractManager invoiceManager;
 
     /**
      * Creates new form ClientGUI
@@ -126,7 +126,7 @@ public class ClientGUI extends javax.swing.JFrame {
         this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
         this.clientManager = new ClientManager();
-        this.invoiceManager = new InvoiceManager();
+        this.invoiceManager = new InsuranceContractManager();
     }
 
     /**
@@ -800,7 +800,7 @@ public class ClientGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_saveClientButtonActionPerformed
 
     private void addInsuranceContractButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInsuranceContractButtonActionPerformed
-        JFrame frame = new InvoiceGUI(selectedClient, this);
+        JFrame frame = new InsuranceContractGUI(selectedClient, this);
         frame.pack();
         frame.setVisible(true);
         

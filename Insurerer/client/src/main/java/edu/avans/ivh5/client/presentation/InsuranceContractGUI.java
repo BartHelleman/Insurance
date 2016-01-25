@@ -1,7 +1,7 @@
 package edu.avans.ivh5.client.presentation;
 
 import edu.avans.ivh5.client.businesslogic.InsuranceManager;
-import edu.avans.ivh5.client.businesslogic.InvoiceManager;
+import edu.avans.ivh5.client.businesslogic.InsuranceContractManager;
 import edu.avans.ivh5.shared.models.Client;
 import edu.avans.ivh5.shared.models.Insurance;
 import edu.avans.ivh5.shared.models.InsuranceContract;
@@ -25,23 +25,22 @@ import javax.swing.SwingUtilities;
  *
  * @author Niels
  */
-public class InvoiceGUI extends javax.swing.JFrame {
+public class InsuranceContractGUI extends javax.swing.JFrame {
 
-    private final InvoiceManager invoiceManager;
+    private final InsuranceContractManager insuranceContractManager;
     private final InsuranceManager insuranceManager;
     private final Client client;
     private ClientGUI clientGUI;
 
-    public InvoiceGUI(Client client, ClientGUI clientGUI) {
+    public InsuranceContractGUI(Client client, ClientGUI clientGUI) {
         this.client = client;
-        this.invoiceManager = new InvoiceManager();
+        this.insuranceContractManager = new InsuranceContractManager();
         this.insuranceManager = new InsuranceManager();
         this.clientGUI = clientGUI;
 
         // Set the JFrame to maximize by default on opening
         initComponents();
         displayInvoice();
-        invoiceManager.getInvoice(null, client);
         // Rest of the program
     }
 
@@ -178,7 +177,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
         List<Insurance> insurance = new ArrayList<>();
         InsuranceContract contract = null;
         try {
-            contract = invoiceManager.getInsuranceContract(client);
+            contract = insuranceContractManager.getInsuranceContract(client);
             insurance = insuranceManager.getInsurances("zorgverzekering");
         } catch (RemoteException e) {
             JOptionPane.showMessageDialog(null, "Geen verbinding met de server", "Server error", JOptionPane.ERROR_MESSAGE);
@@ -218,7 +217,7 @@ public class InvoiceGUI extends javax.swing.JFrame {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         try {
-            boolean result = invoiceManager.deleteInsuranceContract(client);
+            boolean result = insuranceContractManager.deleteInsuranceContract(client);
             if(result)
             {
                 JOptionPane.showMessageDialog(null, "Polis is verwijderd.", "", JOptionPane.INFORMATION_MESSAGE);
@@ -300,9 +299,9 @@ public class InvoiceGUI extends javax.swing.JFrame {
             insuranceContracts.add(new InsuranceContract(client.getBSN(), ownRisk, name, insuranceID, startDate, endDate));
             insuranceContracts.stream().forEach(p -> {
                 try {
-                    invoiceManager.addInsuranceContract(p);
+                    insuranceContractManager.addInsuranceContract(p);
                 } catch (RemoteException ex) {
-                    Logger.getLogger(InvoiceGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(InsuranceContractGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
         }

@@ -2,21 +2,16 @@ package edu.avans.ivh5.client.businesslogic;
 
 import edu.avans.ivh5.client.main.RmiMain;
 import edu.avans.ivh5.server.dao.ClientDAO;
-import edu.avans.ivh5.server.dao.InsuranceContractDAO;
 import edu.avans.ivh5.shared.models.Client;
 import edu.avans.ivh5.shared.models.Invoice;
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
-import javax.xml.parsers.ParserConfigurationException;
-import org.xml.sax.SAXException;
 
 public class ClientManager {
 
     //relaties
-    private InvoiceManager invoiceManager;
+    private InsuranceContractManager insuranceContractManager;
     private ClientDAO clientDAO;
     private List<Client> clienten;
 

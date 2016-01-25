@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
 
 public class InvoiceManagerTest {
 
-    private InvoiceManager manager;
+    private InsuranceContractManager manager;
     private InsuranceContract insuranceContract;
     private Client client;
     private Invoice invoice;
@@ -41,7 +41,7 @@ public class InvoiceManagerTest {
 
     @Before
     public void setUp() {
-        manager = new InvoiceManager();
+        manager = new InsuranceContractManager();
         RmiMain.main(new String[0]);
         SimpleDateFormat format = new SimpleDateFormat("YYYY-mm-dd");
         String testStartDate = "2000-02-02";
