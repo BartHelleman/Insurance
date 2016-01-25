@@ -1,8 +1,8 @@
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:element name="accounts">
+    <xs:element name="accounts" >
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="account" maxOccurs="unbounded">
+                <xs:element name="account" minOccurs="0" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element type="xs:string" name="username"/>
