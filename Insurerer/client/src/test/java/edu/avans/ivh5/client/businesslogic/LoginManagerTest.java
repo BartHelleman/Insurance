@@ -58,4 +58,15 @@ public class LoginManagerTest {
     public void testLogout() {
         manager.logout();
     }
+    
+    @Test
+    public void testIsAdmin() {
+        String username = "Rico";
+        
+        try {
+            assert (manager.isAdmin(username) == false);
+        } catch (RemoteException ex) {
+            Logger.getLogger(LoginManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

@@ -82,6 +82,8 @@ public class InsuranceCompanyManagerTest {
             Logger.getLogger(InsuranceCompanyManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         afterIC = (InsuranceCompany) afterChange;
+        
+        Object newObject2 = new InsuranceCompany("Zorg4U", "Breda", "3456BC", "Breda", "0639283048");
 
         assert (beforeChange != null && afterChange != null && !afterIC.getName().equals(beforeIC.getName()));
     }

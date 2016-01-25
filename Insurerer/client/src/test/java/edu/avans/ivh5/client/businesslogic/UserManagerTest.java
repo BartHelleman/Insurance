@@ -1,7 +1,6 @@
 package edu.avans.ivh5.client.businesslogic;
 
 import edu.avans.ivh5.client.main.RmiMain;
-import edu.avans.ivh5.client.presentation.UserGUI;
 import edu.avans.ivh5.shared.models.User;
 import edu.avans.ivh5.shared.util.BCrypt;
 import java.rmi.RemoteException;
@@ -20,6 +19,7 @@ public class UserManagerTest {
     private User user;
     String password;
     String username;
+    String accountType;
 
     public UserManagerTest() {
     }
@@ -38,9 +38,10 @@ public class UserManagerTest {
         loginManager = new LoginManager();
         userManager = new UserManager();
 
-        username = "testPersoon2";
-        password = "testWachtwoord2";
-        user = new User(username, BCrypt.hashpw(password, BCrypt.gensalt()));
+        username = "Persoon1";
+        password = "Wachtwoord1";
+        accountType = "Gebruiker";
+        user = new User(username, BCrypt.hashpw(password, BCrypt.gensalt()), accountType);
     }
 
     @After
@@ -54,7 +55,6 @@ public class UserManagerTest {
     @Test
     public void testCreateAccount() {
         try {
-
             userManager.createAccount(user);
         } catch (RemoteException ex) {
             Logger.getLogger(UserManagerTest.class.getName()).log(Level.SEVERE, null, ex);

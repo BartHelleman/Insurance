@@ -2,6 +2,8 @@ package edu.avans.ivh5.client.businesslogic;
 
 import edu.avans.ivh5.client.main.RmiMain;
 import edu.avans.ivh5.shared.models.Insurance;
+import edu.avans.ivh5.shared.models.Treatment;
+import edu.avans.ivh5.shared.models.TreatmentCode;
 import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -45,6 +47,56 @@ public class InsuranceManagerTest {
 
     @After
     public void tearDown() {
+    }
+    
+    /*
+    Checking if the get function actually returns what we want it to return.
+    */
+    @Test
+    public void testGetInsurance() {
+        List<Insurance> beforeAdding = null;
+        try {
+            beforeAdding = manager.getInsurances(insurance.getName());
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            manager.addInsurance(insurance);
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        List<Insurance> afterAdding = null;
+        try {
+            afterAdding = manager.getInsurances(insurance.getName());
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            manager.deleteInsurance(insurance.getID());    
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        assert(beforeAdding.size() + 1 == afterAdding.size());
+    }
+    
+    /*
+    Testing if treatmentCodes get function will return something. There is no add function for the treatmentcodes,
+    but before running the test we made sure there are some treatmentcodes in the XML file.
+    */
+    @Test
+    public void testGetTreatmentCodes() {
+        List<TreatmentCode> treatmentCodes = null;
+        try {
+            treatmentCodes = manager.getTreatmentCodes("001behandelcode001");
+        } catch (RemoteException ex) {
+            Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        assert(treatmentCodes.size() == 1);
+        
     }
 
     /*
@@ -179,7 +231,6 @@ public class InsuranceManagerTest {
         } catch (RemoteException ex) {
             Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     /*
@@ -216,6 +267,5 @@ public class InsuranceManagerTest {
         } catch (RemoteException ex) {
             Logger.getLogger(InsuranceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 }

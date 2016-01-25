@@ -3,11 +3,14 @@ package edu.avans.ivh5.client.businesslogic;
 import edu.avans.ivh5.client.main.RmiMain;
 import edu.avans.ivh5.shared.models.Client;
 import edu.avans.ivh5.shared.models.InsuranceContract;
+import edu.avans.ivh5.shared.models.Invoice;
 import java.math.BigDecimal;
 import java.rmi.RemoteException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.After;
@@ -22,6 +25,8 @@ public class InvoiceManagerTest {
     private InvoiceManager manager;
     private InsuranceContract insuranceContract;
     private Client client;
+    private Invoice invoice;
+    private Invoice invoice2;
 
     public InvoiceManagerTest() {
     }
@@ -126,6 +131,25 @@ public class InvoiceManagerTest {
             assert (afterDelete.getBSN() == null);
         } catch (RemoteException e) {
             fail();
+        }
+    }
+    
+    /*
+     Checking the change funcion by changing paid status
+    */
+    @Test
+    public void testChangeInvoice() {
+        try {
+            DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+            invoice = new Invoice(10001, format.parse("2015-10-19"), format.parse("2015-11-19"), new BigDecimal(19), "done", "209003903", "Niels Kerdel", "Blomsingel 31", "2922CD Krimpen", "Zorg4U", "Lovensdijkstraat 100", "4800AB Breda", "123232322", "2", "23", "001behandelcode001", new BigDecimal(100), new BigDecimal(50), false, new BigDecimal(100), new BigDecimal(0));
+            invoice2 = new Invoice(10001, format.parse("2015-10-19"), format.parse("2015-11-19"), new BigDecimal(19), "done", "209003903", "Niels Kerdel", "Blomsingel 31", "2922CD Krimpen", "Zorg4U", "Lovensdijkstraat 100", "4800AB Breda", "123232322", "2", "23", "001behandelcode001", new BigDecimal(100), new BigDecimal(50), true, new BigDecimal(100), new BigDecimal(0));
+            try {
+                assert(manager.changeInvoice(invoice, invoice2));
+            } catch (RemoteException ex) {
+                Logger.getLogger(InvoiceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(InvoiceManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

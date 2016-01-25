@@ -16,6 +16,7 @@ public class ClientManagerTest {
 
     private ClientManager manager;
     Client client;
+    Client client2;
 
     public ClientManagerTest() {
     }
@@ -35,6 +36,7 @@ public class ClientManagerTest {
         RmiMain.main(new String[0]);
         manager = new ClientManager();
         client = new Client("201938157", "Helleman", "Bart", "Lekkerkerk", "9876KO", "Schuwacht 01", "NL00INGB000000", false, "bart_helleman@hotmail.com", "0656789012");
+        client2 = new Client("209000454", "Karatas", "Burak", "Breda", "6382HF", "Lovensdijkstraat 61", "NL00INGB000000", false, "BurakKaratas@hotmail.com", "0693028304");
     }
 
     @After
@@ -167,5 +169,29 @@ public class ClientManagerTest {
             Logger.getLogger(ClientManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    /*
+     Checking if hasInsuranceContract method actually finds the InsuranceContract of the client
+     */
+    @Test
+    public void testHasInsuranceContract() {
+        try {
+            assert (manager.hasInsuranceContract(client2));
+        } catch (RemoteException ex) {
+            Logger.getLogger(ClientManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /*
+     Checking if getInvoices method actually returns the found Invoices.
+     */
+    @Test
+    public void testGetInvoices() {
+        try {
+            assert (manager.getInvoices(client2) != null);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ClientManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
