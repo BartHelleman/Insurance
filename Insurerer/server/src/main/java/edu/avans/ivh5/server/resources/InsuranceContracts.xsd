@@ -2,7 +2,7 @@
   <xs:element name="contracts">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="contract" maxOccurs="unbounded">
+        <xs:element name="contract" minOccurs="0" maxOccurs="unbounded">
           <xs:complexType>
             <xs:sequence>
               <xs:element type="xs:string" name="BSN"/>

@@ -2,7 +2,7 @@
   <xs:element name="companies">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="company" maxOccurs="unbounded">
+        <xs:element name="company" minOccurs="0" maxOccurs="unbounded">
           <xs:complexType>
             <xs:sequence>
               <xs:element type="xs:string" name="name"/>

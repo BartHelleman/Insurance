@@ -2,7 +2,7 @@
   <xs:element name="treatments">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="treatment" maxOccurs="unbounded">
+        <xs:element name="treatment" minOccurs="0" maxOccurs="unbounded">
           <xs:complexType>
             <xs:sequence>
               <xs:element type="xs:string" name="name"/>

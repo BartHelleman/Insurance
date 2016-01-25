@@ -7,7 +7,6 @@ import java.rmi.RemoteException;
 public class UserManager {
 
     public boolean createAccount(User user) throws RemoteException {
-
         return RmiMain.getRmiInterface().addUser(user);
     }
 
