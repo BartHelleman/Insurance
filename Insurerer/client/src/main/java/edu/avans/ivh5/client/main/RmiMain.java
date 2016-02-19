@@ -41,7 +41,7 @@ public class RmiMain {
      * @see RemoteMemberAdminClientIF
      */
     public RmiMain(String hostname) {
-
+        System.setProperty("java.rmi.server.useLocalHostname", "true");
         System.out.println("Constructor using " + hostname);
 
         // The service name consists of a group name and a service name.

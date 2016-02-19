@@ -5,12 +5,16 @@ package edu.avans.ivh5.server.main;
 import edu.avans.ivh5.shared.api.ClientInterface;
 import edu.avans.ivh5.server.rmi.ClientImpl;
 import edu.avans.ivh5.shared.models.SharedTreatment;
+import edu.avans.ivh5.shared.rmi.InsuranceServerInterface;
 import java.io.*;
 import java.rmi.*;
 import java.rmi.registry.*;
 import java.rmi.server.*;
 import java.util.*;
 import edu.avans.ivh5.shared.rmi.PhysioServerInterface;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.URL;
 
 import org.apache.log4j.Logger;
 
@@ -29,6 +33,7 @@ public class Main {
     // Access to remote manager
     static private ClientInterface stub;
     static private PhysioServerInterface physioInterface;
+    static private InsuranceServerInterface insuranceInterface;
     public static final boolean RMI = false;
     // Get a logger instance for the current class
     static Logger logger = Logger.getLogger(Main.class);
@@ -75,11 +80,16 @@ public class Main {
         System.out.println("Starting application");
 
         try {
-            //String service = Settings.props.getProperty(Settings.propRmiServiceGroup)
-                    //+ Settings.props.getProperty(Settings.propRmiServiceName);
-            //String hostname = Settings.props.getProperty(Settings.propRmiHostName);
+
             String service = "/standard";
+            String otherService = "/other";
             String hostname = "localhost";
+            
+            URL whatismyip = new URL("http://checkip.amazonaws.com");
+            BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
+            String ip = in.readLine(); //you get the I
+            
+            System.setProperty("java.rmi.server.hostname", ip);
 
 			// ShutdownHook handles cleaning up the registry when this
             // application exits.
@@ -87,14 +97,16 @@ public class Main {
             Runtime.getRuntime().addShutdownHook(shutdownHook);
 
             System.out.println("Creating stub");
-            //MemberAdminManagerImpl obj = new MemberAdminManagerImpl(service);
             ClientImpl obj = new ClientImpl();
+            ClientImpl obj1 = new ClientImpl();
             stub = (ClientInterface) UnicastRemoteObject.exportObject(obj, 0);
+            insuranceInterface = (InsuranceServerInterface)UnicastRemoteObject.exportObject(obj1, 0);
 
             System.out.println("Locating registry on '" + hostname + "'");
             Registry registry = LocateRegistry.getRegistry(hostname);
             System.out.println("Registering stub using name \"" + service + "\"");
             registry.rebind(service, stub);
+            registry.rebind(otherService, insuranceInterface);
 
             System.out.println("Server ready");
         } catch (java.rmi.ConnectException e) {
@@ -111,26 +123,42 @@ public class Main {
         
         
         if(RMI) {
+            while(true) {
             try {
                 // Connect to other system
-                String hostname = "145.102.67.74";
-                String service = "Library/Breda";
+                String hostname = "145.48.114.166";
+                String service = "/other";
 
                 Registry registry = LocateRegistry.getRegistry(hostname);
-                String[] list = registry.list();
                 physioInterface = (PhysioServerInterface) registry.lookup(service);
+                if(physioInterface == null)
+                    throw new Exception();
                 //Remote r = registry.lookup(service);
-                ArrayList<SharedTreatment> result = physioInterface.getAllFinishedTreatments();
+                //ArrayList<SharedTreatment> result = physioInterface.getAllFinishedTreatments();
                 System.out.println("Done");
+                break;
             }
             catch(RemoteException e)
             {
+                try{
+                    Thread.sleep(3000);
+                } catch(Exception ex)
+                {
+                    
+                }
                 System.out.println("RemoteException: " + e.getMessage());
             }
-            catch(NotBoundException e)
+            catch(Exception e)
             {
+                try{
+                    Thread.sleep(3000);
+                } catch(Exception ex)
+                {
+                    
+                }
                 System.out.println("NotBoundException: " + e.getMessage());
             }
+        }
         }
     }
 

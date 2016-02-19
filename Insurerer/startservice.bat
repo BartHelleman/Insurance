@@ -14,4 +14,4 @@
 :: can access the code at the codebase.
 ::
 
-rmiregistry -J-Djava.rmi.server.codebase="http://localhost/classes/server-1.0-SNAPSHOT-jar-with-dependencies.jar http://localhost/classes/shared-1.0-SNAPSHOT-jar-with-dependencies.jar"
+rmiregistry -J-Djava.rmi.server.codebase="http://localhost/classes/server-1.0-SNAPSHOT-jar-with-dependencies.jar http://localhost/classes/shared-1.0-SNAPSHOT-jar-with-dependencies.jar http://localhost/classes/SharedPhysioInsurance-1.0-SNAPSHOT.jar"

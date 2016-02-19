@@ -16,6 +16,7 @@ import java.rmi.*;
 import java.util.*;
 import java.util.stream.Collectors;
 import javax.xml.parsers.ParserConfigurationException;
+import edu.avans.ivh5.shared.rmi.InsuranceServerInterface;
 
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
@@ -24,7 +25,7 @@ import org.xml.sax.SAXException;
  *
  * @author Burak
  */
-public class ClientImpl implements ClientInterface {
+public class ClientImpl implements ClientInterface, InsuranceServerInterface {
 
     private Logger logger;
     private static DAOInterface clientDAO;
@@ -373,6 +374,16 @@ public class ClientImpl implements ClientInterface {
 
     public static DAOInterface getTreatmentDAO() {
         return treatmentDAO;
+    }
+
+    @Override
+    public ClientDTO getClient(String BSN) throws RemoteException {
+        List<Client> clients = this.searchClient(BSN);
+        if(clients.isEmpty())
+            return null;
+        
+        Client client = clients.get(0);
+        return new ClientDTO(client.getFirstName(), client.getName(), client.getBSN(), client.getEmail(), client.getTel());
     }
 
 }
